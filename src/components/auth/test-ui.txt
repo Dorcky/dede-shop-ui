@@ -1,0 +1,32 @@
+✅ Checklist de validation du Sprint 8
+Lancez le serveur : npm run dev
+Testez l'inscription :
+Cliquez sur l'icône User dans le header → la modale s'ouvre en mode "Connexion"
+Cliquez sur "Créer un compte" → bascule vers le formulaire d'inscription
+Remplissez tous les champs, cochez les conditions
+Cliquez sur "Créer mon compte" → passe à l'étape "Vérifier votre courriel"
+Entrez 123456 → compte vérifié, redirection vers /account
+Testez la connexion :
+Déconnectez-vous depuis /account
+Cliquez sur l'icône User → modale "Connexion"
+Utilisez l'email créé précédemment → connexion réussie
+Mauvais mot de passe → toast d'erreur
+Testez la récupération :
+Cliquez sur "Mot de passe oublié ?"
+Entrez un email → passe à l'étape "Réinitialiser"
+Entrez le code 654321 + nouveau mot de passe → réinitialisation réussie
+Testez la page /account :
+Non connecté : affiche la page d'accueil avec boutons "Se connecter" et "Créer un compte"
+Connecté : affiche le nom, l'email, la liste des commandes
+Aucune commande : message "Aucune commande pour le moment"
+Après un checkout : la commande apparaît dans la liste
+Testez la persistance :
+Connectez-vous, rechargez la page (F5) → toujours connecté
+Fermez le navigateur, rouvrez-le → toujours connecté (localStorage)
+Testez la responsivité :
+Mobile (< 640px) : Modale en pleine largeur, scrollable
+Tablette (640px - 1024px) : Modale centrée avec padding
+Desktop (> 1024px) : Modale centrée, max 448px
+Testez le Checkout :
+Non connecté : bouton "Se connecter" visible dans le formulaire
+Connecté : affiche "Connecté comme email@example.com"

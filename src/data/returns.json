@@ -1,0 +1,32 @@
+{
+  "subtitle": { "fr": "Service après-vente", "en": "After-sales service" },
+  "title": { "fr": "Retours et garantie", "en": "Returns and warranty" },
+  "description": {
+    "fr": "Vous disposez de 30 jours pour retourner un produit. Les produits matériels bénéficient de 2 ans de garantie contre les défauts de fabrication.",
+    "en": "You have 30 days to return a product. Hardware products benefit from 2 years warranty against manufacturing defects."
+  },
+  "step1Title": {
+    "fr": "1. Soumettez votre demande",
+    "en": "1. Submit your request"
+  },
+  "step1Desc": {
+    "fr": "Indiquez la commande, le produit et le motif.",
+    "en": "Specify the order, product and reason."
+  },
+  "step2Title": {
+    "fr": "2. Recevez les instructions",
+    "en": "2. Receive instructions"
+  },
+  "step2Desc": {
+    "fr": "Notre équipe vous guide pour le retour ou la réparation.",
+    "en": "Our team guides you for the return or repair."
+  },
+  "step3Title": {
+    "fr": "3. Suivez le traitement",
+    "en": "3. Track the process"
+  },
+  "step3Desc": {
+    "fr": "Le remboursement ou l'échange est traité rapidement.",
+    "en": "Refund or exchange is processed quickly."
+  }
+}

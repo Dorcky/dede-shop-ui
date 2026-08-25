@@ -1,0 +1,145 @@
+[
+  {
+    "id": "p1",
+    "slug": "smartphone-x-pro",
+    "categoryId": "cat1",
+    "price": 899,
+    "oldPrice": 999,
+    "rating": 4.8,
+    "reviewCount": 124,
+    "isActive": true,
+    "isFeatured": true,
+    "isDigital": false,
+    "stock": 45,
+    "warranty": 24,
+    "brand": "DNK",
+    "name": { "fr": "Smartphone X Pro", "en": "Smartphone X Pro" },
+    "description": {
+      "fr": "Un smartphone puissant avec un écran AMOLED 6,7\" et une batterie longue durée.",
+      "en": "A powerful smartphone with a 6.7\" AMOLED display and long-lasting battery."
+    },
+    "badge": { "fr": "Meilleure vente", "en": "Best-seller" },
+    "specs": [
+      {
+        "label": { "fr": "Écran", "en": "Display" },
+        "value": "6,7\" AMOLED 120Hz"
+      },
+      {
+        "label": { "fr": "Processeur", "en": "Processor" },
+        "value": "Octa-core 3.2 GHz"
+      },
+      { "label": { "fr": "RAM", "en": "RAM" }, "value": "8 Go" },
+      { "label": { "fr": "Stockage", "en": "Storage" }, "value": "256 Go" },
+      { "label": { "fr": "Batterie", "en": "Battery" }, "value": "5000 mAh" },
+      {
+        "label": { "fr": "Appareil photo", "en": "Camera" },
+        "value": "108 MP + 12 MP"
+      }
+    ],
+    "descriptionBlocks": [
+      {
+        "type": "paragraph",
+        "content": {
+          "fr": "Le DNK X Pro repousse les limites de la photographie mobile avec son capteur principal de 108 MP et ses fonctionnalités IA avancées.",
+          "en": "The DNK X Pro pushes the boundaries of mobile photography with its 108 MP main sensor and advanced AI features."
+        }
+      },
+      {
+        "type": "image",
+        "url": "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=900"
+      },
+      {
+        "type": "paragraph",
+        "content": {
+          "fr": "Son écran AMOLED 120 Hz offre une fluidité exceptionnelle pour le gaming et le streaming. La batterie 5000 mAh vous assure une autonomie de plus de 2 jours.",
+          "en": "Its 120Hz AMOLED display offers exceptional smoothness for gaming and streaming. The 5000 mAh battery gives you over 2 days of autonomy."
+        }
+      }
+    ],
+    "variants": [
+      {
+        "id": "v1",
+        "name": { "fr": "Noir", "en": "Black" },
+        "value": "black",
+        "images": [
+          {
+            "id": "vi1",
+            "url": "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=900",
+            "order": 0
+          },
+          {
+            "id": "vi2",
+            "url": "https://images.unsplash.com/photo-1526498460520-4c246339dccb?q=80&w=900",
+            "order": 1
+          }
+        ]
+      },
+      {
+        "id": "v2",
+        "name": { "fr": "Argent", "en": "Silver" },
+        "value": "silver",
+        "images": [
+          {
+            "id": "vi3",
+            "url": "https://images.unsplash.com/photo-1533228876829-65c94e7b5025?q=80&w=900",
+            "order": 0
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "p3",
+    "slug": "wireless-pro-headphones",
+    "categoryId": "cat3",
+    "price": 249,
+    "oldPrice": 299,
+    "rating": 4.9,
+    "reviewCount": 210,
+    "isActive": true,
+    "isFeatured": true,
+    "isDigital": false,
+    "stock": 75,
+    "warranty": 24,
+    "brand": "DNK",
+    "name": { "fr": "Casque sans fil Pro", "en": "Wireless Pro Headphones" },
+    "description": {
+      "fr": "Un casque audio haut de gamme avec réduction de bruit active.",
+      "en": "High-end headphones with active noise cancellation."
+    },
+    "badge": { "fr": "Écologique", "en": "Eco-friendly" },
+    "specs": [
+      {
+        "label": { "fr": "Autonomie", "en": "Battery life" },
+        "value": "40 heures"
+      },
+      {
+        "label": { "fr": "Connectivité", "en": "Connectivity" },
+        "value": "Bluetooth 5.2"
+      }
+    ],
+    "descriptionBlocks": [
+      {
+        "type": "paragraph",
+        "content": {
+          "fr": "Plongez dans un son immersif grâce aux drivers de 40 mm.",
+          "en": "Immerse yourself in immersive sound thanks to the 40mm drivers."
+        }
+      }
+    ],
+    "variants": [
+      {
+        "id": "v4",
+        "name": { "fr": "Noir", "en": "Black" },
+        "value": "black",
+        "images": [
+          {
+            "id": "vi6",
+            "url": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=900",
+            "order": 0
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,14 @@
+{
+  "subtitle": { "fr": "Parlons-nous", "en": "Let's talk" },
+  "title": { "fr": "Contactez DNK Tech", "en": "Contact DNK Tech" },
+  "description": {
+    "fr": "Une question technique, une commande ou un retour ? Notre équipe vous répond sous 24h.",
+    "en": "A technical question, an order or a return? Our team responds within 24h."
+  },
+  "email": "support@dnktech.example",
+  "phone": "+1 418 555 0190",
+  "openingHours": {
+    "fr": "Lundi au vendredi, 9 h à 18 h",
+    "en": "Monday to Friday, 9 am to 6 pm"
+  }
+}

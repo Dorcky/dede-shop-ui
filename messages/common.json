@@ -1,0 +1,34 @@
+{
+  "home": {
+    "title": "DNK TECH",
+    "subtitle": "Découvrez notre sélection de smartphones, ordinateurs et accessoires.",
+    "buyNow": "Acheter maintenant",
+    "discover": "Découvrir DNK Tech",
+    "explore": "Explorer",
+    "viewAll": "Voir toute la boutique →",
+    "popularProducts": "Produits populaires",
+    "selection": "Sélection DNK Tech"
+  },
+  "layout": {
+    "freeShipping": "Livraison gratuite dès 100 $ — Garantie 2 ans sur le matériel",
+    "search": "Rechercher",
+    "account": "Compte",
+    "cart": "Panier",
+    "menu": "Menu"
+  },
+  "footer": {
+    "brandDesc": "Des technologies fiables, conçues pour durer et vous accompagner au quotidien.",
+    "shop": "Boutique",
+    "allProducts": "Tous les produits",
+    "help": "Aide",
+    "contact": "Nous contacter",
+    "returns": "Retours & garantie",
+    "orders": "Mes commandes",
+    "complaint": "Faire une réclamation",
+    "newsletter": "Newsletter",
+    "newsletterDesc": "Recevez nos nouveautés et offres privées.",
+    "newsletterPlaceholder": "Votre courriel",
+    "ok": "OK",
+    "copyright": "© 2026 DNK Tech. Tous droits réservés. Prix en dollars américains."
+  }
+}

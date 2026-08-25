@@ -1,0 +1,19 @@
+[
+  {
+    "id": "t1",
+    "order": 1,
+    "name": { "fr": "Question technique", "en": "Technical question" }
+  },
+  { "id": "t2", "order": 2, "name": { "fr": "Commande", "en": "Order" } },
+  {
+    "id": "t3",
+    "order": 3,
+    "name": { "fr": "Garantie / SAV", "en": "Warranty / Support" }
+  },
+  { "id": "t4", "order": 4, "name": { "fr": "Retour", "en": "Return" } },
+  {
+    "id": "t5",
+    "order": 5,
+    "name": { "fr": "Partenariat", "en": "Partnership" }
+  }
+]

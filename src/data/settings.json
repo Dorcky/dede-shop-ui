@@ -1,0 +1,14 @@
+{
+  "brandName": "DNK Tech",
+  "currency": "USD",
+  "currencySymbol": "$",
+  "shipping": {
+    "freeThreshold": 100,
+    "localCost": 8,
+    "internationalCost": 25,
+    "bannerText": {
+      "fr": "Livraison gratuite dès 100 $ — Garantie 2 ans sur le matériel",
+      "en": "Free shipping from $100 — 2-year warranty on hardware"
+    }
+  }
+}

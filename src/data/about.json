@@ -1,0 +1,34 @@
+{
+  "heroImage": "https://images.unsplash.com/photo-1531297484001-80022131f5a1?q=80&w=1200",
+  "subtitle": { "fr": "Notre mission", "en": "Our mission" },
+  "title": {
+    "fr": "La technologie au service de votre quotidien.",
+    "en": "Technology serving your daily life."
+  },
+  "description1": {
+    "fr": "DNK Tech est née de la volonté de rendre les technologies avancées accessibles, fiables et durables.",
+    "en": "DNK Tech was born from the will to make advanced technologies accessible, reliable and sustainable."
+  },
+  "description2": {
+    "fr": "Nous sélectionnons rigoureusement chaque produit pour garantir performance, sécurité et longévité.",
+    "en": "We rigorously select each product to guarantee performance, security and longevity."
+  },
+  "value1Title": { "fr": "Qualité certifiée", "en": "Certified quality" },
+  "value1Desc": {
+    "fr": "Des composants testés et approuvés.",
+    "en": "Tested and approved components."
+  },
+  "value2Title": {
+    "fr": "Innovation responsable",
+    "en": "Responsible innovation"
+  },
+  "value2Desc": {
+    "fr": "Des technologies pensées pour durer et réduire l'impact.",
+    "en": "Technologies designed to last and reduce impact."
+  },
+  "value3Title": { "fr": "Écoute client", "en": "Customer listening" },
+  "value3Desc": {
+    "fr": "Un service après-vente réactif et humain.",
+    "en": "A responsive and human after-sales service."
+  }
+}

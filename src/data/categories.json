@@ -1,0 +1,50 @@
+[
+  {
+    "id": "cat1",
+    "slug": "smartphones",
+    "image": "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=800",
+    "name": { "fr": "Smartphones", "en": "Smartphones" },
+    "description": {
+      "fr": "Les derniers modèles pour rester connecté.",
+      "en": "Latest models to stay connected."
+    },
+    "isActive": true,
+    "order": 0
+  },
+  {
+    "id": "cat2",
+    "slug": "laptops",
+    "image": "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?q=80&w=800",
+    "name": { "fr": "Ordinateurs", "en": "Laptops" },
+    "description": {
+      "fr": "Performance et mobilité pour le travail et les loisirs.",
+      "en": "Performance and mobility for work and leisure."
+    },
+    "isActive": true,
+    "order": 1
+  },
+  {
+    "id": "cat3",
+    "slug": "audio",
+    "image": "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=800",
+    "name": { "fr": "Audio", "en": "Audio" },
+    "description": {
+      "fr": "Casques, écouteurs et enceintes haut de gamme.",
+      "en": "High-end headphones, earphones and speakers."
+    },
+    "isActive": true,
+    "order": 2
+  },
+  {
+    "id": "cat4",
+    "slug": "digital",
+    "image": "https://images.unsplash.com/photo-1550399105-c4db5fb85c18?q=80&w=800",
+    "name": { "fr": "Numérique", "en": "Digital" },
+    "description": {
+      "fr": "Logiciels, licences et contenus à télécharger.",
+      "en": "Software, licenses and downloadable content."
+    },
+    "isActive": true,
+    "order": 3
+  }
+]
