@@ -46,5 +46,42 @@
     },
     "isActive": true,
     "order": 3
+  },
+
+  {
+    "id": "cat5",
+    "slug": "clothing",
+    "image": "https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?q=80&w=800",
+    "name": { "fr": "Vêtements", "en": "Clothing" },
+    "description": {
+      "fr": "Mode pour homme et femme.",
+      "en": "Fashion for men and women."
+    },
+    "isActive": true,
+    "order": 4
+  },
+  {
+    "id": "cat6",
+    "slug": "shoes",
+    "image": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=800",
+    "name": { "fr": "Chaussures", "en": "Shoes" },
+    "description": {
+      "fr": "Tennis, baskets et plus.",
+      "en": "Sneakers and more."
+    },
+    "isActive": true,
+    "order": 5
+  },
+  {
+    "id": "cat7",
+    "slug": "accessories",
+    "image": "https://images.unsplash.com/photo-1523170335258-f5ed11844a49?q=80&w=800",
+    "name": { "fr": "Accessoires", "en": "Accessories" },
+    "description": {
+      "fr": "Sacs, montres, et gadgets.",
+      "en": "Bags, watches, and gadgets."
+    },
+    "isActive": true,
+    "order": 6
   }
 ]

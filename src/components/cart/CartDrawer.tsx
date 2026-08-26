@@ -64,12 +64,13 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
 
       {/* Drawer */}
       <aside
-        className="animate-in slide-in-from-right fixed right-0 top-0 z-[9999] flex h-full w-full max-w-md flex-col bg-white shadow-2xl duration-300"
+        // ✅ CORRECTION 1 : h-screen (ou h-[100dvh]) au lieu de h-full pour forcer la hauteur de l'écran
+        className="animate-in slide-in-from-right fixed right-0 top-0 z-[9999] flex h-screen w-full max-w-md flex-col bg-white shadow-2xl duration-300"
         role="dialog"
         aria-modal="true"
       >
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-slate-200 px-5 py-4 sm:px-6 sm:py-5">
+        <div className="flex shrink-0 items-center justify-between border-b border-slate-200 px-5 py-4 sm:px-6 sm:py-5">
           <div className="flex items-center gap-2">
             <ShoppingBag className="h-5 w-5 text-brand-600" />
             <h2 className="text-lg font-black text-slate-900 sm:text-xl">
@@ -92,7 +93,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
 
         {/* Progression livraison gratuite */}
         {items.length > 0 && !items.every((i) => i.isDigital) && (
-          <div className="border-b border-slate-200 bg-slate-50 px-5 py-3 sm:px-6">
+          <div className="shrink-0 border-b border-slate-200 bg-slate-50 px-5 py-3 sm:px-6">
             {remaining > 0 ? (
               <>
                 <p className="text-xs font-semibold text-slate-700">
@@ -116,7 +117,8 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
         )}
 
         {/* Contenu */}
-        <div className="flex-1 overflow-y-auto px-5 py-4 sm:px-6">
+        {/* ✅ CORRECTION 2 : Ajout de min-h-0 pour permettre au flex-1 de scroller correctement sans écraser le layout */}
+        <div className="min-h-0 flex-1 overflow-y-auto px-5 py-4 sm:px-6">
           {items.length === 0 ? (
             <div className="flex h-full flex-col items-center justify-center py-16 text-center">
               <ShoppingBag className="h-16 w-16 text-slate-300" />
@@ -223,7 +225,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
 
         {/* Footer (résumé + actions) */}
         {items.length > 0 && (
-          <div className="border-t border-slate-200 bg-slate-50 px-5 py-4 sm:px-6 sm:py-5">
+          <div className="shrink-0 border-t border-slate-200 bg-slate-50 px-5 py-4 sm:px-6 sm:py-5">
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
                 <span className="text-slate-600">{t("subtotal")}</span>
@@ -253,7 +255,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
               onClick={onClose}
               className="mt-2 block w-full border border-slate-300 py-2.5 text-center text-xs font-bold uppercase tracking-wider text-slate-900 transition hover:border-slate-900 sm:py-3"
             >
-              {t("title")}
+              Voir le panier
             </Link>
           </div>
         )}

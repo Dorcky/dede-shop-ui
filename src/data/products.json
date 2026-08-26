@@ -141,5 +141,981 @@
         ]
       }
     ]
+  },
+  {
+    "id": "p4",
+    "slug": "smartphone-y-ultra",
+    "categoryId": "cat1",
+    "price": 1099,
+    "oldPrice": 1299,
+    "rating": 4.7,
+    "reviewCount": 89,
+    "isActive": true,
+    "isFeatured": true,
+    "isDigital": false,
+    "stock": 30,
+    "warranty": 24,
+    "brand": "DNK",
+    "name": { "fr": "Smartphone Y Ultra", "en": "Smartphone Y Ultra" },
+    "description": {
+      "fr": "Le smartphone le plus rapide avec charge ultrarapide.",
+      "en": "The fastest smartphone with ultra-fast charging."
+    },
+    "badge": { "fr": "Nouveauté", "en": "New" },
+    "specs": [
+      {
+        "label": { "fr": "Écran", "en": "Display" },
+        "value": "6.9\" Dynamic AMOLED 144Hz"
+      },
+      {
+        "label": { "fr": "Processeur", "en": "Processor" },
+        "value": "Octa-core 3.5 GHz"
+      },
+      { "label": { "fr": "RAM", "en": "RAM" }, "value": "12 Go" },
+      { "label": { "fr": "Stockage", "en": "Storage" }, "value": "512 Go" },
+      { "label": { "fr": "Batterie", "en": "Battery" }, "value": "5500 mAh" },
+      {
+        "label": { "fr": "Appareil photo", "en": "Camera" },
+        "value": "200 MP + 50 MP + 12 MP"
+      }
+    ],
+    "descriptionBlocks": [
+      {
+        "type": "paragraph",
+        "content": {
+          "fr": "Le DNK Y Ultra redéfinit l'excellence mobile avec son capteur 200 MP et son processeur de dernière génération.",
+          "en": "The DNK Y Ultra redefines mobile excellence with its 200MP sensor and next-gen processor."
+        }
+      },
+      {
+        "type": "image",
+        "url": "https://images.unsplash.com/photo-1592899677977-9d6d7b5fd2b0?q=80&w=900"
+      },
+      {
+        "type": "paragraph",
+        "content": {
+          "fr": "Profitez d'une autonomie exceptionnelle et d'une charge 100W qui remplit la batterie en 20 minutes.",
+          "en": "Enjoy exceptional battery life and 100W charging that fills the battery in 20 minutes."
+        }
+      }
+    ],
+    "variants": [
+      {
+        "id": "v5",
+        "name": { "fr": "Phantom Noir", "en": "Phantom Black" },
+        "value": "phantom-black",
+        "images": [
+          {
+            "id": "vi7",
+            "url": "https://images.unsplash.com/photo-1592899677977-9d6d7b5fd2b0?q=80&w=900",
+            "order": 0
+          }
+        ]
+      },
+      {
+        "id": "v6",
+        "name": { "fr": "Blanc Crème", "en": "Cream White" },
+        "value": "cream-white",
+        "images": [
+          {
+            "id": "vi8",
+            "url": "https://images.unsplash.com/photo-1589492477829-5e65395b66cc?q=80&w=900",
+            "order": 0
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "id": "p5",
+    "slug": "laptop-pro-16",
+    "categoryId": "cat2",
+    "price": 1499,
+    "oldPrice": 1699,
+    "rating": 4.8,
+    "reviewCount": 56,
+    "isActive": true,
+    "isFeatured": false,
+    "isDigital": false,
+    "stock": 18,
+    "warranty": 36,
+    "brand": "DNK",
+    "name": { "fr": "Ordinateur Pro 16", "en": "Pro Laptop 16" },
+    "description": {
+      "fr": "Ultra-portable avec écran 16\" 4K pour les créatifs.",
+      "en": "Ultra-portable with 16\" 4K screen for creatives."
+    },
+    "specs": [
+      { "label": { "fr": "Écran", "en": "Display" }, "value": "16\" 4K OLED" },
+      {
+        "label": { "fr": "Processeur", "en": "Processor" },
+        "value": "Intel Core i9-13900H"
+      },
+      { "label": { "fr": "RAM", "en": "RAM" }, "value": "32 Go" },
+      { "label": { "fr": "Stockage", "en": "Storage" }, "value": "1 To SSD" },
+      { "label": { "fr": "Batterie", "en": "Battery" }, "value": "99 Wh" }
+    ],
+    "descriptionBlocks": [
+      {
+        "type": "paragraph",
+        "content": {
+          "fr": "Le DNK Pro 16 est conçu pour les professionnels exigeants, avec une puissance de calcul et une précision d'affichage inégalées.",
+          "en": "The DNK Pro 16 is built for demanding professionals, with unmatched computing power and display accuracy."
+        }
+      },
+      {
+        "type": "image",
+        "url": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=900"
+      }
+    ],
+    "variants": [
+      {
+        "id": "v7",
+        "name": { "fr": "Gris Sidéral", "en": "Space Grey" },
+        "value": "space-grey",
+        "images": [
+          {
+            "id": "vi9",
+            "url": "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=900",
+            "order": 0
+          }
+        ]
+      },
+      {
+        "id": "v8",
+        "name": { "fr": "Argent", "en": "Silver" },
+        "value": "silver",
+        "images": [
+          {
+            "id": "vi10",
+            "url": "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?q=80&w=900",
+            "order": 0
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "id": "p6",
+    "slug": "noise-canceling-earbuds",
+    "categoryId": "cat3",
+    "price": 129,
+    "oldPrice": 169,
+    "rating": 4.6,
+    "reviewCount": 312,
+    "isActive": true,
+    "isFeatured": false,
+    "isDigital": false,
+    "stock": 120,
+    "warranty": 12,
+    "brand": "DNK",
+    "name": {
+      "fr": "Écouteurs Réducteur de Bruit",
+      "en": "Noise-Canceling Earbuds"
+    },
+    "description": {
+      "fr": "Écouteurs true wireless avec réduction de bruit adaptative.",
+      "en": "True wireless earbuds with adaptive noise cancellation."
+    },
+    "badge": { "fr": "Populaire", "en": "Popular" },
+    "specs": [
+      {
+        "label": { "fr": "Autonomie", "en": "Battery life" },
+        "value": "8h (32h avec boîtier)"
+      },
+      {
+        "label": { "fr": "Connectivité", "en": "Connectivity" },
+        "value": "Bluetooth 5.3"
+      },
+      {
+        "label": { "fr": "Charge", "en": "Charging" },
+        "value": "USB-C, sans fil"
+      }
+    ],
+    "descriptionBlocks": [
+      {
+        "type": "paragraph",
+        "content": {
+          "fr": "Les DNK Buds Pro vous plongent dans un son pur, quelle que soit l'agitation extérieure.",
+          "en": "DNK Buds Pro immerse you in pure sound, no matter the outside noise."
+        }
+      }
+    ],
+    "variants": [
+      {
+        "id": "v9",
+        "name": { "fr": "Noir", "en": "Black" },
+        "value": "black",
+        "images": [
+          {
+            "id": "vi11",
+            "url": "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?q=80&w=900",
+            "order": 0
+          }
+        ]
+      },
+      {
+        "id": "v10",
+        "name": { "fr": "Blanc", "en": "White" },
+        "value": "white",
+        "images": [
+          {
+            "id": "vi12",
+            "url": "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?q=80&w=900",
+            "order": 0
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "id": "p7",
+    "slug": "smartwatch-fitness",
+    "categoryId": "cat7",
+    "price": 299,
+    "oldPrice": null,
+    "rating": 4.5,
+    "reviewCount": 78,
+    "isActive": true,
+    "isFeatured": true,
+    "isDigital": false,
+    "stock": 40,
+    "warranty": 12,
+    "brand": "DNK",
+    "name": { "fr": "Montre Connectée Fitness", "en": "Fitness Smartwatch" },
+    "description": {
+      "fr": "Suivi sportif avancé et autonomie de 14 jours.",
+      "en": "Advanced sports tracking and 14-day battery life."
+    },
+    "specs": [
+      { "label": { "fr": "Écran", "en": "Display" }, "value": "1.4\" AMOLED" },
+      { "label": { "fr": "GPS", "en": "GPS" }, "value": "Intégré" },
+      {
+        "label": { "fr": "Capteurs", "en": "Sensors" },
+        "value": "FC, SpO2, sommeil"
+      }
+    ],
+    "descriptionBlocks": [
+      {
+        "type": "paragraph",
+        "content": {
+          "fr": "La DNK Active Watch est votre coach personnel au poignet.",
+          "en": "The DNK Active Watch is your personal coach on your wrist."
+        }
+      },
+      {
+        "type": "image",
+        "url": "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?q=80&w=900"
+      }
+    ],
+    "variants": [
+      {
+        "id": "v11",
+        "name": { "fr": "Bracelet Noir", "en": "Black Band" },
+        "value": "black-band",
+        "images": [
+          {
+            "id": "vi13",
+            "url": "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?q=80&w=900",
+            "order": 0
+          }
+        ]
+      },
+      {
+        "id": "v12",
+        "name": { "fr": "Bracelet Sable", "en": "Sand Band" },
+        "value": "sand-band",
+        "images": [
+          {
+            "id": "vi14",
+            "url": "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?q=80&w=900",
+            "order": 0
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "id": "p8",
+    "slug": "tshirt-cotton-organic",
+    "categoryId": "cat5",
+    "price": 39,
+    "oldPrice": 49,
+    "rating": 4.9,
+    "reviewCount": 145,
+    "isActive": true,
+    "isFeatured": false,
+    "isDigital": false,
+    "stock": 200,
+    "warranty": 0,
+    "brand": "DNK",
+    "name": { "fr": "T-shirt Coton Bio", "en": "Organic Cotton T-shirt" },
+    "description": {
+      "fr": "T-shirt doux et respirant, fabriqué à partir de coton biologique.",
+      "en": "Soft and breathable t-shirt made from organic cotton."
+    },
+    "badge": { "fr": "Éco-responsable", "en": "Eco-friendly" },
+    "specs": [
+      {
+        "label": { "fr": "Matière", "en": "Material" },
+        "value": "100% coton bio"
+      },
+      { "label": { "fr": "Coupe", "en": "Fit" }, "value": "Regular" }
+    ],
+    "descriptionBlocks": [
+      {
+        "type": "paragraph",
+        "content": {
+          "fr": "Un essential durable et confortable pour toutes les occasions.",
+          "en": "A durable and comfortable essential for all occasions."
+        }
+      }
+    ],
+    "variants": [
+      {
+        "id": "v13",
+        "name": { "fr": "Blanc", "en": "White" },
+        "value": "white",
+        "images": [
+          {
+            "id": "vi15",
+            "url": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=900",
+            "order": 0
+          }
+        ]
+      },
+      {
+        "id": "v14",
+        "name": { "fr": "Noir", "en": "Black" },
+        "value": "black",
+        "images": [
+          {
+            "id": "vi16",
+            "url": "https://images.unsplash.com/photo-1581655353564-df123a1eb820?q=80&w=900",
+            "order": 0
+          }
+        ]
+      },
+      {
+        "id": "v15",
+        "name": { "fr": "Bleu Marine", "en": "Navy" },
+        "value": "navy",
+        "images": [
+          {
+            "id": "vi17",
+            "url": "https://images.unsplash.com/photo-1586363104862-3a5e2ab60d99?q=80&w=900",
+            "order": 0
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "id": "p9",
+    "slug": "jeans-slim-fit",
+    "categoryId": "cat5",
+    "price": 79,
+    "oldPrice": 99,
+    "rating": 4.4,
+    "reviewCount": 98,
+    "isActive": true,
+    "isFeatured": false,
+    "isDigital": false,
+    "stock": 85,
+    "warranty": 0,
+    "brand": "DNK",
+    "name": { "fr": "Jean Slim Fit", "en": "Slim Fit Jeans" },
+    "description": {
+      "fr": "Jean en denim stretch avec coupe slim moderne.",
+      "en": "Stretch denim jeans with a modern slim cut."
+    },
+    "specs": [
+      {
+        "label": { "fr": "Matière", "en": "Material" },
+        "value": "98% coton, 2% élasthanne"
+      },
+      { "label": { "fr": "Coupe", "en": "Fit" }, "value": "Slim" }
+    ],
+    "descriptionBlocks": [
+      {
+        "type": "paragraph",
+        "content": {
+          "fr": "Un jean qui allie confort et élégance au quotidien.",
+          "en": "Jeans that combine comfort and elegance every day."
+        }
+      }
+    ],
+    "variants": [
+      {
+        "id": "v16",
+        "name": { "fr": "Bleu Foncé", "en": "Dark Blue" },
+        "value": "dark-blue",
+        "images": [
+          {
+            "id": "vi18",
+            "url": "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=900",
+            "order": 0
+          }
+        ]
+      },
+      {
+        "id": "v17",
+        "name": { "fr": "Gris", "en": "Grey" },
+        "value": "grey",
+        "images": [
+          {
+            "id": "vi19",
+            "url": "https://images.unsplash.com/photo-1584865288642-420a9d2d1fe6?q=80&w=900",
+            "order": 0
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "id": "p10",
+    "slug": "raincoat-women",
+    "categoryId": "cat5",
+    "price": 89,
+    "oldPrice": 129,
+    "rating": 4.7,
+    "reviewCount": 62,
+    "isActive": true,
+    "isFeatured": false,
+    "isDigital": false,
+    "stock": 30,
+    "warranty": 0,
+    "brand": "DNK",
+    "name": { "fr": "Veste Imperméable Femme", "en": "Women's Raincoat" },
+    "description": {
+      "fr": "Veste légère et imperméable, idéale pour la mi-saison.",
+      "en": "Lightweight and waterproof jacket, ideal for mid-season."
+    },
+    "badge": { "fr": "Tendance", "en": "Trendy" },
+    "specs": [
+      {
+        "label": { "fr": "Matière", "en": "Material" },
+        "value": "Polyester recyclé"
+      },
+      {
+        "label": { "fr": "Fermeture", "en": "Closure" },
+        "value": "Zip + boutons"
+      }
+    ],
+    "descriptionBlocks": [
+      {
+        "type": "paragraph",
+        "content": {
+          "fr": "Design moderne et protection totale contre la pluie.",
+          "en": "Modern design and total protection against rain."
+        }
+      }
+    ],
+    "variants": [
+      {
+        "id": "v18",
+        "name": { "fr": "Kaki", "en": "Khaki" },
+        "value": "khaki",
+        "images": [
+          {
+            "id": "vi20",
+            "url": "https://images.unsplash.com/photo-1539533018447-63fcce2678e3?q=80&w=900",
+            "order": 0
+          }
+        ]
+      },
+      {
+        "id": "v19",
+        "name": { "fr": "Bordeaux", "en": "Burgundy" },
+        "value": "burgundy",
+        "images": [
+          {
+            "id": "vi21",
+            "url": "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=900",
+            "order": 0
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "id": "p11",
+    "slug": "running-shoes-air",
+    "categoryId": "cat6",
+    "price": 119,
+    "oldPrice": 149,
+    "rating": 4.8,
+    "reviewCount": 234,
+    "isActive": true,
+    "isFeatured": true,
+    "isDigital": false,
+    "stock": 55,
+    "warranty": 12,
+    "brand": "DNK",
+    "name": { "fr": "Baskets Running Air", "en": "Air Running Sneakers" },
+    "description": {
+      "fr": "Chaussures de running ultra-légères avec amorti réactif.",
+      "en": "Ultra-light running shoes with responsive cushioning."
+    },
+    "specs": [
+      {
+        "label": { "fr": "Matière", "en": "Material" },
+        "value": "Mesh + mousse EVA"
+      },
+      { "label": { "fr": "Poids", "en": "Weight" }, "value": "250g" }
+    ],
+    "descriptionBlocks": [
+      {
+        "type": "paragraph",
+        "content": {
+          "fr": "Courez plus vite et plus longtemps avec les DNK Air.",
+          "en": "Run faster and longer with DNK Air."
+        }
+      },
+      {
+        "type": "image",
+        "url": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=900"
+      }
+    ],
+    "variants": [
+      {
+        "id": "v20",
+        "name": { "fr": "Blanc/Rouge", "en": "White/Red" },
+        "value": "white-red",
+        "images": [
+          {
+            "id": "vi22",
+            "url": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=900",
+            "order": 0
+          }
+        ]
+      },
+      {
+        "id": "v21",
+        "name": { "fr": "Noir/Jaune", "en": "Black/Yellow" },
+        "value": "black-yellow",
+        "images": [
+          {
+            "id": "vi23",
+            "url": "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?q=80&w=900",
+            "order": 0
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "id": "p12",
+    "slug": "backpack-urban",
+    "categoryId": "cat7",
+    "price": 69,
+    "oldPrice": 89,
+    "rating": 4.3,
+    "reviewCount": 47,
+    "isActive": true,
+    "isFeatured": false,
+    "isDigital": false,
+    "stock": 70,
+    "warranty": 6,
+    "brand": "DNK",
+    "name": { "fr": "Sac à Dos Urbain", "en": "Urban Backpack" },
+    "description": {
+      "fr": "Sac à dos résistant avec compartiment pour ordinateur 15\".",
+      "en": "Durable backpack with 15\" laptop compartment."
+    },
+    "specs": [
+      {
+        "label": { "fr": "Matière", "en": "Material" },
+        "value": "Polyester 600D"
+      },
+      { "label": { "fr": "Capacité", "en": "Capacity" }, "value": "25 L" }
+    ],
+    "descriptionBlocks": [
+      {
+        "type": "paragraph",
+        "content": {
+          "fr": "Le compagnon idéal pour le travail et les voyages.",
+          "en": "The ideal companion for work and travel."
+        }
+      }
+    ],
+    "variants": [
+      {
+        "id": "v22",
+        "name": { "fr": "Noir", "en": "Black" },
+        "value": "black",
+        "images": [
+          {
+            "id": "vi24",
+            "url": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?q=80&w=900",
+            "order": 0
+          }
+        ]
+      },
+      {
+        "id": "v23",
+        "name": { "fr": "Bleu", "en": "Blue" },
+        "value": "blue",
+        "images": [
+          {
+            "id": "vi25",
+            "url": "https://images.unsplash.com/photo-1622560480654-d96214fdc887?q=80&w=900",
+            "order": 0
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "id": "p13",
+    "slug": "bluetooth-speaker-max",
+    "categoryId": "cat3",
+    "price": 159,
+    "oldPrice": 199,
+    "rating": 4.7,
+    "reviewCount": 88,
+    "isActive": true,
+    "isFeatured": false,
+    "isDigital": false,
+    "stock": 25,
+    "warranty": 12,
+    "brand": "DNK",
+    "name": { "fr": "Enceinte Bluetooth Max", "en": "Bluetooth Speaker Max" },
+    "description": {
+      "fr": "Enceinte portable avec son 360° et bass puissant.",
+      "en": "Portable speaker with 360° sound and powerful bass."
+    },
+    "badge": { "fr": "Meilleur rapport qualité-prix", "en": "Best value" },
+    "specs": [
+      {
+        "label": { "fr": "Autonomie", "en": "Battery life" },
+        "value": "20 heures"
+      },
+      {
+        "label": { "fr": "Connectivité", "en": "Connectivity" },
+        "value": "Bluetooth 5.2, AUX"
+      },
+      { "label": { "fr": "Étanchéité", "en": "Waterproof" }, "value": "IPX7" }
+    ],
+    "descriptionBlocks": [
+      {
+        "type": "paragraph",
+        "content": {
+          "fr": "La DNK Max Speaker remplit n'importe quelle pièce d'un son clair et profond.",
+          "en": "The DNK Max Speaker fills any room with clear and deep sound."
+        }
+      },
+      {
+        "type": "image",
+        "url": "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?q=80&w=900"
+      }
+    ],
+    "variants": [
+      {
+        "id": "v24",
+        "name": { "fr": "Graphite", "en": "Graphite" },
+        "value": "graphite",
+        "images": [
+          {
+            "id": "vi26",
+            "url": "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?q=80&w=900",
+            "order": 0
+          }
+        ]
+      },
+      {
+        "id": "v25",
+        "name": { "fr": "Sable", "en": "Sand" },
+        "value": "sand",
+        "images": [
+          {
+            "id": "vi27",
+            "url": "https://images.unsplash.com/photo-1589256469067-ea99122bbdc6?q=80&w=900",
+            "order": 0
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "id": "p14",
+    "slug": "creative-suite-pro",
+    "categoryId": "cat4",
+    "price": 199,
+    "oldPrice": 299,
+    "rating": 4.9,
+    "reviewCount": 532,
+    "isActive": true,
+    "isFeatured": true,
+    "isDigital": true,
+    "stock": 9999,
+    "warranty": 0,
+    "brand": "DNK",
+    "name": {
+      "fr": "Suite Créative Pro",
+      "en": "Creative Suite Pro"
+    },
+    "description": {
+      "fr": "Logiciel professionnel de retouche photo, design graphique et montage vidéo.",
+      "en": "Professional software for photo editing, graphic design, and video editing."
+    },
+    "badge": {
+      "fr": "Téléchargement immédiat",
+      "en": "Instant download"
+    },
+    "specs": [
+      {
+        "label": { "fr": "Plateforme", "en": "Platform" },
+        "value": "Windows, macOS, Linux"
+      },
+      {
+        "label": { "fr": "Licence", "en": "License" },
+        "value": "Perpétuelle (mises à jour 1 an)"
+      },
+      {
+        "label": { "fr": "Langues", "en": "Languages" },
+        "value": "Français, Anglais, Espagnol"
+      }
+    ],
+    "descriptionBlocks": [
+      {
+        "type": "paragraph",
+        "content": {
+          "fr": "La Suite Créative DNK regroupe plus de 25 outils avancés pour la photographie, l'illustration vectorielle, le montage audio et la composition 3D.",
+          "en": "DNK Creative Suite brings together over 25 advanced tools for photography, vector illustration, audio editing, and 3D compositing."
+        }
+      },
+      {
+        "type": "image",
+        "url": "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=900"
+      },
+      {
+        "type": "paragraph",
+        "content": {
+          "fr": "Bénéficiez d'un moteur de rendu accéléré par IA, d'un flux de travail non destructif et d'une compatibilité native avec tous les formats professionnels.",
+          "en": "Benefit from an AI-accelerated rendering engine, a non-destructive workflow, and native compatibility with all professional formats."
+        }
+      }
+    ],
+    "variants": [
+      {
+        "id": "v26",
+        "name": {
+          "fr": "Édition Standard",
+          "en": "Standard Edition"
+        },
+        "value": "standard",
+        "images": [
+          {
+            "id": "vi28",
+            "url": "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=900",
+            "order": 0
+          }
+        ]
+      },
+      {
+        "id": "v27",
+        "name": {
+          "fr": "Édition Pro (IA générative incluse)",
+          "en": "Pro Edition (Generative AI included)"
+        },
+        "value": "pro",
+        "images": [
+          {
+            "id": "vi29",
+            "url": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=900",
+            "order": 0
+          }
+        ]
+      }
+    ]
+  },
+
+  {
+    "id": "p15",
+    "slug": "dnk-essential-oversize-tee",
+    "categoryId": "cat5",
+    "price": 39,
+    "oldPrice": 49,
+    "rating": 4.7,
+    "reviewCount": 86,
+    "isActive": true,
+    "isFeatured": true,
+    "isDigital": false,
+    "stock": 120,
+    "warranty": 0,
+    "brand": "DNK Wear",
+    "name": {
+      "fr": "T-shirt Essential Oversize",
+      "en": "Essential Oversize T-Shirt"
+    },
+    "description": {
+      "fr": "Un t-shirt oversize en coton biologique, coupe décontractée et inclusive. Disponible du L au 4XL dans 4 couleurs tendance.",
+      "en": "An oversize organic cotton t-shirt with a relaxed and inclusive fit. Available from L to 4XL in 4 trendy colors."
+    },
+    "badge": { "fr": "Mode inclusive", "en": "Inclusive fashion" },
+    "specs": [
+      {
+        "label": { "fr": "Matière", "en": "Material" },
+        "value": "100% coton biologique"
+      },
+      { "label": { "fr": "Grammage", "en": "Weight" }, "value": "220 g/m²" },
+      {
+        "label": { "fr": "Coupe", "en": "Fit" },
+        "value": "Oversize décontractée"
+      },
+      {
+        "label": { "fr": "Tailles", "en": "Sizes" },
+        "value": "L, XL, XXL, 3XL, 4XL"
+      },
+      {
+        "label": { "fr": "Entretien", "en": "Care" },
+        "value": "Lavage 30°, séchage naturel"
+      },
+      {
+        "label": { "fr": "Certification", "en": "Certification" },
+        "value": "GOTS, Oeko-Tex"
+      }
+    ],
+    "descriptionBlocks": [
+      {
+        "type": "paragraph",
+        "content": {
+          "fr": "Le Essential Oversize Tee est pensé pour accompagner toutes les morphologies avec style. Sa coupe ample et son coton biologique de 220 g/m² offrent un confort absolu au quotidien.",
+          "en": "The Essential Oversize Tee is designed to accompany all body shapes with style. Its loose fit and 220 g/m² organic cotton offer absolute everyday comfort."
+        }
+      },
+      {
+        "type": "image",
+        "url": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=900"
+      },
+      {
+        "type": "paragraph",
+        "content": {
+          "fr": "Disponible en 4 couleurs intemporelles et 5 tailles (du L au 4XL), ce t-shirt s'adapte à votre style et à votre morphologie. Confection éthique, certifiée GOTS et Oeko-Tex.",
+          "en": "Available in 4 timeless colors and 5 sizes (from L to 4XL), this t-shirt adapts to your style and body shape. Ethical manufacturing, GOTS and Oeko-Tex certified."
+        }
+      }
+    ],
+    "variants": [
+      {
+        "id": "v8",
+        "name": { "fr": "Noir — L", "en": "Black — L" },
+        "value": "black-L",
+        "images": [
+          {
+            "id": "vi11",
+            "url": "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?q=80&w=900",
+            "order": 0
+          }
+        ]
+      },
+      {
+        "id": "v9",
+        "name": { "fr": "Noir — XXL", "en": "Black — XXL" },
+        "value": "black-XXL",
+        "images": [
+          {
+            "id": "vi12",
+            "url": "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?q=80&w=900",
+            "order": 0
+          }
+        ]
+      },
+      {
+        "id": "v10",
+        "name": { "fr": "Noir — 4XL", "en": "Black — 4XL" },
+        "value": "black-4XL",
+        "images": [
+          {
+            "id": "vi13",
+            "url": "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?q=80&w=900",
+            "order": 0
+          }
+        ]
+      },
+      {
+        "id": "v11",
+        "name": { "fr": "Blanc cassé — L", "en": "Off-white — L" },
+        "value": "offwhite-L",
+        "images": [
+          {
+            "id": "vi14",
+            "url": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=900",
+            "order": 0
+          }
+        ]
+      },
+      {
+        "id": "v12",
+        "name": { "fr": "Blanc cassé — XXL", "en": "Off-white — XXL" },
+        "value": "offwhite-XXL",
+        "images": [
+          {
+            "id": "vi15",
+            "url": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=900",
+            "order": 0
+          }
+        ]
+      },
+      {
+        "id": "v13",
+        "name": { "fr": "Beige — L", "en": "Beige — L" },
+        "value": "beige-L",
+        "images": [
+          {
+            "id": "vi16",
+            "url": "https://images.unsplash.com/photo-1562157873-818bc0726f68?q=80&w=900",
+            "order": 0
+          }
+        ]
+      },
+      {
+        "id": "v14",
+        "name": { "fr": "Beige — 3XL", "en": "Beige — 3XL" },
+        "value": "beige-3XL",
+        "images": [
+          {
+            "id": "vi17",
+            "url": "https://images.unsplash.com/photo-1562157873-818bc0726f68?q=80&w=900",
+            "order": 0
+          }
+        ]
+      },
+      {
+        "id": "v15",
+        "name": { "fr": "Bleu marine — XL", "en": "Navy blue — XL" },
+        "value": "navy-XL",
+        "images": [
+          {
+            "id": "vi18",
+            "url": "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?q=80&w=900",
+            "order": 0
+          }
+        ]
+      },
+      {
+        "id": "v16",
+        "name": { "fr": "Bleu marine — 4XL", "en": "Navy blue — 4XL" },
+        "value": "navy-4XL",
+        "images": [
+          {
+            "id": "vi19",
+            "url": "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?q=80&w=900",
+            "order": 0
+          }
+        ]
+      }
+    ]
   }
 ]

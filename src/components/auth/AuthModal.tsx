@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { useTranslations } from "next-intl";
 import { X, Lock, Mail, User as UserIcon, ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
@@ -23,6 +24,8 @@ export default function AuthModal() {
     setForgotEmail
   } = useAuth();
 
+  const [mounted, setMounted] = useState(false);
+
   // États des formulaires
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
@@ -35,7 +38,11 @@ export default function AuthModal() {
   const [resetOtp, setResetOtp] = useState("");
   const [resetPassword, setResetPassword] = useState("");
 
-  // Verrouille le scroll
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Verrouille le scroll du body
   useEffect(() => {
     if (isAuthModalOpen) {
       document.body.style.overflow = "hidden";
@@ -47,19 +54,17 @@ export default function AuthModal() {
     };
   }, [isAuthModalOpen]);
 
-  // Réinitialise les champs quand on change de mode
   useEffect(() => {
     setVerifyOtp("");
     setResetOtp("");
     setResetPassword("");
   }, [authMode]);
 
-  if (!isAuthModalOpen) return null;
+  if (!mounted || !isAuthModalOpen) return null;
 
   // ====== HANDLERS ======
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    // Simulation : on récupère l'utilisateur du localStorage
     const saved = localStorage.getItem("dnk-user-db");
     const users: User[] = saved ? JSON.parse(saved) : [];
     const found = users.find((u) => u.email === loginEmail);
@@ -124,10 +129,8 @@ export default function AuthModal() {
       toast.error(t("invalidOtp"));
       return;
     }
-
     if (!pendingUser) return;
 
-    // Sauvegarde dans la "DB" locale
     const saved = localStorage.getItem("dnk-user-db");
     const users: User[] = saved ? JSON.parse(saved) : [];
     const verifiedUser = { ...pendingUser, isVerified: true };
@@ -155,7 +158,6 @@ export default function AuthModal() {
       return;
     }
 
-    // Met à jour le mot de passe
     const saved = localStorage.getItem("dnk-user-db");
     const users: User[] = saved ? JSON.parse(saved) : [];
     const idx = users.findIndex((u) => u.email === forgotEmail);
@@ -196,23 +198,23 @@ export default function AuthModal() {
     setForgotEmailInput("");
   };
 
-  // ====== RENDU ======
   const inputClass =
     "w-full border border-slate-300 px-4 py-3 text-sm transition focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-600/20";
 
-  return (
-    <>
+  // Utilisation d'un Portal pour injecter la modale tout à la fin du body
+  return createPortal(
+    <div className="fixed inset-0 z-[99999] overflow-y-auto">
       {/* Overlay */}
       <div
-        className="fixed inset-0 z-[9998] bg-slate-900/60 backdrop-blur-sm"
+        className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"
         onClick={closeAuthModal}
       />
 
-      {/* Modal */}
-      <div className="fixed inset-0 z-[9999] flex items-start justify-center overflow-y-auto p-4 sm:items-center sm:p-6">
-        <div className="relative w-full max-w-md bg-white shadow-2xl sm:rounded-lg">
+      {/* Conteneur global de centrage */}
+      <div className="flex min-h-full items-center justify-center p-4 text-center sm:p-6">
+        <div className="relative w-full max-w-md transform overflow-hidden rounded-lg bg-white text-left align-middle shadow-2xl transition-all">
           {/* Header */}
-          <div className="flex items-center justify-between border-b border-slate-200 px-5 py-4 sm:px-6">
+          <div className="flex items-center justify-between border-b border-slate-200 bg-white px-5 py-4 sm:px-6">
             <div className="flex items-center gap-2">
               {authMode !== "login" && authMode !== "register" && (
                 <button
@@ -240,9 +242,8 @@ export default function AuthModal() {
             </button>
           </div>
 
-          {/* Contenu */}
+          {/* Corps de la modale */}
           <div className="p-5 sm:p-6">
-            {/* ===== LOGIN ===== */}
             {authMode === "login" && (
               <form onSubmit={handleLogin} className="grid gap-4">
                 <div className="relative">
@@ -295,7 +296,6 @@ export default function AuthModal() {
               </form>
             )}
 
-            {/* ===== REGISTER ===== */}
             {authMode === "register" && (
               <form onSubmit={handleRegister} className="grid gap-4">
                 <div className="relative">
@@ -368,7 +368,6 @@ export default function AuthModal() {
               </form>
             )}
 
-            {/* ===== VERIFY ===== */}
             {authMode === "verify" && (
               <>
                 <div className="text-sm leading-6 text-slate-600">
@@ -406,7 +405,6 @@ export default function AuthModal() {
               </>
             )}
 
-            {/* ===== FORGOT ===== */}
             {authMode === "forgot" && (
               <>
                 <p className="text-sm leading-6 text-slate-600">
@@ -440,7 +438,6 @@ export default function AuthModal() {
               </>
             )}
 
-            {/* ===== RESET ===== */}
             {authMode === "reset" && (
               <>
                 <p className="text-sm leading-6 text-slate-600">
@@ -482,6 +479,7 @@ export default function AuthModal() {
           </div>
         </div>
       </div>
-    </>
+    </div>,
+    document.body
   );
 }
