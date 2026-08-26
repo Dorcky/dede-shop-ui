@@ -51,6 +51,7 @@ export default function ProductDetailTop({
       />
       <ProductInfo
         productId={product.id}
+        productSlug={product.slug}
         categoryName={categoryName}
         productName={product.name[locale]}
         brand={product.brand}

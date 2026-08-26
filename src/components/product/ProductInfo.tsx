@@ -6,10 +6,11 @@ import { Variant, Locale } from "@/types";
 import { ShoppingCart, ShieldCheck, Truck, Star } from "lucide-react";
 import { toast } from "sonner";
 import Image from "next/image";
-import { useCart } from "@/lib/store/useCart"; // ✅ Ajout
+import { useCart } from "@/lib/store/useCart";
 
 interface ProductInfoProps {
   productId: string;
+  productSlug: string; // ✅ AJOUTÉ
   categoryName: string;
   productName: string;
   brand: string;
@@ -21,13 +22,14 @@ interface ProductInfoProps {
   rating: number;
   reviewCount: number;
   variants: Variant[];
-  selectedVariantIndex: number; // ✅ Reçu du parent
-  onVariantChange: (index: number) => void; // ✅ Fonction pour prévenir le parent
+  selectedVariantIndex: number;
+  onVariantChange: (index: number) => void;
   locale: Locale;
 }
 
 export default function ProductInfo({
   productId,
+  productSlug, // ✅ DÉSTRUCTURÉ ICI
   categoryName,
   productName,
   brand,
@@ -45,7 +47,7 @@ export default function ProductInfo({
 }: ProductInfoProps) {
   const t = useTranslations("product");
   const [quantity, setQuantity] = useState(1);
-  const addItem = useCart((state) => state.addItem); // ✅ Ajout
+  const addItem = useCart((state) => state.addItem);
 
   const selectedVariant = variants[selectedVariantIndex];
 
@@ -65,12 +67,11 @@ export default function ProductInfo({
         ? "bg-yellow-100 text-yellow-800"
         : "bg-red-100 text-red-800";
 
-  // ✅ Nouvelle version de handleAddToCart
   const handleAddToCart = () => {
-    const selectedVariant = variants[selectedVariantIndex];
     addItem(
       {
         productId,
+        productSlug, // ✅ MAINTENANT DÉFINI ET FONCTIONNEL
         variantId: selectedVariant.id,
         name: productName,
         variantName: selectedVariant.name[locale],
@@ -157,7 +158,7 @@ export default function ProductInfo({
             {variants.map((variant, idx) => (
               <button
                 key={variant.id}
-                onClick={() => onVariantChange(idx)} // ✅ Appelle le parent
+                onClick={() => onVariantChange(idx)}
                 className={`flex items-center gap-2 border px-2 py-1 text-xs transition sm:px-3 sm:py-2 sm:text-sm ${
                   idx === selectedVariantIndex
                     ? "border-brand-600 ring-2 ring-brand-600"

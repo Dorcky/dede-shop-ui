@@ -17,6 +17,12 @@ export default function ProductReviews({ product }: ProductReviewsProps) {
   const { getReviewsByProduct } = useReviews();
   const [isReviewFormOpen, setIsReviewFormOpen] = useState(false);
 
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.location.hash === "#reviews") {
+      setIsReviewFormOpen(true);
+    }
+  }, []);
+
   // Garde-fou anti-hydration-mismatch : premier rendu client = état "vide", comme le serveur
   const [mounted, setMounted] = useState(false);
   useEffect(() => {

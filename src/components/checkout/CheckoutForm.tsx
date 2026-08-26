@@ -88,6 +88,7 @@ export default function CheckoutForm() {
 
       const orderItems: OrderItem[] = items.map((item) => ({
         productId: item.productId,
+        productSlug: item.productSlug,
         productName: { fr: item.name, en: item.name },
         variantName: item.variantName,
         quantity: item.quantity,

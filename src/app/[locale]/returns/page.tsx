@@ -47,7 +47,7 @@ export default async function ReturnsPage({
           </div>
         </div>
 
-        {/* Formulaire */}
+        {/* Formulaire (gère lui-même les searchParams) */}
         <ReturnsForm locale={locale} />
       </div>
     </section>

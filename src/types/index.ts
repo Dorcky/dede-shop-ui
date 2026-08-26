@@ -69,6 +69,7 @@ export interface Settings {
 
 export interface CartItem {
   productId: string;
+  productSlug: string;
   variantId: string;
   name: string;
   variantName: string;
@@ -94,6 +95,7 @@ export type OrderStatus =
 
 export interface OrderItem {
   productId: string;
+  productSlug: string;
   productName: { fr: string; en: string };
   variantName: string;
   quantity: number;

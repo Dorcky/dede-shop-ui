@@ -1,1 +1,15 @@
-[]
+[
+  {
+    "id": "ret-1787757003542",
+    "type": "RETURN",
+    "orderId": "DNK-8387",
+    "userId": "user-1787701312263",
+    "name": "dorcennawesky",
+    "email": "dorcennawesky@gmail.com",
+    "subject": "Retour pour la commande DNK-8387",
+    "reason": "DEFECTIVE",
+    "message": "test de défectuosité",
+    "status": "OPEN",
+    "createdAt": "2026-08-26T15:10:03.542Z"
+  }
+]
