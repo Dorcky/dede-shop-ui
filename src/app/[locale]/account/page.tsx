@@ -14,8 +14,9 @@ import OrderDetailModal from "@/components/order/OrderDetailModal";
 import AccountSidebar from "@/components/account/AccountSidebar";
 import AddressManager from "@/components/account/AddressManager";
 import ReturnsForm from "@/components/returns/ReturnsForm"; // ✅ AJOUT
+import SecurityManager from "@/components/account/SecurityManager";
 
-type TabType = "orders" | "addresses" | "returns";
+type TabType = "orders" | "addresses" | "returns" | "security";
 
 export default function AccountPage() {
   const t = useTranslations("account");
@@ -308,9 +309,11 @@ export default function AccountPage() {
           ) : activeTab === "addresses" ? (
             // ✅ RENDU DU GESTIONNAIRE D'ADRESSES
             <AddressManager />
-          ) : (
+          ) : activeTab === "returns" ? (
             // ✅ RENDU DU FORMULAIRE DE RETOUR (avec la locale actuelle)
             <ReturnsForm locale={locale as "fr" | "en"} />
+          ) : (
+            <SecurityManager /> // ✅ NOUVEAU RENDU
           )}
         </div>
       </div>

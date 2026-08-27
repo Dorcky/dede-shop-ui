@@ -7,12 +7,13 @@ import {
   Package,
   MapPin,
   ShoppingBag,
-  MessageSquare
+  MessageSquare,
+  Shield
 } from "lucide-react";
 import { User } from "@/types";
 
 // ✅ Ajout de "returns" dans le type
-type TabType = "orders" | "addresses" | "returns";
+type TabType = "orders" | "addresses" | "returns" | "security";
 
 interface AccountSidebarProps {
   user: User;
@@ -79,6 +80,14 @@ export default function AccountSidebar({
         >
           <ShoppingBag className="h-4 w-4" />
           {t("returns")}
+        </button>
+
+        <button
+          onClick={() => setActiveTab("security")}
+          className={navItemClass(activeTab === "security")}
+        >
+          <Shield className="h-4 w-4" />
+          {t("loginSecurity")}
         </button>
 
         <Link
