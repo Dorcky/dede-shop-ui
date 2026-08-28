@@ -298,7 +298,15 @@
     "changesSaved": "Modifications enregistrées avec succès.",
     "passwordChanged": "Mot de passe modifié avec succès.",
     "passwordMismatch": "Les mots de passe ne correspondent pas.",
-    "wrongCurrentPassword": "Mot de passe actuel incorrect."
+    "wrongCurrentPassword": "Mot de passe actuel incorrect.",
+    "favorites": "Favoris",
+    "addToFavorites": "Ajouter aux favoris",
+    "removeFromFavorites": "Retirer des favoris",
+    "noFavorites": "Aucun favori pour le moment",
+    "noFavoritesDesc": "Explorez la boutique et cliquez sur le cœur pour sauvegarder vos produits préférés.",
+    "continueShopping": "Continuer mes achats",
+    "addedToFavorites": "Ajouté aux favoris",
+    "removedFromFavorites": "Retiré des favoris"
   },
 
   "about": {

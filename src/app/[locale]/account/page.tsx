@@ -15,8 +15,9 @@ import AccountSidebar from "@/components/account/AccountSidebar";
 import AddressManager from "@/components/account/AddressManager";
 import ReturnsForm from "@/components/returns/ReturnsForm"; // ✅ AJOUT
 import SecurityManager from "@/components/account/SecurityManager";
+import FavoritesList from "@/components/account/FavoritesList";
 
-type TabType = "orders" | "addresses" | "returns" | "security";
+type TabType = "orders" | "addresses" | "returns" | "security" | "favorites";
 
 export default function AccountPage() {
   const t = useTranslations("account");
@@ -312,6 +313,8 @@ export default function AccountPage() {
           ) : activeTab === "returns" ? (
             // ✅ RENDU DU FORMULAIRE DE RETOUR (avec la locale actuelle)
             <ReturnsForm locale={locale as "fr" | "en"} />
+          ) : activeTab === "favorites" ? (
+            <FavoritesList />
           ) : (
             <SecurityManager /> // ✅ NOUVEAU RENDU
           )}

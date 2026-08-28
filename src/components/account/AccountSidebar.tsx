@@ -8,12 +8,13 @@ import {
   MapPin,
   ShoppingBag,
   MessageSquare,
-  Shield
+  Shield,
+  Heart
 } from "lucide-react";
 import { User } from "@/types";
 
 // ✅ Ajout de "returns" dans le type
-type TabType = "orders" | "addresses" | "returns" | "security";
+type TabType = "orders" | "addresses" | "returns" | "security" | "favorites";
 
 interface AccountSidebarProps {
   user: User;
@@ -80,6 +81,14 @@ export default function AccountSidebar({
         >
           <ShoppingBag className="h-4 w-4" />
           {t("returns")}
+        </button>
+
+        <button
+          onClick={() => setActiveTab("favorites")}
+          className={navItemClass(activeTab === "favorites")}
+        >
+          <Heart className="h-4 w-4" />
+          {t("favorites")}
         </button>
 
         <button

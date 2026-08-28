@@ -1,7 +1,14 @@
+"use client";
+
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
+import { Heart } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { toast } from "sonner";
 import { Product, Locale } from "@/types";
 import { money } from "@/lib/utils";
+import { useFavorites } from "@/lib/store/useFavorites";
+import type { FavoriteItem } from "@/lib/store/useFavorites";
 
 interface ProductCardProps {
   product: Product;
@@ -21,7 +28,7 @@ export default function ProductCard({ product, locale }: ProductCardProps) {
           : "Numérique";
   const badge = product.badge ? product.badge[locale] : null;
 
-  // ✅ Récupération des 2 premières specs comme dans la maquette
+  // Récupération des 2 premières specs
   const spec1 = product.specs[0]
     ? `${product.specs[0].label[locale]}: ${product.specs[0].value}`
     : "";
@@ -29,7 +36,7 @@ export default function ProductCard({ product, locale }: ProductCardProps) {
     ? `${product.specs[1].label[locale]}: ${product.specs[1].value}`
     : "";
 
-  // ✅ Badge de stock avec couleurs dynamiques
+  // Badge de stock
   const stockLabel = product.isDigital ? "∞" : product.stock;
   const stockClass =
     product.stock > 10
@@ -38,18 +45,45 @@ export default function ProductCard({ product, locale }: ProductCardProps) {
         ? "bg-yellow-100 text-yellow-800"
         : "bg-red-100 text-red-800";
 
-  // ✅ Étoiles (comme dans la maquette : ★★★★★)
+  // Étoiles
   const stars =
     "★".repeat(Math.round(product.rating)) +
     "☆".repeat(5 - Math.round(product.rating));
 
+  // ✅ Favoris
+  const { addItem, removeItem, isFavorite } = useFavorites();
+  const tFav = useTranslations("account");
+
+  const favoriteItem: FavoriteItem = {
+    productId: product.id,
+    slug: product.slug,
+    name: product.name,
+    price: product.price,
+    oldPrice: product.oldPrice,
+    image: variant.images[0]?.url || "",
+    brand: product.brand
+  };
+
+  const handleToggleFavorite = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (isFavorite(product.id)) {
+      removeItem(product.id);
+      toast.info(tFav("removedFromFavorites"));
+    } else {
+      addItem(favoriteItem);
+      toast.success(tFav("addedToFavorites"));
+    }
+  };
+
   return (
-    <article className="group">
+    <article className="group relative">
       <Link
         href={`/product/${product.slug}`}
         className="block w-full text-left"
       >
-        {/* Image + badges */}
+        {/* Image + badges + bouton favori */}
         <div className="relative aspect-square overflow-hidden bg-slate-100">
           <Image
             src={variant.images[0]?.url || ""}
@@ -59,6 +93,8 @@ export default function ProductCard({ product, locale }: ProductCardProps) {
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
             loading="lazy"
           />
+
+          {/* Badges */}
           {badge && (
             <span className="absolute left-2 top-2 bg-white px-2 py-1 text-[9px] font-bold uppercase tracking-wider sm:left-3 sm:top-3 sm:text-[10px]">
               {badge}
@@ -69,24 +105,39 @@ export default function ProductCard({ product, locale }: ProductCardProps) {
               Numérique
             </span>
           )}
+
+          {/* ✅ Bouton favori (cœur) */}
+          <button
+            onClick={handleToggleFavorite}
+            className="absolute right-2 top-2 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-slate-400 shadow-sm backdrop-blur-sm transition hover:bg-white hover:text-red-500 sm:h-10 sm:w-10"
+            aria-label={
+              isFavorite(product.id)
+                ? tFav("removeFromFavorites")
+                : tFav("addToFavorites")
+            }
+          >
+            <Heart
+              className="h-5 w-5 transition-all"
+              fill={isFavorite(product.id) ? "currentColor" : "none"}
+              strokeWidth={2}
+            />
+          </button>
+
+          {/* Overlay "Voir le produit" */}
           <span className="absolute bottom-2 left-2 bg-slate-900 px-2 py-1 text-[9px] font-bold text-white opacity-0 transition group-hover:opacity-100 sm:bottom-3 sm:left-3 sm:text-[10px]">
             Voir le produit
           </span>
         </div>
 
-        {/* Contenu texte (exactement comme la maquette) */}
+        {/* Contenu texte */}
         <div className="pt-2 sm:pt-3">
-          {/* 1. Catégorie */}
           <p className="text-[9px] font-bold uppercase tracking-wider text-slate-400 sm:text-[10px]">
             {categoryName}
           </p>
-
-          {/* 2. Nom du produit */}
           <h3 className="mt-1 line-clamp-2 text-sm font-bold group-hover:text-brand-600">
             {name}
           </h3>
 
-          {/* ✅ 3. Spécifications (les 2 premières) */}
           {spec1 && (
             <p className="mt-0.5 text-[10px] text-slate-500 sm:text-xs">
               {spec1}
@@ -96,7 +147,6 @@ export default function ProductCard({ product, locale }: ProductCardProps) {
             <p className="text-[10px] text-slate-500 sm:text-xs">{spec2}</p>
           )}
 
-          {/* ✅ 4. Étoiles + nombre d'avis */}
           <div className="mt-1 flex items-center gap-2 sm:mt-2">
             <span className="text-xs font-bold text-amber-500">{stars}</span>
             <span className="text-xs text-slate-400">
@@ -104,7 +154,6 @@ export default function ProductCard({ product, locale }: ProductCardProps) {
             </span>
           </div>
 
-          {/* ✅ 5. Prix formaté avec Intl.NumberFormat */}
           <div className="mt-1 flex items-center gap-2 sm:mt-2">
             <span className="text-sm font-black">{money(product.price)}</span>
             {product.oldPrice && (
@@ -114,7 +163,6 @@ export default function ProductCard({ product, locale }: ProductCardProps) {
             )}
           </div>
 
-          {/* 6. Stock + garantie */}
           <div className="mt-1 flex items-center gap-2">
             <span
               className={`inline-block rounded-full px-2 py-0.5 text-[10px] font-bold uppercase sm:px-3 sm:py-1 sm:text-xs ${stockClass}`}

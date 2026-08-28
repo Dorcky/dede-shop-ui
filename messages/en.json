@@ -298,7 +298,15 @@
     "changesSaved": "Changes saved successfully.",
     "passwordChanged": "Password changed successfully.",
     "passwordMismatch": "Passwords do not match.",
-    "wrongCurrentPassword": "Current password is incorrect."
+    "wrongCurrentPassword": "Current password is incorrect.",
+    "favorites": "Favorites",
+    "addToFavorites": "Add to favorites",
+    "removeFromFavorites": "Remove from favorites",
+    "noFavorites": "No favorites yet",
+    "noFavoritesDesc": "Explore the shop and click the heart to save your favorite products.",
+    "continueShopping": "Continue shopping",
+    "addedToFavorites": "Added to favorites",
+    "removedFromFavorites": "Removed from favorites"
   },
 
   "about": {
