@@ -366,11 +366,17 @@
 
   "search": {
     "title": "Search for a product",
-    "placeholder": "e.g. laptop, headphones...",
+    "placeholder": "e.g. laptop, headphones, smartphone...",
     "button": "Search",
     "recent": "Recent searches",
-    "popular": "Popular products",
-    "noResults": "No results for"
+    "clearRecent": "Clear history",
+    "popular": "Popular categories",
+    "trending": "Trending products",
+    "noResults": "No results for",
+    "tryAnother": "Try with other keywords",
+    "resultsFor": "Results for",
+    "viewAll": "View all results",
+    "suggestions": "Suggestions"
   },
   "review": {
     "leave": "Leave a review",

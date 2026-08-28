@@ -366,11 +366,17 @@
 
   "search": {
     "title": "Rechercher un produit",
-    "placeholder": "Ex. ordinateur, écouteurs...",
+    "placeholder": "Ex. ordinateur, écouteurs, smartphone...",
     "button": "Rechercher",
     "recent": "Recherches récentes",
-    "popular": "Produits populaires",
-    "noResults": "Aucun résultat pour"
+    "clearRecent": "Effacer l'historique",
+    "popular": "Catégories populaires",
+    "trending": "Produits tendances",
+    "noResults": "Aucun résultat pour",
+    "tryAnother": "Essayez avec d'autres mots-clés",
+    "resultsFor": "Résultats pour",
+    "viewAll": "Voir tous les résultats",
+    "suggestions": "Suggestions"
   },
   "review": {
     "leave": "Laisser un avis",
