@@ -1,20 +1,32 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Link } from "@/i18n/navigation";
-import { useTranslations } from "next-intl";
-import { X, Menu } from "lucide-react";
-import { useRouter, usePathname } from "@/i18n/navigation";
-import { routing } from "@/i18n/routing";
-import type { Locale } from "@/i18n/routing";
+import { Link, useRouter, usePathname } from "@/i18n/navigation";
+import { useTranslations, useLocale } from "next-intl";
+import { X, Menu, ChevronDown, ChevronUp } from "lucide-react";
+import { getCategories } from "@/lib/db";
+import type { Category, Locale } from "@/types";
 
 export default function MobileMenu() {
   const [isOpen, setIsOpen] = useState(false);
+  const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
+  const [categories, setCategories] = useState<Category[]>([]);
+
   const t = useTranslations("nav");
+  const locale = useLocale() as "fr" | "en";
   const router = useRouter();
   const pathname = usePathname();
 
-  // ⭐ Verrouille le scroll du body quand le menu est ouvert
+  // Récupérer les catégories dynamiquement au montage du composant
+  useEffect(() => {
+    getCategories().then((cats) => {
+      setCategories(
+        cats.filter((c) => c.isActive).sort((a, b) => a.order - b.order)
+      );
+    });
+  }, []);
+
+  // Verrouille le scroll du body quand le menu est ouvert
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -29,20 +41,12 @@ export default function MobileMenu() {
     };
   }, [isOpen]);
 
-  const navItems = [
-    { href: "/shop", label: t("all") },
-    { href: "/shop?category=smartphones", label: t("smartphones") },
-    { href: "/shop?category=laptops", label: t("laptops") },
-    { href: "/shop?category=audio", label: t("audio") },
-    { href: "/shop?category=digital", label: t("digital") },
-    { href: "/about", label: t("about") },
-    { href: "/contact", label: t("contact") }
-  ];
-
-  const handleLangChange = (locale: Locale) => {
-    router.replace(pathname, { locale });
+  const handleLangChange = (newLocale: Locale) => {
+    router.replace(pathname, { locale: newLocale });
     setIsOpen(false);
   };
+
+  const closeMenu = () => setIsOpen(false);
 
   return (
     <>
@@ -55,7 +59,7 @@ export default function MobileMenu() {
         <Menu className="h-6 w-6" />
       </button>
 
-      {/* Overlay du Menu Mobile - Rendu via Portal-like avec fixed */}
+      {/* Overlay du Menu Mobile */}
       {isOpen && (
         <div
           className="fixed inset-0 z-[9999] flex flex-col bg-white lg:hidden"
@@ -65,7 +69,7 @@ export default function MobileMenu() {
             left: "0px",
             right: "0px",
             bottom: "0px",
-            height: "100dvh", // Dynamic viewport height (parfait pour mobile)
+            height: "100dvh",
             width: "100vw",
             overflow: "hidden"
           }}
@@ -76,7 +80,7 @@ export default function MobileMenu() {
               DNK TECH
             </span>
             <button
-              onClick={() => setIsOpen(false)}
+              onClick={closeMenu}
               className="rounded-full p-2 text-slate-500 transition-colors hover:bg-slate-100"
               aria-label="Fermer le menu"
             >
@@ -84,27 +88,77 @@ export default function MobileMenu() {
             </button>
           </div>
 
-          {/* ⭐ Liens de navigation - SCROLLABLE avec hauteur calculée */}
+          {/* Liens de navigation - SCROLLABLE */}
           <nav
             className="flex-1 overflow-y-auto overflow-x-hidden bg-white px-4 py-4"
             style={{
-              // Force la hauteur restante après le header et le footer
               height: "calc(100dvh - 72px - 80px)",
               WebkitOverflowScrolling: "touch"
             }}
           >
             <ul className="grid gap-1">
-              {navItems.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    onClick={() => setIsOpen(false)}
-                    className="block border-b border-slate-100 py-4 text-base font-semibold text-slate-800 transition-colors hover:pl-2 hover:text-brand-600 active:bg-slate-50"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
+              {/* Lien Tous les produits */}
+              <li>
+                <Link
+                  href="/shop"
+                  onClick={closeMenu}
+                  className="block border-b border-slate-100 py-4 text-base font-semibold text-slate-800 transition-colors hover:pl-2 hover:text-brand-600 active:bg-slate-50"
+                >
+                  {t("all")}
+                </Link>
+              </li>
+
+              {/* ✅ SOUS-MENU CATÉGORIES (Accordéon) */}
+              <li className="border-b border-slate-100">
+                <button
+                  onClick={() => setIsCategoriesOpen(!isCategoriesOpen)}
+                  className="flex w-full items-center justify-between py-4 text-base font-semibold text-slate-800 transition-colors hover:text-brand-600 active:bg-slate-50"
+                >
+                  <span>Catégories</span>
+                  {isCategoriesOpen ? (
+                    <ChevronUp className="h-5 w-5 text-slate-400" />
+                  ) : (
+                    <ChevronDown className="h-5 w-5 text-slate-400" />
+                  )}
+                </button>
+
+                {/* Liste des catégories (affichée si ouvert) */}
+                {isCategoriesOpen && (
+                  <ul className="mb-2 rounded-md bg-slate-50 py-2 pl-4 pr-2">
+                    {categories.map((cat) => (
+                      <li key={cat.id}>
+                        <Link
+                          href={`/shop?category=${cat.slug}`}
+                          onClick={closeMenu}
+                          className="block border-l-2 border-transparent py-3 pl-2 text-sm font-medium text-slate-600 transition-colors hover:border-brand-600 hover:text-brand-600"
+                        >
+                          {cat.name[locale]}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+
+              {/* Liens fixes */}
+              <li>
+                <Link
+                  href="/about"
+                  onClick={closeMenu}
+                  className="block border-b border-slate-100 py-4 text-base font-semibold text-slate-800 transition-colors hover:pl-2 hover:text-brand-600 active:bg-slate-50"
+                >
+                  {t("about")}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/contact"
+                  onClick={closeMenu}
+                  className="block border-b border-slate-100 py-4 text-base font-semibold text-slate-800 transition-colors hover:pl-2 hover:text-brand-600 active:bg-slate-50"
+                >
+                  {t("contact")}
+                </Link>
+              </li>
             </ul>
           </nav>
 
@@ -115,9 +169,9 @@ export default function MobileMenu() {
               <button
                 onClick={() => handleLangChange("fr")}
                 className={`uppercase transition ${
-                  routing.locales.includes("fr")
+                  pathname.includes("/fr")
                     ? "text-brand-600"
-                    : "text-slate-500"
+                    : "text-slate-500 hover:text-brand-600"
                 }`}
               >
                 FR
@@ -125,7 +179,11 @@ export default function MobileMenu() {
               <span className="text-slate-300">|</span>
               <button
                 onClick={() => handleLangChange("en")}
-                className="uppercase text-slate-500 hover:text-brand-600"
+                className={`uppercase transition ${
+                  pathname.includes("/en")
+                    ? "text-brand-600"
+                    : "text-slate-500 hover:text-brand-600"
+                }`}
               >
                 EN
               </button>

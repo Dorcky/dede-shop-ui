@@ -13,25 +13,34 @@ import type { Order } from "@/types";
 import OrderDetailModal from "@/components/order/OrderDetailModal";
 import AccountSidebar from "@/components/account/AccountSidebar";
 import AddressManager from "@/components/account/AddressManager";
-import ReturnsForm from "@/components/returns/ReturnsForm"; // ✅ AJOUT
+import ReturnsForm from "@/components/returns/ReturnsForm";
 import SecurityManager from "@/components/account/SecurityManager";
 import FavoritesList from "@/components/account/FavoritesList";
 
 type TabType = "orders" | "addresses" | "returns" | "security" | "favorites";
 
+const tabs = [
+  { id: "orders", icon: "📦", labelKey: "myOrders" },
+  { id: "addresses", icon: "📍", labelKey: "myAddresses" },
+  { id: "returns", icon: "↩️", labelKey: "returns" },
+  { id: "favorites", icon: "❤️", labelKey: "favorites" },
+  { id: "security", icon: "🔒", labelKey: "loginSecurity" }
+];
+
 export default function AccountPage() {
   const t = useTranslations("account");
-  const locale = useLocale();
+  const locale = useLocale() as "fr" | "en";
   const tReview = useTranslations("review");
   const tContact = useTranslations("contact");
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const { user, logout, openAuthModal } = useAuth();
+  const { user, logout } = useAuth();
   const { orders } = useOrders();
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [yearFilter, setYearFilter] = useState("all");
+
   const activeTab = (searchParams.get("tab") as TabType) || "orders";
 
   const setActiveTab = (tab: TabType) => {
@@ -58,14 +67,11 @@ export default function AccountPage() {
     return map[status] || status;
   };
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString(undefined, {
-      year: "numeric",
-      month: "long",
-      day: "numeric"
-    });
-  };
-
+  const formatDate = (dateString: string) =>
+    new Date(dateString).toLocaleDateString(
+      locale === "fr" ? "fr-FR" : "en-US",
+      { year: "numeric", month: "long", day: "numeric" }
+    );
   const getReturnDate = (dateString: string) => {
     const date = new Date(dateString);
     date.setMonth(date.getMonth() + 1);
@@ -75,14 +81,14 @@ export default function AccountPage() {
   const userOrders = orders.filter(
     (o) => o.userId === user?.id || o.customerEmail === user?.email
   );
-
   const filteredOrders = userOrders.filter((order) => {
     const matchesSearch =
       order.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
       order.items.some((i) =>
-        i.productName.fr.toLowerCase().includes(searchQuery.toLowerCase())
-      ); // Fallback fr pour simplifier la recherche
+        i.productName[locale].toLowerCase().includes(searchQuery.toLowerCase())
+      );
     const orderYear = new Date(order.createdAt).getFullYear().toString();
+    // ✅ Correction : comparer yearFilter avec orderYear
     return matchesSearch && (yearFilter === "all" || orderYear === yearFilter);
   });
 
@@ -103,16 +109,10 @@ export default function AccountPage() {
             </p>
             <div className="mt-6 flex flex-wrap gap-3 sm:mt-8">
               <button
-                onClick={() => openAuthModal("login")}
+                onClick={() => (window.location.href = "/account?login=true")}
                 className="rounded-none bg-slate-900 px-5 py-3 text-xs font-bold uppercase tracking-wider text-white transition hover:bg-brand-700 sm:px-6"
               >
                 {t("login")}
-              </button>
-              <button
-                onClick={() => openAuthModal("register")}
-                className="rounded-none border border-slate-300 px-5 py-3 text-xs font-bold uppercase tracking-wider transition hover:border-slate-900 sm:px-6"
-              >
-                {t("createAccount")}
               </button>
             </div>
           </div>
@@ -122,169 +122,165 @@ export default function AccountPage() {
   }
 
   return (
-    <section className="mx-auto max-w-7xl px-4 py-8 lg:px-8 lg:py-12">
-      <div className="grid gap-8 lg:grid-cols-[.7fr_1.3fr] lg:gap-12">
-        {/* ✅ SIDEBAR SÉPARÉE */}
-        <AccountSidebar
-          user={user}
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-          handleLogout={handleLogout}
-        />
+    <section className="mx-auto max-w-7xl px-4 py-6 lg:px-8 lg:py-12">
+      {/* Navigation mobile par onglets */}
+      <div className="mb-6 lg:hidden">
+        <div className="no-scrollbar flex gap-2 overflow-x-auto pb-2">
+          {tabs.map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id as TabType)}
+              className={`flex shrink-0 items-center gap-2 whitespace-nowrap rounded-none border px-4 py-2.5 text-xs font-bold uppercase tracking-wider transition ${
+                activeTab === tab.id
+                  ? "border-brand-600 bg-brand-600 text-white"
+                  : "border-slate-300 bg-white text-slate-700 hover:border-slate-400"
+              }`}
+            >
+              <span>{tab.icon}</span>
+              {t(tab.labelKey)}
+            </button>
+          ))}
+        </div>
+      </div>
 
-        {/* ✅ CONTENU PRINCIPAL DYNAMIQUE */}
+      <div className="grid gap-8 lg:grid-cols-[.7fr_1.3fr] lg:gap-12">
+        {/* Sidebar Desktop */}
+        <div className="hidden lg:block">
+          <AccountSidebar
+            user={user}
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+            handleLogout={handleLogout}
+          />
+        </div>
+
+        {/* Contenu principal */}
         <div>
-          {activeTab === "orders" ? (
+          {activeTab === "orders" && (
             <>
-              <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-                <h2 className="text-2xl font-black text-slate-900">
+              {/* Recherche et Filtre */}
+              <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <h2 className="text-xl font-black text-slate-900 sm:text-2xl">
                   {t("myOrders")}
                 </h2>
-                <div className="relative flex-1 sm:max-w-md">
-                  <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
-                    <Search className="h-4 w-4" />
-                  </span>
-                  <input
-                    type="search"
-                    placeholder="Rechercher..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full rounded-none border border-slate-300 py-2 pl-10 pr-3 text-sm transition focus:border-brand-600 focus:outline-none"
-                  />
+                <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
+                  <div className="relative flex-1 sm:max-w-xs">
+                    <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                      <Search className="h-4 w-4" />
+                    </span>
+                    <input
+                      type="search"
+                      placeholder="Rechercher..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="w-full rounded-none border border-slate-300 py-2 pl-10 pr-3 text-sm transition focus:border-brand-600 focus:outline-none"
+                    />
+                  </div>
+                  <select
+                    value={yearFilter}
+                    onChange={(e) => setYearFilter(e.target.value)}
+                    className="w-full rounded-none border border-slate-300 bg-slate-50 px-3 py-2 text-sm focus:border-brand-600 focus:outline-none sm:w-auto"
+                  >
+                    <option value="all">
+                      {t("allYears") || "Toutes les années"}
+                    </option>
+                    <option value="2026">2026</option>
+                    <option value="2025">2025</option>
+                  </select>
                 </div>
               </div>
 
-              <div className="mb-6 flex items-center gap-2 text-sm">
-                <span className="font-bold text-slate-900">
-                  {filteredOrders.length} commande(s)
-                </span>
-                <select
-                  value={yearFilter}
-                  onChange={(e) => setYearFilter(e.target.value)}
-                  className="rounded-none border border-slate-300 bg-slate-50 px-3 py-1 text-sm focus:border-brand-600 focus:outline-none"
-                >
-                  <option value="all">Toutes les années</option>
-                  <option value="2026">2026</option>
-                  <option value="2025">2025</option>
-                </select>
-              </div>
-
               {filteredOrders.length > 0 ? (
-                <div className="space-y-6">
+                <div className="space-y-4">
                   {filteredOrders.map((order) => (
                     <div
                       key={order.id}
-                      className="overflow-hidden rounded-none border border-slate-300 bg-white shadow-sm"
+                      className="overflow-hidden border border-slate-300 bg-white shadow-sm"
                     >
-                      <div className="grid grid-cols-2 gap-4 border-b border-slate-300 bg-slate-50 p-4 text-xs text-slate-700 md:grid-cols-4">
-                        <div>
-                          <span className="mb-1 block text-[10px] font-bold uppercase text-slate-500">
-                            Commandée le
-                          </span>
-                          <span className="font-medium text-slate-900">
-                            {formatDate(order.createdAt)}
-                          </span>
-                        </div>
-                        <div>
-                          <span className="mb-1 block text-[10px] font-bold uppercase text-slate-500">
-                            Total
-                          </span>
-                          <span className="font-bold text-slate-900">
-                            {order.total.toFixed(2)} $
-                          </span>
-                        </div>
-                        <div>
-                          <span className="mb-1 block text-[10px] font-bold uppercase text-slate-500">
-                            Expédié à
-                          </span>
-                          <span className="font-medium text-slate-900">
-                            {order.customerName}
-                          </span>
-                        </div>
-                        <div className="text-right md:text-right">
-                          <span className="mb-1 block text-[10px] font-bold uppercase text-slate-500">
-                            N° de commande
-                          </span>
-                          <span className="font-medium text-slate-900">
-                            {order.id}
-                          </span>
-                          <div className="mt-1">
-                            <button
-                              onClick={() => setSelectedOrder(order)}
-                              className="rounded-none text-brand-600 hover:underline"
-                            >
-                              Voir les détails
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="p-4">
-                        <p className="mb-4 text-lg font-bold text-slate-900">
+                      {/* En-tête commande : statut + détails */}
+                      <div className="flex items-center justify-between border-b border-slate-200 bg-slate-50 p-4">
+                        <span className="inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-bold text-emerald-700">
                           {getStatusLabel(order.status)}
-                        </p>
+                        </span>
+                        <button
+                          onClick={() => setSelectedOrder(order)}
+                          className="text-xs font-bold text-brand-600 hover:underline"
+                        >
+                          Détails commande →
+                        </button>
+                      </div>
+
+                      {/* Corps commande : version horizontale moderne */}
+                      <div className="p-4">
                         {order.items.map((item, idx) => (
                           <div
                             key={idx}
-                            className={`flex flex-col gap-4 md:flex-row md:items-start ${idx > 0 ? "border-t border-slate-200 pt-6" : ""}`}
+                            className={`flex flex-col gap-3 ${idx > 0 ? "mt-4 border-t border-slate-100 pt-4" : ""}`}
                           >
-                            <div className="flex flex-1 gap-4">
-                              <div className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-none border border-slate-200 bg-slate-50">
+                            {/* Alignement horizontal : image miniature à gauche */}
+                            <div className="flex items-start gap-3">
+                              <div className="relative h-16 w-16 shrink-0 overflow-hidden border border-slate-200 bg-slate-50">
                                 {item.image ? (
                                   <Image
                                     src={item.image}
-                                    alt={item.productName.fr}
-                                    width={80}
-                                    height={80}
-                                    className="h-full w-full rounded-none object-cover"
+                                    alt={item.productName[locale]}
+                                    fill
+                                    className="object-cover"
                                   />
                                 ) : (
-                                  <Package className="h-8 w-8 text-slate-300" />
+                                  <div className="flex h-full items-center justify-center">
+                                    <Package className="h-6 w-6 text-slate-300" />
+                                  </div>
                                 )}
                               </div>
-                              <div className="flex-1 space-y-2">
-                                <p className="text-sm font-medium text-slate-900">
-                                  <Link
-                                    href={`/product/${item.productSlug}`}
-                                    className="text-brand-600 hover:underline"
-                                  >
-                                    {item.productName.fr}
-                                  </Link>
+
+                              <div className="min-w-0 flex-1 text-left">
+                                <Link
+                                  href={`/product/${item.productSlug}`}
+                                  className="line-clamp-1 text-sm font-bold text-slate-900 hover:text-brand-600"
+                                >
+                                  {item.productName[locale]}
+                                </Link>
+                                <p className="mt-0.5 text-xs text-slate-500">
+                                  {item.variantName} • Qté : {item.quantity}
                                 </p>
-                                <p className="text-xs text-slate-500">
-                                  Variante : {item.variantName} | Qté :{" "}
-                                  {item.quantity}
-                                </p>
-                                <p className="text-xs text-slate-500">
-                                  Retour éligible jusqu&apos;au{" "}
+                                <p className="mt-1 text-[11px] text-slate-400">
+                                  Retour jusqu&apos;au{" "}
                                   {getReturnDate(order.createdAt)}
                                 </p>
                               </div>
                             </div>
-                            <div className="flex w-full flex-col gap-2 text-sm md:w-56 md:shrink-0">
+
+                            {/* Boutons hiérarchisés : principal, secondaire, liens */}
+                            <div className="mt-1 flex flex-wrap gap-2">
                               <button
                                 onClick={() => setSelectedOrder(order)}
-                                className="w-full rounded-none border border-slate-300 bg-white px-3 py-2 text-xs font-medium transition hover:bg-slate-50"
+                                className="flex-1 bg-slate-900 px-3 py-2 text-center text-xs font-bold text-white transition hover:bg-slate-800"
                               >
-                                {t("tracking") || "Suivre le colis"}
+                                {t("tracking") || "Suivre"}
                               </button>
+
                               <Link
                                 href={`/returns?orderId=${order.id}&productId=${item.productId}`}
-                                className="w-full rounded-none border border-slate-300 bg-white px-3 py-2 text-center text-xs font-medium transition hover:bg-slate-50"
+                                className="flex-1 border border-slate-200 bg-white px-3 py-2 text-center text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
                               >
                                 {t("returnRequest") || "Retourner"}
                               </Link>
-                              <Link
-                                href={`/product/${item.productSlug}#reviews`}
-                                className="w-full rounded-none border border-slate-300 bg-white px-3 py-2 text-center text-xs font-medium transition hover:bg-slate-50"
-                              >
-                                {tReview("leave") || "Écrire un avis"}
-                              </Link>
-                              <Link
-                                href="/contact"
-                                className="w-full rounded-none border border-slate-300 bg-white px-3 py-2 text-center text-xs font-medium transition hover:bg-slate-50"
-                              >
-                                {tContact("title") || "Aide"}
-                              </Link>
+
+                              <div className="flex w-full justify-between pt-1 text-[11px]">
+                                <Link
+                                  href={`/product/${item.productSlug}#reviews`}
+                                  className="font-medium text-slate-500 hover:text-slate-900 hover:underline"
+                                >
+                                  ★ {tReview("leave") || "Laisser un avis"}
+                                </Link>
+                                <Link
+                                  href="/contact"
+                                  className="font-medium text-slate-500 hover:text-slate-900 hover:underline"
+                                >
+                                  {tContact("title") || "Aide"}
+                                </Link>
+                              </div>
                             </div>
                           </div>
                         ))}
@@ -293,7 +289,7 @@ export default function AccountPage() {
                   ))}
                 </div>
               ) : (
-                <div className="flex flex-col items-center justify-center rounded-none border border-dashed border-slate-300 bg-slate-50 py-16 text-center">
+                <div className="flex flex-col items-center justify-center border border-dashed border-slate-300 bg-slate-50 py-16 text-center">
                   <ShoppingBag className="h-12 w-12 text-slate-300" />
                   <p className="mt-4 font-bold text-slate-900">
                     {t("noOrders")}
@@ -307,17 +303,13 @@ export default function AccountPage() {
                 </div>
               )}
             </>
-          ) : activeTab === "addresses" ? (
-            // ✅ RENDU DU GESTIONNAIRE D'ADRESSES
-            <AddressManager />
-          ) : activeTab === "returns" ? (
-            // ✅ RENDU DU FORMULAIRE DE RETOUR (avec la locale actuelle)
-            <ReturnsForm locale={locale as "fr" | "en"} />
-          ) : activeTab === "favorites" ? (
-            <FavoritesList />
-          ) : (
-            <SecurityManager /> // ✅ NOUVEAU RENDU
           )}
+
+          {/* Rendu des autres onglets */}
+          {activeTab === "addresses" && <AddressManager />}
+          {activeTab === "returns" && <ReturnsForm locale={locale} />}
+          {activeTab === "favorites" && <FavoritesList />}
+          {activeTab === "security" && <SecurityManager />}
         </div>
       </div>
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -9,62 +9,60 @@ import { useRouter } from "@/i18n/navigation";
 import { toast } from "sonner";
 import { useCart } from "@/lib/store/useCart";
 import { useOrders } from "@/lib/store/useOrders";
-import { useSettings } from "@/lib/store/useSettings";
 import { useAuth } from "@/lib/store/useAuth";
-import { Order, OrderItem } from "@/types";
+import { useAddresses } from "@/lib/store/useAddresses";
+import { Order, OrderItem, TaxCalculation } from "@/types";
 import { Lock, Info } from "lucide-react";
 
-export default function CheckoutForm() {
+interface CheckoutFormProps {
+  onTaxCalculated: (taxData: TaxCalculation) => void;
+}
+
+export default function CheckoutForm({ onTaxCalculated }: CheckoutFormProps) {
   const t = useTranslations("checkout");
   const router = useRouter();
-  const { items, getSubtotal, getShippingCost, clearCart, hasOnlyDigital } =
-    useCart();
+  const { items, getSubtotal, clearCart, hasOnlyDigital } = useCart();
   const addOrder = useOrders((state) => state.addOrder);
-  const settings = useSettings();
   const { user, openAuthModal } = useAuth();
+  const { addresses } = useAddresses();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [taxData, setTaxData] = useState<TaxCalculation | null>(null); // ✅ état local pour afficher le total
 
   const onlyDigital = hasOnlyDigital();
   const subtotal = getSubtotal();
-  const shipping = getShippingCost(
-    settings.shipping.freeThreshold,
-    settings.shipping.localCost
-  );
-  const total = subtotal + shipping;
 
-  // ✅ Schéma unifié sans 'any'
+  const defaultAddr = addresses.find((a) => a.isDefault) || addresses[0];
+
   const schema = z
     .object({
       firstName: z.string().min(2, "Minimum 2 caractères"),
       lastName: z.string().min(2, "Minimum 2 caractères"),
       email: z.string().email("Email invalide"),
       phone: z.string().optional(),
-      card: z.string().min(12, "Numéro de carte invalide"),
-      expiry: z.string().regex(/^(0[1-9]|1[0-2])\/\d{2}$/, "Format MM/AA"),
-      cvv: z.string().regex(/^\d{3,4}$/, "CVV invalide"),
-      terms: z.boolean().refine((value) => value === true, {
-        message: "Vous devez accepter les conditions"
-      }),
       address: z.string().min(5, "Adresse trop courte").optional(),
       city: z.string().min(2, "Ville requise").optional(),
       province: z.string().min(2, "Province requise").optional(),
       postal: z.string().min(3, "Code postal requis").optional(),
-      country: z.string().min(2, "Pays requis").optional()
+      country: z.string().min(2, "Pays requis"),
+      shippingMethod: z.string(),
+      card: z.string().min(12, "Numéro de carte invalide"),
+      expiry: z.string().regex(/^(0[1-9]|1[0-2])\/\d{2}$/, "Format MM/AA"),
+      cvv: z.string().regex(/^\d{3,4}$/, "CVV invalide"),
+      terms: z
+        .boolean()
+        .refine((value) => value === true, {
+          message: "Vous devez accepter les conditions"
+        })
     })
     .refine(
       (data) => {
         if (onlyDigital) return true;
         return (
-          !!data.address &&
-          !!data.city &&
-          !!data.province &&
-          !!data.postal &&
-          !!data.country
+          !!data.address && !!data.city && !!data.province && !!data.postal
         );
       },
       {
-        message:
-          "L'adresse de livraison est requise pour les produits physiques",
+        message: "L'adresse est requise pour les produits physiques",
         path: ["address"]
       }
     );
@@ -74,17 +72,83 @@ export default function CheckoutForm() {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors }
-    // ✅ 'reset' a été supprimé d'ici
   } = useForm<FormData>({
-    resolver: zodResolver(schema)
+    resolver: zodResolver(schema),
+    defaultValues: {
+      firstName:
+        user?.name?.split(" ")[0] || defaultAddr?.fullName?.split(" ")[0] || "",
+      lastName:
+        user?.name?.split(" ").slice(1).join(" ") ||
+        defaultAddr?.fullName?.split(" ").slice(1).join(" ") ||
+        "",
+      email: user?.email || "",
+      phone: defaultAddr?.phone || "",
+      address: defaultAddr?.addressLine1 || "",
+      city: defaultAddr?.city || "",
+      province: defaultAddr?.province || "QC",
+      postal: defaultAddr?.postalCode || "",
+      country: defaultAddr?.country || "Canada",
+      shippingMethod: "standard"
+    }
   });
+
+  const watchedCountry = watch("country");
+  const watchedProvince = watch("province");
+  const watchedShipping = watch("shippingMethod");
+
+  // ✅ Calcul des taxes et mise à jour de l'état local
+  useEffect(() => {
+    if (!onlyDigital && watchedCountry && watchedProvince) {
+      const shippingCost = watchedShipping === "express" ? 15.0 : 0;
+
+      fetch("/api/taxes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          subtotal,
+          shipping: shippingCost,
+          country: watchedCountry,
+          province: watchedProvince
+        })
+      })
+        .then(async (res) => {
+          if (!res.ok) throw new Error("Erreur API");
+          const data = await res.json();
+          setTaxData(data); // ✅ mise à jour locale
+          onTaxCalculated(data); // ✅ propagation au parent
+        })
+        .catch((err) => {
+          console.error("❌ Échec du calcul des taxes :", err);
+        });
+    }
+  }, [
+    watchedCountry,
+    watchedProvince,
+    watchedShipping,
+    subtotal,
+    onlyDigital,
+    onTaxCalculated
+  ]);
 
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
-
     try {
       await new Promise((resolve) => setTimeout(resolve, 1200));
+
+      const shippingCost = data.shippingMethod === "express" ? 15.0 : 0;
+      const res = await fetch("/api/taxes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          subtotal,
+          shipping: shippingCost,
+          country: data.country,
+          province: data.province
+        })
+      });
+      const taxDataRes: TaxCalculation = await res.json();
 
       const orderItems: OrderItem[] = items.map((item) => ({
         productId: item.productId,
@@ -99,10 +163,10 @@ export default function CheckoutForm() {
 
       const newOrder: Order = {
         id: `DNK-${Math.floor(1000 + Math.random() * 8999)}`,
-        userId: null,
+        userId: user?.id || null,
         status: "CONFIRMED",
-        total,
-        shippingCost: shipping,
+        total: taxDataRes.grandTotal,
+        shippingCost: shippingCost,
         discountAmount: 0,
         customerName: `${data.firstName} ${data.lastName}`,
         customerEmail: data.email,
@@ -119,23 +183,7 @@ export default function CheckoutForm() {
             done: true,
             date: new Date().toLocaleDateString(),
             status: "CONFIRMED",
-            location: "En attente de traitement",
-            eta: null
-          },
-          {
-            label: { fr: "Traitement", en: "Processing" },
-            done: false,
-            date: "",
-            status: "PREPARING",
-            location: null,
-            eta: null
-          },
-          {
-            label: { fr: "Expédiée / Livrée", en: "Shipped / Delivered" },
-            done: false,
-            date: "",
-            status: "SHIPPED",
-            location: null,
+            location: "En attente",
             eta: null
           }
         ],
@@ -148,42 +196,46 @@ export default function CheckoutForm() {
       toast.success(t("orderConfirmed", { id: newOrder.id }));
       router.push("/account");
     } catch {
-      // ✅ Remplacé 'error' par '_error'
       toast.error("Une erreur est survenue. Veuillez réessayer.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  const inputClass =
+    "w-full rounded-none border border-slate-300 px-4 py-3 text-sm transition focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-600/20";
+  const labelClass =
+    "mb-1 block text-xs font-bold uppercase tracking-wider text-slate-700";
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="grid gap-6 sm:gap-8">
-      {/* Informations de contact */}
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="grid gap-6 pb-24 sm:gap-8 lg:pb-0"
+    >
+      {/* Contact Info */}
       <div>
-        <div className="mb-4 flex flex-col gap-2 sm:mb-5 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mb-4 sm:mb-5">
           <h2 className="text-xl font-black text-slate-900">
             {t("contactInfo")}
           </h2>
           {user ? (
-            <span className="text-sm text-slate-500">
+            <p className="mt-1 text-sm text-slate-500">
               {t("loggedInAs")} <strong>{user.email}</strong>
-            </span>
+            </p>
           ) : (
             <button
               type="button"
               onClick={() => openAuthModal("login")}
-              className="text-left text-sm font-bold text-brand-600 hover:underline sm:text-right"
+              className="mt-1 text-left text-sm font-bold text-brand-600 hover:underline"
             >
               {t("login")}
             </button>
           )}
         </div>
-        <div className="grid gap-3 sm:grid-cols-2 sm:gap-4">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
           <div>
-            <input
-              {...register("firstName")}
-              placeholder={t("firstName")}
-              className="w-full border border-slate-300 px-4 py-3 text-sm transition focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-600/20"
-            />
+            <label className={labelClass}>{t("firstName")}</label>
+            <input {...register("firstName")} className={inputClass} />
             {errors.firstName && (
               <p className="mt-1 text-xs text-red-600">
                 {errors.firstName.message}
@@ -191,11 +243,8 @@ export default function CheckoutForm() {
             )}
           </div>
           <div>
-            <input
-              {...register("lastName")}
-              placeholder={t("lastName")}
-              className="w-full border border-slate-300 px-4 py-3 text-sm transition focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-600/20"
-            />
+            <label className={labelClass}>{t("lastName")}</label>
+            <input {...register("lastName")} className={inputClass} />
             {errors.lastName && (
               <p className="mt-1 text-xs text-red-600">
                 {errors.lastName.message}
@@ -203,12 +252,8 @@ export default function CheckoutForm() {
             )}
           </div>
           <div className="sm:col-span-2">
-            <input
-              {...register("email")}
-              type="email"
-              placeholder={t("email")}
-              className="w-full border border-slate-300 px-4 py-3 text-sm transition focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-600/20"
-            />
+            <label className={labelClass}>{t("email")}</label>
+            <input {...register("email")} type="email" className={inputClass} />
             {errors.email && (
               <p className="mt-1 text-xs text-red-600">
                 {errors.email.message}
@@ -216,33 +261,27 @@ export default function CheckoutForm() {
             )}
           </div>
           <div className="sm:col-span-2">
-            <input
-              {...register("phone")}
-              placeholder={t("phone")}
-              className="w-full border border-slate-300 px-4 py-3 text-sm transition focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-600/20"
-            />
+            <label className={labelClass}>
+              {t("phone")}{" "}
+              <span className="font-normal normal-case text-slate-400">
+                (optionnel)
+              </span>
+            </label>
+            <input {...register("phone")} className={inputClass} />
           </div>
         </div>
       </div>
 
-      {/* Adresse de livraison (masquée si 100% numérique) */}
-      {onlyDigital ? (
-        <div className="flex items-start gap-3 rounded-lg border border-brand-200 bg-brand-50 p-4 text-sm text-brand-800">
-          <Info className="mt-0.5 h-5 w-5 shrink-0" />
-          <p>{t("noAddressNeeded")}</p>
-        </div>
-      ) : (
+      {/* Shipping Address & Method */}
+      {!onlyDigital ? (
         <div>
           <h2 className="mb-4 text-xl font-black text-slate-900 sm:mb-5">
             {t("shippingAddress")}
           </h2>
-          <div className="grid gap-3 sm:grid-cols-2 sm:gap-4">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
             <div className="sm:col-span-2">
-              <input
-                {...register("address")}
-                placeholder={t("address")}
-                className="w-full border border-slate-300 px-4 py-3 text-sm transition focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-600/20"
-              />
+              <label className={labelClass}>{t("address")}</label>
+              <input {...register("address")} className={inputClass} />
               {errors.address && (
                 <p className="mt-1 text-xs text-red-600">
                   {errors.address.message}
@@ -250,11 +289,8 @@ export default function CheckoutForm() {
               )}
             </div>
             <div>
-              <input
-                {...register("city")}
-                placeholder={t("city")}
-                className="w-full border border-slate-300 px-4 py-3 text-sm transition focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-600/20"
-              />
+              <label className={labelClass}>{t("city")}</label>
+              <input {...register("city")} className={inputClass} />
               {errors.city && (
                 <p className="mt-1 text-xs text-red-600">
                   {errors.city.message}
@@ -262,11 +298,8 @@ export default function CheckoutForm() {
               )}
             </div>
             <div>
-              <input
-                {...register("province")}
-                placeholder={t("province")}
-                className="w-full border border-slate-300 px-4 py-3 text-sm transition focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-600/20"
-              />
+              <label className={labelClass}>{t("province")}</label>
+              <input {...register("province")} className={inputClass} />
               {errors.province && (
                 <p className="mt-1 text-xs text-red-600">
                   {errors.province.message}
@@ -274,11 +307,8 @@ export default function CheckoutForm() {
               )}
             </div>
             <div>
-              <input
-                {...register("postal")}
-                placeholder={t("postal")}
-                className="w-full border border-slate-300 px-4 py-3 text-sm transition focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-600/20"
-              />
+              <label className={labelClass}>{t("postal")}</label>
+              <input {...register("postal")} className={inputClass} />
               {errors.postal && (
                 <p className="mt-1 text-xs text-red-600">
                   {errors.postal.message}
@@ -286,43 +316,86 @@ export default function CheckoutForm() {
               )}
             </div>
             <div>
-              <select
-                {...register("country")}
-                className="w-full border border-slate-300 px-4 py-3 text-sm transition focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-600/20"
-              >
+              <label className={labelClass}>{t("country")}</label>
+              <select {...register("country")} className={inputClass}>
                 <option value="Canada">Canada</option>
                 <option value="États-Unis">États-Unis</option>
                 <option value="France">France</option>
-                <option value="Autre">Autre</option>
               </select>
+            </div>
+
+            <div className="mt-2 sm:col-span-2">
+              <label className={labelClass}>{t("shippingMethod")}</label>
+              <div className="grid grid-cols-2 gap-3">
+                <label
+                  className={`flex cursor-pointer items-center gap-3 border p-3 transition ${watchedShipping === "standard" ? "border-brand-600 bg-brand-50" : "border-slate-300 hover:bg-slate-50"}`}
+                >
+                  <input
+                    type="radio"
+                    value="standard"
+                    {...register("shippingMethod")}
+                    className="accent-brand-600"
+                  />
+                  <div>
+                    <p className="text-sm font-bold text-slate-900">
+                      {t("standard")}
+                    </p>
+                    <p className="text-xs text-slate-500">
+                      {t("standardDesc")}
+                    </p>
+                  </div>
+                </label>
+                <label
+                  className={`flex cursor-pointer items-center gap-3 border p-3 transition ${watchedShipping === "express" ? "border-brand-600 bg-brand-50" : "border-slate-300 hover:bg-slate-50"}`}
+                >
+                  <input
+                    type="radio"
+                    value="express"
+                    {...register("shippingMethod")}
+                    className="accent-brand-600"
+                  />
+                  <div>
+                    <p className="text-sm font-bold text-slate-900">
+                      {t("express")}
+                    </p>
+                    <p className="text-xs text-slate-500">{t("expressDesc")}</p>
+                  </div>
+                </label>
+              </div>
             </div>
           </div>
         </div>
+      ) : (
+        <div className="flex items-start gap-3 border border-brand-200 bg-brand-50 p-4 text-sm text-brand-800">
+          <Info className="mt-0.5 h-5 w-5 shrink-0" />
+          <p>{t("noAddressNeeded")}</p>
+        </div>
       )}
 
-      {/* Paiement */}
+      {/* Payment */}
       <div>
         <h2 className="mb-4 text-xl font-black text-slate-900 sm:mb-5">
           {t("payment")}
         </h2>
-        <div className="grid gap-3 sm:gap-4">
+        <div className="grid grid-cols-1 gap-3 sm:gap-4">
           <div>
+            <label className={labelClass}>{t("cardNumber")}</label>
             <input
               {...register("card")}
               inputMode="numeric"
-              placeholder={t("cardNumber")}
-              className="w-full border border-slate-300 px-4 py-3 text-sm transition focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-600/20"
+              className={inputClass}
             />
             {errors.card && (
               <p className="mt-1 text-xs text-red-600">{errors.card.message}</p>
             )}
           </div>
-          <div className="grid gap-3 sm:grid-cols-2 sm:gap-4">
+          <div className="grid grid-cols-2 gap-3 sm:gap-4">
             <div>
+              <label className={labelClass}>{t("expiry")}</label>
               <input
                 {...register("expiry")}
-                placeholder={t("expiry")}
-                className="w-full border border-slate-300 px-4 py-3 text-sm transition focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-600/20"
+                placeholder="MM/AA"
+                className={inputClass}
               />
               {errors.expiry && (
                 <p className="mt-1 text-xs text-red-600">
@@ -331,10 +404,12 @@ export default function CheckoutForm() {
               )}
             </div>
             <div>
+              <label className={labelClass}>{t("cvv")}</label>
               <input
                 {...register("cvv")}
-                placeholder={t("cvv")}
-                className="w-full border border-slate-300 px-4 py-3 text-sm transition focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-600/20"
+                inputMode="numeric"
+                placeholder="123"
+                className={inputClass}
               />
               {errors.cvv && (
                 <p className="mt-1 text-xs text-red-600">
@@ -350,29 +425,33 @@ export default function CheckoutForm() {
         </p>
       </div>
 
-      {/* Conditions */}
-      <label className="flex items-start gap-3 text-sm text-slate-600">
+      {/* Terms */}
+      <label className="-mx-2 flex cursor-pointer items-start gap-3 p-2">
         <input
           type="checkbox"
           {...register("terms")}
-          className="mt-1 h-4 w-4 shrink-0 accent-brand-600"
+          className="mt-1 h-5 w-5 shrink-0 accent-brand-600"
         />
-        <span>{t("terms")}</span>
+        <span className="text-sm leading-5 text-slate-700">{t("terms")}</span>
       </label>
       {errors.terms && (
-        <p className="-mt-2 text-xs text-red-600">{errors.terms.message}</p>
+        <p className="-mt-2 px-2 text-xs text-red-600">
+          {errors.terms.message}
+        </p>
       )}
 
-      {/* Bouton confirmer */}
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="bg-brand-600 py-3 text-xs font-bold uppercase tracking-wider text-white transition hover:bg-brand-700 disabled:cursor-not-allowed disabled:opacity-50 sm:py-4"
-      >
-        {isSubmitting
-          ? t("processing")
-          : `${t("confirm")} — ${total.toFixed(2)} $`}
-      </button>
+      {/* Submit Button avec affichage du total TTC */}
+      <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-slate-200 bg-white p-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] lg:static lg:border-0 lg:p-0 lg:shadow-none">
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className="w-full bg-brand-600 py-4 text-sm font-bold uppercase tracking-wider text-white transition hover:bg-brand-700 disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          {isSubmitting
+            ? t("processing")
+            : `${t("confirm")} — ${taxData?.grandTotal?.toFixed(2) ?? "..."} $`}
+        </button>
+      </div>
     </form>
   );
 }

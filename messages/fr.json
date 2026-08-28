@@ -133,6 +133,11 @@
     "loggedInAs": "Connecté comme",
     "login": "Se connecter",
     "shippingAddress": "Adresse de livraison",
+    "shippingMethod": "Méthode de livraison",
+    "standard": "Standard",
+    "standardDesc": "5-7 jours · Gratuit",
+    "express": "Express",
+    "expressDesc": "1-2 jours · 15.00 $",
     "noAddressNeeded": "Aucune adresse de livraison requise pour les produits numériques.",
     "payment": "Paiement",
     "cardNumber": "Numéro de carte — simulation",
@@ -306,7 +311,8 @@
     "noFavoritesDesc": "Explorez la boutique et cliquez sur le cœur pour sauvegarder vos produits préférés.",
     "continueShopping": "Continuer mes achats",
     "addedToFavorites": "Ajouté aux favoris",
-    "removedFromFavorites": "Retiré des favoris"
+    "removedFromFavorites": "Retiré des favoris",
+    "allYears": "Toutes les années"
   },
 
   "about": {

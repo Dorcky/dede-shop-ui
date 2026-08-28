@@ -224,3 +224,25 @@ export interface Review {
   date: string;
   isApproved: boolean;
 }
+
+export interface TaxLine {
+  ruleId: string;
+  type: string;
+  rate: number;
+  amount: number;
+  priority: number;
+}
+
+export interface TaxCalculation {
+  subtotal: number;
+  shipping: number;
+  taxes: TaxLine[];
+  taxTotal: number;
+  grandTotal: number;
+  auditRecord: {
+    calculationId: string;
+    timestamp: string;
+    destination: string;
+    matchedRules: string[];
+  };
+}

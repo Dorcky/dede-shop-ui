@@ -1,0 +1,62 @@
+{
+  "rules": [
+    {
+      "id": "RULE_QC_001",
+      "country": "Canada",
+      "province": "QC",
+      "taxes": [
+        {
+          "ruleId": "RULE_001_V3",
+          "type": "GST (TPS)",
+          "rate": 0.05,
+          "priority": 50
+        },
+        {
+          "ruleId": "RULE_002_V5",
+          "type": "QST (TVQ)",
+          "rate": 0.09975,
+          "priority": 80
+        }
+      ]
+    },
+    {
+      "id": "RULE_ON_001",
+      "country": "Canada",
+      "province": "ON",
+      "taxes": [
+        {
+          "ruleId": "RULE_004_V1",
+          "type": "HST Ontario",
+          "rate": 0.13,
+          "priority": 70
+        }
+      ]
+    },
+    {
+      "id": "RULE_US_NY_01",
+      "country": "États-Unis",
+      "province": "NY",
+      "taxes": [
+        {
+          "ruleId": "RULE_US_NY_01",
+          "type": "NYS & NYC Combined Tax",
+          "rate": 0.08875,
+          "priority": 70
+        }
+      ]
+    },
+    {
+      "id": "RULE_FR_001",
+      "country": "France",
+      "province": "Any",
+      "taxes": [
+        {
+          "ruleId": "RULE_FR_TVA",
+          "type": "TVA Standard",
+          "rate": 0.2,
+          "priority": 60
+        }
+      ]
+    }
+  ]
+}

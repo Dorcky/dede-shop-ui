@@ -133,6 +133,11 @@
     "loggedInAs": "Logged in as",
     "login": "Login",
     "shippingAddress": "Shipping address",
+    "shippingMethod": "Shipping method",
+    "standard": "Standard",
+    "standardDesc": "5-7 days · Free",
+    "express": "Express",
+    "expressDesc": "1-2 days · $15.00",
     "noAddressNeeded": "No shipping address required for digital products.",
     "payment": "Payment",
     "cardNumber": "Card number — simulation",
@@ -306,7 +311,8 @@
     "noFavoritesDesc": "Explore the shop and click the heart to save your favorite products.",
     "continueShopping": "Continue shopping",
     "addedToFavorites": "Added to favorites",
-    "removedFromFavorites": "Removed from favorites"
+    "removedFromFavorites": "Removed from favorites",
+    "allYears": "All years"
   },
 
   "about": {

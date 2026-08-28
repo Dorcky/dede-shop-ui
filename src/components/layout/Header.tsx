@@ -2,12 +2,12 @@ import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
 import { getCategories, getSettings } from "@/lib/db";
 import HeaderClientActions from "./HeaderClientActions";
+import MobileSearchBar from "@/components/search/MobileSearchBar"; // client component
 import type { Locale } from "@/i18n/routing";
 
 export default async function Header({ locale }: { locale: Locale }) {
   const t = await getTranslations("nav");
 
-  // Récupération dynamique des données côté serveur
   const categories = await getCategories();
   const settings = await getSettings();
   const bannerText = settings.shipping.bannerText[locale as "fr" | "en"];
@@ -30,11 +30,10 @@ export default async function Header({ locale }: { locale: Locale }) {
 
         {/* Navigation Desktop */}
         <div className="hidden items-center gap-6 text-xs font-bold uppercase tracking-wider lg:flex">
-          {/* ✅ MENU DÉROULANT CATÉGORIES (Pure CSS avec group-hover) */}
+          {/* Menu déroulant Catégories */}
           <div className="group relative">
             <button className="flex items-center gap-1 text-slate-900 transition-colors hover:text-brand-600">
               Catégories
-              {/* Petite flèche qui tourne au survol */}
               <svg
                 className="h-4 w-4 transition-transform duration-200 group-hover:rotate-180"
                 fill="none"
@@ -50,7 +49,6 @@ export default async function Header({ locale }: { locale: Locale }) {
               </svg>
             </button>
 
-            {/* Liste déroulante */}
             <div className="invisible absolute left-0 top-full z-50 mt-2 w-48 origin-top-left translate-y-2 rounded-md bg-white opacity-0 shadow-lg ring-1 ring-black ring-opacity-5 transition-all duration-200 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
               <div className="py-1">
                 <Link
@@ -88,9 +86,14 @@ export default async function Header({ locale }: { locale: Locale }) {
           </Link>
         </div>
 
-        {/* Éléments interactifs (Panier, Compte, Recherche, Menu mobile) */}
+        {/* Éléments interactifs (Panier, Compte, Menu mobile) */}
         <HeaderClientActions locale={locale} />
       </nav>
+
+      {/* Barre de recherche mobile (client component) */}
+      <div className="block border-t border-slate-200 bg-slate-50/80 px-4 py-3 lg:hidden">
+        <MobileSearchBar />
+      </div>
     </header>
   );
 }

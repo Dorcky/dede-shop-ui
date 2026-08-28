@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="fr" class="h-full bg-slate-50">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DNK TECH — Checkout & Tax Audit</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          borderRadius: {
+            DEFAULT: '0px',
+            'none': '0px',
+            'sm': '0px',
+            'md': '0px',
+            'lg': '0px',
+            'xl': '0px',
+            '2xl': '0px',
+            '3xl': '0px',
+            'full': '0px',
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="h-full text-slate-900 antialiased font-sans">
+  <div class="min-h-full py-10 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-6xl mx-auto space-y-6">
+      
+      <!-- Top Brand Header -->
+      <div class="flex items-center justify-between border-b border-slate-300 pb-4">
+        <div>
+          <span class="text-xs font-black text-sky-600 tracking-wider">DNK TECH MARKETPLACE</span>
+          <h1 class="text-2xl font-black text-slate-900">Checkout & Summary</h1>
+        </div>
+        <div class="text-right text-xs text-slate-500">
+          <span>Vendu par: <strong>ABC Electronics Inc.</strong></span>
+        </div>
+      </div>
+
+      <!-- Main Layout (2 Columns) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- Left: Cart Items & Destination Form (7 cols) -->
+        <div class="lg:col-span-7 space-y-6">
+          
+          <!-- Shipping Address / Tax Destination Selection -->
+          <div class="bg-white border border-slate-300 p-5 shadow-sm space-y-4">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-slate-700">Destination de Livraison (Place of Supply)</h2>
+            
+            <div class="grid grid-cols-1 gap-3">
+              <div>
+                <label class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Sélectionner une destination de test</label>
+                <select id="destination-select" onchange="recalculateTaxes()" class="w-full border border-slate-300 px-3 py-2 text-sm bg-white font-semibold focus:outline-none focus:border-slate-900">
+                  <option value="QC">Montréal, Québec, Canada (TPS 5% + TVQ 9.975%)</option>
+                  <option value="ON">Toronto, Ontario, Canada (HST 13%)</option>
+                  <option value="NY">New York, NY, USA (NYS Sales Tax 8.875%)</option>
+                  <option value="EXEMPT">Montréal, Québec — Livre d'instruction (TVQ 0% Exemption)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item List -->
+          <div class="bg-white border border-slate-300 p-5 shadow-sm space-y-4">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-slate-700">Articles du panier</h2>
+            
+            <div class="divide-y divide-slate-200">
+              <!-- Product 1 -->
+              <div class="py-3 flex items-center justify-between">
+                <div class="space-y-1">
+                  <h3 class="text-sm font-bold text-slate-900">Smartphone X Pro</h3>
+                  <div class="flex items-center space-x-2 text-[11px] font-mono text-slate-500">
+                    <span>SKU: DNK-SPX-001</span>
+                    <span>|</span>
+                    <span class="bg-slate-100 px-1 border border-slate-300 text-slate-700">Tax Cat: ELECTRONICS</span>
+                  </div>
+                </div>
+                <div class="text-right">
+                  <span class="text-sm font-bold text-slate-900 block">899.00 CAD</span>
+                  <span class="text-xs text-slate-500">Qté: 1</span>
+                </div>
+              </div>
+
+              <!-- Product 2 -->
+              <div id="second-item-row" class="py-3 flex items-center justify-between">
+                <div class="space-y-1">
+                  <h3 id="second-item-title" class="text-sm font-bold text-slate-900">Étui Protecteur Silicone</h3>
+                  <div class="flex items-center space-x-2 text-[11px] font-mono text-slate-500">
+                    <span id="second-item-sku">SKU: DNK-CAS-002</span>
+                    <span>|</span>
+                    <span id="second-item-cat" class="bg-slate-100 px-1 border border-slate-300 text-slate-700">Tax Cat: ACCESSORIES</span>
+                  </div>
+                </div>
+                <div class="text-right">
+                  <span id="second-item-price" class="text-sm font-bold text-slate-900 block">35.00 CAD</span>
+                  <span class="text-xs text-slate-500">Qté: 1</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right: Order Summary Card (5 cols) -->
+        <div class="lg:col-span-5">
+          <div class="bg-white border border-slate-300 p-6 shadow-sm relative space-y-4">
+            
+            <!-- Loading Overlay -->
+            <div id="loading-overlay" class="hidden absolute inset-0 bg-white/90 z-10 flex-col items-center justify-center space-y-2">
+              <div class="w-5 h-5 border-2 border-slate-900 border-t-transparent animate-spin"></div>
+              <span class="text-xs font-bold text-slate-900 uppercase">Évaluation des règles fiscales...</span>
+            </div>
+
+            <h2 class="text-lg font-black text-slate-900 uppercase border-b border-slate-200 pb-3">Récapitulatif</h2>
+
+            <div class="space-y-2 text-sm">
+              <div class="flex justify-between text-slate-600">
+                <span>Sous-total HT</span>
+                <span id="summary-subtotal" class="font-mono font-semibold">934.00 CAD</span>
+              </div>
+              <div class="flex justify-between text-slate-600">
+                <span>Frais de livraison</span>
+                <span class="font-semibold text-emerald-600 uppercase text-xs">Gratuit</span>
+              </div>
+            </div>
+
+            <!-- Tax Line items section -->
+            <div class="border-t border-b border-dashed border-slate-300 py-3 my-3 space-y-1.5">
+              <span class="text-[11px] font-bold uppercase text-slate-500 block mb-1">Détail des Taxes Applicables</span>
+              <div id="tax-lines-container" class="space-y-1 text-xs font-mono">
+                <!-- Dynamic tax rows injected here -->
+              </div>
+            </div>
+
+            <div class="flex justify-between items-center text-sm font-bold">
+              <span>Total des taxes</span>
+              <span id="summary-tax-total" class="font-mono text-sky-700">139.86 CAD</span>
+            </div>
+
+            <div class="border-t-2 border-slate-900 pt-3 flex justify-between items-end">
+              <div>
+                <span class="text-xs text-slate-500 block uppercase font-bold">Montant Total TTC</span>
+                <span id="summary-grand-total" class="text-2xl font-black text-slate-900 font-mono">1,073.86 CAD</span>
+              </div>
+            </div>
+
+            <button onclick="alert('Commande validée ! Audit log généré.')" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 text-xs uppercase tracking-widest transition-colors">
+              CONFIRMER ET PAYER
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bottom Compliance Audit Terminal -->
+      <div class="bg-slate-900 border border-slate-800 p-4 text-sky-400 font-mono text-xs space-y-2">
+        <div class="flex justify-between items-center border-b border-slate-800 pb-2 text-white font-bold">
+          <span>// ENGINE AUDIT RECORD (STORED IN POSTGRESQL DB)</span>
+          <span class="text-slate-500 text-[10px]">Tax Engine Rule Matcher v2.4</span>
+        </div>
+        <pre id="audit-json-output" class="text-[11px] leading-relaxed text-slate-300 overflow-x-auto p-2 bg-slate-950 border border-slate-800">
+<!-- JSON injected via script -->
+        </pre>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const TAX_DATABASE_MOCKS = {
+      QC: {
+        subtotal: 934.00,
+        taxes: [
+          { ruleId: "RULE_001_V3", type: "GST (TPS 5%)", amount: 46.70, priority: 50 },
+          { ruleId: "RULE_002_V5", type: "QST (TVQ 9.975%)", amount: 93.16, priority: 80 }
+        ],
+        auditRules: ["RULE_001_V3", "RULE_002_V5"]
+      },
+      ON: {
+        subtotal: 934.00,
+        taxes: [
+          { ruleId: "RULE_004_V1", type: "HST Ontario (13%)", amount: 121.42, priority: 70 }
+        ],
+        auditRules: ["RULE_004_V1"]
+      },
+      NY: {
+        subtotal: 934.00,
+        taxes: [
+          { ruleId: "RULE_US_NY_01", type: "NYS & NYC Combined Tax (8.875%)", amount: 82.89, priority: 70 }
+        ],
+        auditRules: ["RULE_US_NY_01"]
+      },
+      EXEMPT: {
+        subtotal: 914.00, // 899$ + 15$ Book
+        taxes: [
+          { ruleId: "RULE_001_V3", type: "GST (TPS 5% sur Smartphone & Livre)", amount: 45.70, priority: 50 },
+          { ruleId: "RULE_002_V5", type: "QST (TVQ 9.975% sur Smartphone)", amount: 89.68, priority: 80 },
+          { ruleId: "RULE_009_V1", type: "QST Exemption (Livre 0%)", amount: 0.00, priority: 100 }
+        ],
+        auditRules: ["RULE_001_V3", "RULE_002_V5", "RULE_009_V1"]
+      }
+    };
+
+    function recalculateTaxes() {
+      const selected = document.getElementById("destination-select").value;
+      const overlay = document.getElementById("loading-overlay");
+      
+      // Update UI for EXEMPT demo
+      if(selected === 'EXEMPT') {
+        document.getElementById("second-item-title").textContent = "Guide Manuel PDF (Livre)";
+        document.getElementById("second-item-sku").textContent = "SKU: DNK-BK-009";
+        document.getElementById("second-item-cat").textContent = "Tax Cat: BOOKS";
+        document.getElementById("second-item-price").textContent = "15.00 CAD";
+      } else {
+        document.getElementById("second-item-title").textContent = "Étui Protecteur Silicone";
+        document.getElementById("second-item-sku").textContent = "SKU: DNK-CAS-002";
+        document.getElementById("second-item-cat").textContent = "Tax Cat: ACCESSORIES";
+        document.getElementById("second-item-price").textContent = "35.00 CAD";
+      }
+
+      overlay.classList.remove("hidden");
+      overlay.classList.add("flex");
+
+      setTimeout(() => {
+        overlay.classList.remove("flex");
+        overlay.classList.add("hidden");
+
+        const data = TAX_DATABASE_MOCKS[selected];
+        let totalTax = 0;
+
+        const taxContainer = document.getElementById("tax-lines-container");
+        taxContainer.innerHTML = "";
+
+        data.taxes.forEach(t => {
+          totalTax += t.amount;
+          const row = document.createElement("div");
+          row.className = "flex justify-between text-slate-800 font-semibold";
+          row.innerHTML = `<span>${t.type}</span><span>+${t.amount.toFixed(2)} CAD</span>`;
+          taxContainer.appendChild(row);
+        });
+
+        const grandTotal = data.subtotal + totalTax;
+
+        document.getElementById("summary-subtotal").textContent = `${data.subtotal.toFixed(2)} CAD`;
+        document.getElementById("summary-tax-total").textContent = `${totalTax.toFixed(2)} CAD`;
+        document.getElementById("summary-grand-total").textContent = `${grandTotal.toFixed(2)} CAD`;
+
+        // Render DB Audit record
+        const auditRecord = {
+          calculationId: "CALC-" + Math.random().toString(36).substring(2, 7).toUpperCase(),
+          sellerId: "SELLER_123",
+          timestamp: new Date().toISOString(),
+          destinationKey: selected,
+          subtotal: data.subtotal,
+          taxTotal: parseFloat(totalTax.toFixed(2)),
+          grandTotal: parseFloat(grandTotal.toFixed(2)),
+          matchedRules: data.taxes.map(t => ({
+            ruleId: t.ruleId,
+            ruleType: t.type,
+            appliedAmount: t.amount,
+            priorityScore: t.priority
+          }))
+        };
+
+        document.getElementById("audit-json-output").textContent = JSON.stringify(auditRecord, null, 2);
+      }, 300);
+    }
+
+    // Init
+    recalculateTaxes();
+  </script>
+</body>
+</html>
