@@ -34,7 +34,7 @@ export default async function AboutPage({
         <div className="relative h-64 w-full overflow-hidden rounded-lg sm:h-80 lg:h-96">
           <Image
             src={content.heroImage}
-            alt="DNK Tech"
+            alt={t("heroImageAlt")} // ✅ TRADUCTION APPLIQUÉE ICI
             fill
             className="object-cover"
             sizes="(max-width: 1024px) 100vw, 50vw"

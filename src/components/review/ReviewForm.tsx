@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import Image from "next/image";
 import { X, Upload, Star } from "lucide-react";
 import { toast } from "sonner";
@@ -28,6 +28,7 @@ export default function ReviewForm({
   const [comment, setComment] = useState("");
   const [images, setImages] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const locale = (useLocale() as "fr" | "en") || "fr";
 
   useEffect(() => {
     if (isOpen) {
@@ -96,7 +97,7 @@ export default function ReviewForm({
         id: `r-${Date.now()}`,
         productId: product.id,
         userId: user?.id || null,
-        name: name || user?.name || "Anonyme",
+        name: name || user?.name || t("anonymous"),
         rating,
         text: comment,
         images,
@@ -131,12 +132,14 @@ export default function ReviewForm({
               <h2 className="text-lg font-black text-slate-900 sm:text-xl">
                 {t("leave")}
               </h2>
-              <p className="mt-0.5 text-xs text-slate-500">{product.name.fr}</p>
+              <p className="mt-0.5 text-xs text-slate-500">
+                {product.name[locale]}
+              </p>
             </div>
             <button
               onClick={onClose}
               className="rounded-full p-2 text-slate-500 transition hover:bg-slate-100"
-              aria-label="Fermer"
+              aria-label={t("close")}
             >
               <X className="h-5 w-5" />
             </button>
@@ -211,7 +214,7 @@ export default function ReviewForm({
                     <div key={i} className="relative">
                       <Image
                         src={img}
-                        alt={`Preview ${i + 1}`}
+                        alt={`${t("preview")} ${i + 1}`}
                         width={80}
                         height={80}
                         className="h-16 w-16 rounded border border-slate-200 object-cover sm:h-20 sm:w-20"

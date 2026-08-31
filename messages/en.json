@@ -73,7 +73,8 @@
     "reset": "Reset filters",
     "productCount": "product(s) found",
     "noResults": "No products match your criteria.",
-    "noResultsHint": "Try adjusting your filters or search terms."
+    "noResultsHint": "Try adjusting your filters or search terms.",
+    "brandName": "DNK Tech Shop"
   },
 
   "product": {
@@ -103,6 +104,8 @@
     "lowStock": "Low stock",
     "outOfStock": "Out of stock",
     "quantity": "Quantity",
+    "months": "months",
+    "uncategorized": "Uncategorized",
     "viewProduct": "View product"
   },
 
@@ -123,7 +126,10 @@
     "digital": "Digital",
     "digitalNote": "Instant delivery by email",
     "freeShippingProgress": "Only {amount} $ away from free shipping!",
-    "freeShippingReached": "🎉 You qualify for free shipping!"
+    "freeShippingReached": "🎉 You qualify for free shipping!",
+    "brandName": "DNK Tech",
+    "ariaDecrease": "Decrease quantity",
+    "ariaIncrease": "Increase quantity"
   },
 
   "checkout": {
@@ -157,7 +163,13 @@
     "country": "Country",
     "yourOrder": "Your order",
     "orderConfirmed": "Order {id} confirmed!",
-    "processing": "Processing..."
+    "processing": "Processing...",
+    "sameAsShipping": "The billing address is the same as the shipping address",
+    "billingAddress": "Billing address",
+    "billingAddressRequired": "Billing address is required",
+    "emptyCartTitle": "Your cart is empty",
+    "exploreShop": "Explore the shop →",
+    "orderSummary": "Order summary"
   },
 
   "auth": {
@@ -312,7 +324,12 @@
     "continueShopping": "Continue shopping",
     "addedToFavorites": "Added to favorites",
     "removedFromFavorites": "Removed from favorites",
-    "allYears": "All years"
+    "loggedOut": "You are now logged out.",
+    "createAccountDesc": "Create an account to view your orders and manage your addresses.",
+    "orderDetails": "Order details →",
+    "returnUntil": "Return until",
+    "allYears": "All years",
+    "searchPlaceholder": "Search..."
   },
 
   "about": {
@@ -326,6 +343,7 @@
     "value2Desc": "Technologies designed to last and reduce impact.",
     "value3Title": "Customer listening",
     "value3Desc": "A responsive and human after-sales service.",
+    "heroImageAlt": "DNK Tech team and products showcase",
     "ready": "Ready to discover DNK Tech?",
     "findNext": "Find your next device.",
     "shopBtn": "View the shop"
@@ -351,31 +369,31 @@
     }
   },
   "returns": {
-    "subtitle": "After-sales service",
-    "title": "Returns and warranty",
-    "desc": "You have 30 days to return a product. Hardware products benefit from 2 years warranty against manufacturing defects.",
-    "step1Title": "1. Submit your request",
-    "step1Desc": "Specify the order, product and reason.",
-    "step2Title": "2. Receive instructions",
-    "step2Desc": "Our team guides you for the return or repair.",
-    "step3Title": "3. Track the process",
-    "step3Desc": "Refund or exchange is processed quickly.",
-    "request": "Request a return",
-    "selectOrder": "Select an order",
-    "reason": "Return reason",
-    "explain": "Explain your request",
-    "submit": "Submit request",
+    "request": "Return request",
     "itemToReturn": "Item to return",
     "variantLabel": "Variant",
     "qtyLabel": "Qty",
+    "selectOrder": "Order",
+    "selectOrderPlaceholder": "-- Select an order --",
+    "concernedItem": "Concerned item",
+    "selectItemPlaceholder": "-- Select an item from this order --",
+    "reason": "Reason for return",
+    "selectReasonPlaceholder": "-- Select a reason --",
     "reasons": {
       "defective": "Defective product",
       "expectations": "Does not meet expectations",
-      "damaged": "Damaged on delivery",
-      "incorrect": "Incorrect product",
-      "other": "Other reason"
+      "damaged": "Arrived damaged",
+      "incorrect": "Incorrect item received",
+      "other": "Other"
     },
-    "success": "Your return request has been sent."
+    "explain": "Additional details",
+    "submit": "Submit request",
+    "processing": "Processing...",
+    "success": "Your return request has been sent successfully.",
+    "defaultName": "Customer",
+    "returnSubject": "Return for order {orderId}",
+    "selectOrderAndItemError": "Please select an order and an item.",
+    "errorOccurred": "An error occurred. Please try again."
   },
 
   "search": {
@@ -390,7 +408,10 @@
     "tryAnother": "Try with other keywords",
     "resultsFor": "Results for",
     "viewAll": "View all results",
-    "suggestions": "Suggestions"
+    "suggestions": "Suggestions",
+    "mobileSearchPlaceholder": "Search for a product...",
+    "openSearch": "Open search",
+    "close": "Close"
   },
   "review": {
     "leave": "Leave a review",
@@ -406,7 +427,10 @@
     "publish": "Publish my review",
     "thankyou": "Thank you for your review!",
     "selectRating": "Please select a rating.",
-    "remove": "Remove image"
+    "remove": "Remove image",
+    "anonymous": "Anonymous",
+    "close": "Close",
+    "preview": "Preview"
   },
   "complaint": {
     "title": "File a complaint",
@@ -442,13 +466,17 @@
       "message": "We use cookies to enhance your experience and analyze our traffic. By continuing, you agree to our privacy policy.",
       "accept": "Accept",
       "decline": "Decline"
-    }
+    },
+    "siteTitle": "DNK Tech — Electronics & Digital",
+    "siteDescription": "DNK Tech: smartphones, computers, audio and digital products."
   },
   "errors": {
     "title": "Oops, an error occurred.",
     "desc": "We apologize for the inconvenience. Please try again or come back later.",
     "notFound": "Page not found",
     "notFoundDesc": "The page you are looking for does not exist or has been moved.",
-    "retry": "Try again"
+    "backToHome": "Back to home",
+    "retry": "Try again",
+    "backToShop": "Explore the shop"
   }
 }

@@ -51,7 +51,7 @@ export default function AccountPage() {
 
   const handleLogout = () => {
     logout();
-    toast.success("Vous êtes maintenant déconnecté.");
+    toast.success(t("loggedOut")); // ✅ TRADUIT
     router.push("/");
   };
 
@@ -72,6 +72,7 @@ export default function AccountPage() {
       locale === "fr" ? "fr-FR" : "en-US",
       { year: "numeric", month: "long", day: "numeric" }
     );
+
   const getReturnDate = (dateString: string) => {
     const date = new Date(dateString);
     date.setMonth(date.getMonth() + 1);
@@ -81,6 +82,7 @@ export default function AccountPage() {
   const userOrders = orders.filter(
     (o) => o.userId === user?.id || o.customerEmail === user?.email
   );
+
   const filteredOrders = userOrders.filter((order) => {
     const matchesSearch =
       order.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -88,7 +90,6 @@ export default function AccountPage() {
         i.productName[locale].toLowerCase().includes(searchQuery.toLowerCase())
       );
     const orderYear = new Date(order.createdAt).getFullYear().toString();
-    // ✅ Correction : comparer yearFilter avec orderYear
     return matchesSearch && (yearFilter === "all" || orderYear === yearFilter);
   });
 
@@ -104,8 +105,7 @@ export default function AccountPage() {
               {t("title")}
             </h1>
             <p className="mt-4 leading-7 text-slate-600 sm:mt-5">
-              Créez un compte pour consulter vos commandes et gérer vos
-              adresses.
+              {t("createAccountDesc")} {/* ✅ TRADUIT */}
             </p>
             <div className="mt-6 flex flex-wrap gap-3 sm:mt-8">
               <button
@@ -170,7 +170,7 @@ export default function AccountPage() {
                     </span>
                     <input
                       type="search"
-                      placeholder="Rechercher..."
+                      placeholder={t("searchPlaceholder") || "Rechercher..."}
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       className="w-full rounded-none border border-slate-300 py-2 pl-10 pr-3 text-sm transition focus:border-brand-600 focus:outline-none"
@@ -181,9 +181,8 @@ export default function AccountPage() {
                     onChange={(e) => setYearFilter(e.target.value)}
                     className="w-full rounded-none border border-slate-300 bg-slate-50 px-3 py-2 text-sm focus:border-brand-600 focus:outline-none sm:w-auto"
                   >
-                    <option value="all">
-                      {t("allYears") || "Toutes les années"}
-                    </option>
+                    <option value="all">{t("allYears")}</option>{" "}
+                    {/* ✅ TRADUIT */}
                     <option value="2026">2026</option>
                     <option value="2025">2025</option>
                   </select>
@@ -206,11 +205,11 @@ export default function AccountPage() {
                           onClick={() => setSelectedOrder(order)}
                           className="text-xs font-bold text-brand-600 hover:underline"
                         >
-                          Détails commande →
+                          {t("orderDetails")} {/* ✅ TRADUIT */}
                         </button>
                       </div>
 
-                      {/* Corps commande : version horizontale moderne */}
+                      {/* Corps commande */}
                       <div className="p-4">
                         {order.items.map((item, idx) => (
                           <div
@@ -226,6 +225,7 @@ export default function AccountPage() {
                                     alt={item.productName[locale]}
                                     fill
                                     className="object-cover"
+                                    sizes="64px"
                                   />
                                 ) : (
                                   <div className="flex h-full items-center justify-center">
@@ -245,26 +245,29 @@ export default function AccountPage() {
                                   {item.variantName} • Qté : {item.quantity}
                                 </p>
                                 <p className="mt-1 text-[11px] text-slate-400">
-                                  Retour jusqu&apos;au{" "}
-                                  {getReturnDate(order.createdAt)}
+                                  {t("returnUntil")}{" "}
+                                  {getReturnDate(order.createdAt)}{" "}
+                                  {/* ✅ TRADUIT */}
                                 </p>
                               </div>
                             </div>
 
-                            {/* Boutons hiérarchisés : principal, secondaire, liens */}
+                            {/* Boutons hiérarchisés */}
                             <div className="mt-1 flex flex-wrap gap-2">
                               <button
                                 onClick={() => setSelectedOrder(order)}
                                 className="flex-1 bg-slate-900 px-3 py-2 text-center text-xs font-bold text-white transition hover:bg-slate-800"
                               >
-                                {t("tracking") || "Suivre"}
+                                {t("tracking")}{" "}
+                                {/* ✅ TRADUIT (plus de fallback) */}
                               </button>
 
                               <Link
                                 href={`/returns?orderId=${order.id}&productId=${item.productId}`}
                                 className="flex-1 border border-slate-200 bg-white px-3 py-2 text-center text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
                               >
-                                {t("returnRequest") || "Retourner"}
+                                {t("returnRequest")}{" "}
+                                {/* ✅ TRADUIT (plus de fallback) */}
                               </Link>
 
                               <div className="flex w-full justify-between pt-1 text-[11px]">
@@ -272,13 +275,15 @@ export default function AccountPage() {
                                   href={`/product/${item.productSlug}#reviews`}
                                   className="font-medium text-slate-500 hover:text-slate-900 hover:underline"
                                 >
-                                  ★ {tReview("leave") || "Laisser un avis"}
+                                  ★ {tReview("leave")}{" "}
+                                  {/* ✅ TRADUIT (plus de fallback) */}
                                 </Link>
                                 <Link
                                   href="/contact"
                                   className="font-medium text-slate-500 hover:text-slate-900 hover:underline"
                                 >
-                                  {tContact("title") || "Aide"}
+                                  {tContact("title")}{" "}
+                                  {/* ✅ TRADUIT (plus de fallback) */}
                                 </Link>
                               </div>
                             </div>

@@ -13,19 +13,21 @@ import type { FavoriteItem } from "@/lib/store/useFavorites";
 interface ProductCardProps {
   product: Product;
   locale: Locale;
+  categoryName?: string; // ✅ Ajout : pour recevoir le nom dynamique de la catégorie
 }
 
-export default function ProductCard({ product, locale }: ProductCardProps) {
+export default function ProductCard({
+  product,
+  locale,
+  categoryName
+}: ProductCardProps) {
   const variant = product.variants[0];
   const name = product.name[locale];
-  const categoryName =
-    product.categoryId === "cat1"
-      ? "Smartphones"
-      : product.categoryId === "cat2"
-        ? "Ordinateurs"
-        : product.categoryId === "cat3"
-          ? "Audio"
-          : "Numérique";
+
+  // ✅ Utilisation de la prop categoryName, avec un fallback traduit
+  const t = useTranslations("product");
+  const displayCategoryName = categoryName || t("uncategorized");
+
   const badge = product.badge ? product.badge[locale] : null;
 
   // Récupération des 2 premières specs
@@ -50,7 +52,7 @@ export default function ProductCard({ product, locale }: ProductCardProps) {
     "★".repeat(Math.round(product.rating)) +
     "☆".repeat(5 - Math.round(product.rating));
 
-  // ✅ Favoris
+  // Favoris
   const { addItem, removeItem, isFavorite } = useFavorites();
   const tFav = useTranslations("account");
 
@@ -100,13 +102,15 @@ export default function ProductCard({ product, locale }: ProductCardProps) {
               {badge}
             </span>
           )}
+
+          {/* ✅ TRADUIT */}
           {product.isDigital && (
             <span className="absolute right-2 top-2 bg-brand-600 px-2 py-1 text-[9px] font-bold uppercase text-white sm:right-3 sm:top-3 sm:text-[10px]">
-              Numérique
+              {t("digital")}
             </span>
           )}
 
-          {/* ✅ Bouton favori (cœur) */}
+          {/* Bouton favori (cœur) */}
           <button
             onClick={handleToggleFavorite}
             className="absolute right-2 top-2 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-slate-400 shadow-sm backdrop-blur-sm transition hover:bg-white hover:text-red-500 sm:h-10 sm:w-10"
@@ -123,16 +127,16 @@ export default function ProductCard({ product, locale }: ProductCardProps) {
             />
           </button>
 
-          {/* Overlay "Voir le produit" */}
+          {/* ✅ TRADUIT : Overlay "Voir le produit" */}
           <span className="absolute bottom-2 left-2 bg-slate-900 px-2 py-1 text-[9px] font-bold text-white opacity-0 transition group-hover:opacity-100 sm:bottom-3 sm:left-3 sm:text-[10px]">
-            Voir le produit
+            {t("viewProduct")}
           </span>
         </div>
 
         {/* Contenu texte */}
         <div className="pt-2 sm:pt-3">
           <p className="text-[9px] font-bold uppercase tracking-wider text-slate-400 sm:text-[10px]">
-            {categoryName}
+            {displayCategoryName} {/* ✅ Nom de catégorie dynamique */}
           </p>
           <h3 className="mt-1 line-clamp-2 text-sm font-bold group-hover:text-brand-600">
             {name}
@@ -169,9 +173,11 @@ export default function ProductCard({ product, locale }: ProductCardProps) {
             >
               {stockLabel}
             </span>
+
+            {/* ✅ TRADUIT : "mois" */}
             {product.warranty > 0 && (
               <span className="text-[9px] text-slate-400 sm:text-[10px]">
-                {product.warranty} mois
+                {product.warranty} {t("months")}
               </span>
             )}
           </div>

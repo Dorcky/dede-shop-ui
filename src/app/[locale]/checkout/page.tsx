@@ -28,13 +28,13 @@ export default function CheckoutPage() {
       <section className="mx-auto flex min-h-[60vh] max-w-2xl flex-col items-center justify-center px-4 py-16 text-center sm:py-24">
         <ShoppingBag className="h-20 w-20 text-slate-300 sm:h-24 sm:w-24" />
         <h1 className="mt-6 text-2xl font-black text-slate-900 sm:text-3xl">
-          Votre panier est vide
+          {t("emptyCartTitle")} {/* ✅ TRADUIT */}
         </h1>
         <Link
           href="/shop"
           className="mt-6 inline-flex items-center gap-2 bg-brand-600 px-6 py-3 text-xs font-bold uppercase tracking-wider text-white transition hover:bg-brand-700 sm:mt-8 sm:px-8 sm:py-4"
         >
-          Explorer la boutique →
+          {t("exploreShop")} {/* ✅ TRADUIT */}
         </Link>
       </section>
     );
@@ -61,7 +61,7 @@ export default function CheckoutPage() {
           }
         >
           <summary className="flex cursor-pointer list-none items-center justify-between p-4 font-bold text-slate-900">
-            <span>Résumé de la commande</span>
+            <span>{t("orderSummary")}</span> {/* ✅ TRADUIT */}
             <div className="flex items-center gap-3">
               <span className="text-brand-600">
                 {taxData ? taxData.grandTotal.toFixed(2) : subtotal.toFixed(2)}{" "}
@@ -78,7 +78,7 @@ export default function CheckoutPage() {
 
       {/* Grille Desktop */}
       <div className="grid gap-8 lg:grid-cols-[1.2fr_.8fr] lg:gap-12">
-        {/* ✅ Le formulaire notifie la page quand les taxes changent */}
+        {/* Le formulaire notifie la page quand les taxes changent */}
         <CheckoutForm onTaxCalculated={setTaxData} />
         <div className="hidden lg:block">
           <OrderSummary taxData={taxData} />

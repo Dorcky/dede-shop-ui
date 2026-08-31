@@ -73,7 +73,8 @@
     "reset": "Réinitialiser les filtres",
     "productCount": "produit(s) trouvé(s)",
     "noResults": "Aucun produit ne correspond à vos critères.",
-    "noResultsHint": "Essayez de modifier vos filtres ou votre recherche."
+    "noResultsHint": "Essayez de modifier vos filtres ou votre recherche.",
+    "brandName": "DNK Tech Boutique"
   },
 
   "product": {
@@ -103,6 +104,8 @@
     "lowStock": "Stock limité",
     "outOfStock": "Rupture de stock",
     "quantity": "Quantité",
+    "months": "mois",
+    "uncategorized": "Non catégorisé",
     "viewProduct": "Voir le produit"
   },
 
@@ -123,7 +126,10 @@
     "digital": "Numérique",
     "digitalNote": "Livraison instantanée par email",
     "freeShippingProgress": "Plus que {amount} $ pour la livraison gratuite !",
-    "freeShippingReached": "🎉 Vous bénéficiez de la livraison gratuite !"
+    "freeShippingReached": "🎉 Vous bénéficiez de la livraison gratuite !",
+    "brandName": "DNK Tech",
+    "ariaDecrease": "Diminuer la quantité",
+    "ariaIncrease": "Augmenter la quantité"
   },
 
   "checkout": {
@@ -157,7 +163,13 @@
     "country": "Pays",
     "yourOrder": "Votre commande",
     "orderConfirmed": "Commande {id} confirmée !",
-    "processing": "Traitement en cours..."
+    "processing": "Traitement en cours...",
+    "sameAsShipping": "L'adresse de facturation est la même que l'adresse de livraison",
+    "billingAddress": "Adresse de facturation",
+    "billingAddressRequired": "L'adresse de facturation est requise",
+    "emptyCartTitle": "Votre panier est vide",
+    "exploreShop": "Explorer la boutique →",
+    "orderSummary": "Résumé de la commande"
   },
 
   "auth": {
@@ -312,7 +324,12 @@
     "continueShopping": "Continuer mes achats",
     "addedToFavorites": "Ajouté aux favoris",
     "removedFromFavorites": "Retiré des favoris",
-    "allYears": "Toutes les années"
+    "allYears": "Toutes les années",
+    "createAccountDesc": "Créez un compte pour consulter vos commandes et gérer vos adresses.",
+    "loggedOut": "Vous êtes maintenant déconnecté.",
+    "orderDetails": "Détails commande →",
+    "returnUntil": "Retour jusqu'au",
+    "searchPlaceholder": "Rechercher..."
   },
 
   "about": {
@@ -326,6 +343,7 @@
     "value2Desc": "Des technologies pensées pour durer et réduire l'impact.",
     "value3Title": "Écoute client",
     "value3Desc": "Un service après-vente réactif et humain.",
+    "heroImageAlt": "Présentation de l'équipe et des produits DNK Tech",
     "ready": "Prêt à découvrir DNK Tech ?",
     "findNext": "Trouvez votre prochain équipement.",
     "shopBtn": "Voir la boutique"
@@ -351,31 +369,31 @@
     }
   },
   "returns": {
-    "subtitle": "Service après-vente",
-    "title": "Retours et garantie",
-    "desc": "Vous disposez de 30 jours pour retourner un produit. Les produits matériels bénéficient de 2 ans de garantie contre les défauts de fabrication.",
-    "step1Title": "1. Soumettez votre demande",
-    "step1Desc": "Indiquez la commande, le produit et le motif.",
-    "step2Title": "2. Recevez les instructions",
-    "step2Desc": "Notre équipe vous guide pour le retour ou la réparation.",
-    "step3Title": "3. Suivez le traitement",
-    "step3Desc": "Le remboursement ou l'échange est traité rapidement.",
-    "request": "Demander un retour",
-    "selectOrder": "Sélectionner une commande",
-    "reason": "Motif du retour",
-    "explain": "Expliquez votre demande",
-    "submit": "Envoyer la demande",
+    "request": "Demande de retour",
     "itemToReturn": "Article à retourner",
     "variantLabel": "Variante",
     "qtyLabel": "Qté",
+    "selectOrder": "Commande",
+    "selectOrderPlaceholder": "-- Choisir une commande --",
+    "concernedItem": "Article concerné",
+    "selectItemPlaceholder": "-- Choisir un article de cette commande --",
+    "reason": "Motif du retour",
+    "selectReasonPlaceholder": "-- Sélectionner un motif --",
     "reasons": {
       "defective": "Produit défectueux",
-      "expectations": "Ne correspond pas aux attentes",
-      "damaged": "Endommagé à la livraison",
-      "incorrect": "Produit incorrect",
-      "other": "Autre raison"
+      "expectations": "Ne correspond pas à mes attentes",
+      "damaged": "Arrivé endommagé",
+      "incorrect": "Article incorrect reçu",
+      "other": "Autre"
     },
-    "success": "Votre demande de retour a été envoyée."
+    "explain": "Détails supplémentaires",
+    "submit": "Envoyer la demande",
+    "processing": "Traitement en cours...",
+    "success": "Votre demande de retour a été envoyée avec succès.",
+    "defaultName": "Client",
+    "returnSubject": "Retour pour la commande {orderId}",
+    "selectOrderAndItemError": "Veuillez sélectionner une commande et un article.",
+    "errorOccurred": "Une erreur est survenue. Veuillez réessayer."
   },
 
   "search": {
@@ -390,7 +408,10 @@
     "tryAnother": "Essayez avec d'autres mots-clés",
     "resultsFor": "Résultats pour",
     "viewAll": "Voir tous les résultats",
-    "suggestions": "Suggestions"
+    "suggestions": "Suggestions",
+    "mobileSearchPlaceholder": "Rechercher un produit...",
+    "openSearch": "Ouvrir la recherche",
+    "close": "Fermer"
   },
   "review": {
     "leave": "Laisser un avis",
@@ -406,7 +427,10 @@
     "publish": "Publier mon avis",
     "thankyou": "Merci pour votre avis !",
     "selectRating": "Veuillez sélectionner une note.",
-    "remove": "Supprimer l'image"
+    "remove": "Supprimer l'image",
+    "anonymous": "Anonyme",
+    "close": "Fermer",
+    "preview": "Aperçu"
   },
   "complaint": {
     "title": "Faire une réclamation",
@@ -442,13 +466,18 @@
       "message": "Nous utilisons des cookies pour améliorer votre expérience et analyser notre trafic. En continuant, vous acceptez notre politique de confidentialité.",
       "accept": "Accepter",
       "decline": "Refuser"
-    }
+    },
+
+    "siteTitle": "DNK Tech — Électronique & Digital",
+    "siteDescription": "DNK Tech : smartphones, ordinateurs, audio et produits numériques."
   },
   "errors": {
     "title": "Oups, une erreur est survenue.",
     "desc": "Nous nous excusons pour la gêne occasionnée. Veuillez réessayer ou revenir plus tard.",
     "notFound": "Page introuvable",
     "notFoundDesc": "La page que vous recherchez n'existe pas ou a été déplacée.",
-    "retry": "Réessayer"
+    "backToHome": "Retour à l'accueil",
+    "retry": "Réessayer",
+    "backToShop": "Explorer la boutique"
   }
 }

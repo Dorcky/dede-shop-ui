@@ -47,7 +47,7 @@ export default function CartPage() {
       {/* 1. En-tête */}
       <div className="mb-6 space-y-1">
         <p className="block text-xs font-bold uppercase tracking-widest text-brand-600">
-          DNK Tech
+          {t("brandName")} {/* ✅ TRADUIT */}
         </p>
         <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
           {t("title")}
@@ -66,18 +66,15 @@ export default function CartPage() {
                 <div
                   className="h-full bg-brand-600 transition-all duration-500"
                   style={{
-                    width: `${Math.min(
-                      100,
-                      (subtotal / settings.shipping.freeThreshold) * 100
-                    )}%`
+                    width: `${Math.min(100, (subtotal / settings.shipping.freeThreshold) * 100)}%`
                   }}
                 />
               </div>
             </>
           ) : (
             <p className="flex items-center gap-2 font-semibold text-emerald-700">
-              <span>🎉</span>
-              <span>{t("freeShippingReached")}</span>
+              {t("freeShippingReached")}{" "}
+              {/* ✅ TRADUIT (contient déjà l'emoji) */}
             </p>
           )}
         </div>
@@ -95,7 +92,7 @@ export default function CartPage() {
               <div className="flex gap-4 sm:gap-6">
                 {/* Image du produit */}
                 <Link
-                  href={`/product/${item.productId}`}
+                  href={`/product/${item.productSlug}`}
                   className="relative h-20 w-20 shrink-0 overflow-hidden border border-slate-100 bg-slate-100 sm:h-28 sm:w-28"
                 >
                   <Image
@@ -117,7 +114,7 @@ export default function CartPage() {
                   <div>
                     <div className="flex items-start justify-between gap-2">
                       <Link
-                        href={`/product/${item.productId}`}
+                        href={`/product/${item.productSlug}`}
                         className="truncate text-base font-bold text-slate-900 hover:text-brand-600 sm:text-lg"
                       >
                         {item.name}
@@ -138,7 +135,8 @@ export default function CartPage() {
                       {item.variantName}
                       {item.isDigital && (
                         <span className="ml-1 text-brand-600">
-                          · 💻 {t("digitalNote")}
+                          {t("digitalNote")}{" "}
+                          {/* ✅ TRADUIT (contient déjà "· 💻 ") */}
                         </span>
                       )}
                     </p>
@@ -160,7 +158,7 @@ export default function CartPage() {
                           )
                         }
                         className="flex h-8 w-8 items-center justify-center font-bold text-slate-600 transition hover:bg-slate-100 active:bg-slate-200 sm:h-9 sm:w-9"
-                        aria-label="Decrease quantity"
+                        aria-label={t("ariaDecrease")}
                       >
                         <Minus className="h-3.5 w-3.5" />
                       </button>
@@ -178,7 +176,7 @@ export default function CartPage() {
                           )
                         }
                         className="flex h-8 w-8 items-center justify-center font-bold text-slate-600 transition hover:bg-slate-100 active:bg-slate-200 sm:h-9 sm:w-9"
-                        aria-label="Increase quantity"
+                        aria-label={t("ariaIncrease")}
                       >
                         <Plus className="h-3.5 w-3.5" />
                       </button>

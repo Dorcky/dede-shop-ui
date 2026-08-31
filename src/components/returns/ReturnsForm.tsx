@@ -48,7 +48,7 @@ export default function ReturnsForm({ locale }: ReturnsFormProps) {
     const productId = formData.get("productId") as string;
 
     if (!orderId || !productId) {
-      toast.error("Veuillez sélectionner une commande et un article.");
+      toast.error(t("selectOrderAndItemError")); // ✅ TRADUIT
       setIsSubmitting(false);
       return;
     }
@@ -60,9 +60,9 @@ export default function ReturnsForm({ locale }: ReturnsFormProps) {
       orderId,
       productId,
       userId: user?.id || null,
-      name: user?.name || order?.customerName || "Client",
+      name: user?.name || order?.customerName || t("defaultName"), // ✅ TRADUIT
       email: user?.email || order?.customerEmail || "",
-      subject: `Retour pour la commande ${orderId}`,
+      subject: t("returnSubject", { orderId }), // ✅ TRADUIT AVEC INTERPOLATION
       reason: formData.get("reason") as string,
       message: formData.get("message") as string
     };
@@ -81,7 +81,7 @@ export default function ReturnsForm({ locale }: ReturnsFormProps) {
       setSelectedOrderId("");
       setSelectedProductId("");
     } catch {
-      toast.error("Une erreur est survenue.");
+      toast.error(t("errorOccurred")); // ✅ TRADUIT
     } finally {
       setIsSubmitting(false);
     }
@@ -98,7 +98,6 @@ export default function ReturnsForm({ locale }: ReturnsFormProps) {
       {targetItem ? (
         <div className="rounded-md border border-brand-200 bg-brand-50/50 p-4">
           <p className="mb-3 text-xs font-bold uppercase tracking-wider text-brand-700">
-            {/* ✅ TRADUCTION APPLIQUÉE ICI */}
             {t("itemToReturn")}
           </p>
           <div className="flex gap-4">
@@ -116,11 +115,9 @@ export default function ReturnsForm({ locale }: ReturnsFormProps) {
             </div>
             <div className="flex-1">
               <p className="text-sm font-bold text-slate-900">
-                {/* ✅ UTILISE LA LANGUE ACTUELLE (locale) */}
                 {targetItem.productName[locale]}
               </p>
               <p className="text-xs text-slate-500">
-                {/* ✅ TRADUCTIONS APPLIQUÉES ICI */}
                 {t("variantLabel")} : {targetItem.variantName} | {t("qtyLabel")}{" "}
                 : {targetItem.quantity}
               </p>
@@ -148,7 +145,8 @@ export default function ReturnsForm({ locale }: ReturnsFormProps) {
               required
               className="w-full border border-slate-300 px-4 py-3 text-sm transition focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-600/20"
             >
-              <option value="">-- Choisir une commande --</option>
+              <option value="">{t("selectOrderPlaceholder")}</option>{" "}
+              {/* ✅ TRADUIT */}
               {orders.map((o) => (
                 <option key={o.id} value={o.id}>
                   {o.id} — {new Date(o.createdAt).toLocaleDateString()}
@@ -160,7 +158,7 @@ export default function ReturnsForm({ locale }: ReturnsFormProps) {
           {selectedOrderId && targetOrder && (
             <div className="animate-in fade-in slide-in-from-top-2 duration-300 sm:col-span-2">
               <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-slate-700">
-                Article concerné
+                {t("concernedItem")} {/* ✅ TRADUIT */}
               </label>
               <select
                 value={selectedProductId}
@@ -168,10 +166,10 @@ export default function ReturnsForm({ locale }: ReturnsFormProps) {
                 required
                 className="w-full border border-slate-300 px-4 py-3 text-sm transition focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-600/20"
               >
-                <option value="">-- Choisir un article --</option>
+                <option value="">{t("selectItemPlaceholder")}</option>{" "}
+                {/* ✅ TRADUIT */}
                 {targetOrder.items.map((item) => (
                   <option key={item.productId} value={item.productId}>
-                    {/* ✅ Le nom s'adapte aussi à la langue dans le menu déroulant */}
                     {item.productName[locale]} ({item.variantName}) —{" "}
                     {item.price} $
                   </option>
@@ -192,7 +190,8 @@ export default function ReturnsForm({ locale }: ReturnsFormProps) {
           required
           className="w-full border border-slate-300 px-4 py-3 text-sm transition focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-600/20"
         >
-          <option value="">-- Sélectionner un motif --</option>
+          <option value="">{t("selectReasonPlaceholder")}</option>{" "}
+          {/* ✅ TRADUIT */}
           {reasons.map((r) => (
             <option key={r.value} value={r.value}>
               {r.label}
@@ -220,7 +219,7 @@ export default function ReturnsForm({ locale }: ReturnsFormProps) {
         disabled={isSubmitting}
         className="bg-brand-600 py-3 text-xs font-bold uppercase tracking-wider text-white transition hover:bg-brand-700 disabled:opacity-50 sm:py-4"
       >
-        {isSubmitting ? "..." : t("submit")}
+        {isSubmitting ? t("processing") : t("submit")} {/* ✅ TRADUIT */}
       </button>
     </form>
   );

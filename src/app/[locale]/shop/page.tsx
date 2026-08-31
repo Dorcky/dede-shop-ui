@@ -64,7 +64,7 @@ export default async function ShopPage({
       {/* En-tête de la page */}
       <div className="mb-8">
         <p className="text-xs font-bold uppercase tracking-[.25em] text-brand-600">
-          DNK Tech Boutique
+          {t("brandName")} {/* ✅ TRADUIT */}
         </p>
         <h1 className="mt-2 text-3xl font-black text-slate-900 sm:text-4xl">
           {t("title")}

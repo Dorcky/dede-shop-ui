@@ -132,6 +132,11 @@ export interface Order {
   tracking: TrackingStep[];
   createdAt: string;
   updatedAt: string;
+  billingAddress?: string;
+  billingCity?: string;
+  billingProvince?: string;
+  billingPostalCode?: string;
+  billingCountry?: string;
 }
 
 export type AuthMode = "login" | "register" | "verify" | "forgot" | "reset";

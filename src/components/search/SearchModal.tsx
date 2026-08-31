@@ -250,7 +250,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                 type="button"
                 onClick={onClose}
                 className="rounded-full p-1.5 text-slate-500 transition hover:bg-slate-100"
-                aria-label="Fermer"
+                aria-label={t("close")}
               >
                 <X className="h-5 w-5" />
               </button>

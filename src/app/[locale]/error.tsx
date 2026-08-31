@@ -31,7 +31,7 @@ export default function Error({
           {t("retry")}
         </Button>
         <Button onClick={() => (window.location.href = "/")} variant="outline">
-          Retour à l&apos;accueil
+          {t("backToHome")}
         </Button>
       </div>
     </div>

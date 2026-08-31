@@ -13,12 +13,12 @@ export default function NotFound() {
       </h1>
       <p className="mt-2 text-sm text-slate-500 sm:mt-3">{t("notFoundDesc")}</p>
 
-      {/* ✅ On applique les classes du bouton directement au Link */}
+      {/* ✅ Texte traduit via la clé "backToShop" */}
       <Link
         href="/shop"
         className="mt-6 inline-flex items-center justify-center bg-slate-900 px-6 py-3 text-xs font-bold uppercase tracking-wider text-white transition hover:bg-brand-700 sm:px-8 sm:py-4"
       >
-        Explorer la boutique
+        {t("backToShop")}
       </Link>
     </div>
   );

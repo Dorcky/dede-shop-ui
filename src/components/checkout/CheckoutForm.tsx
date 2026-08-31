@@ -26,33 +26,44 @@ export default function CheckoutForm({ onTaxCalculated }: CheckoutFormProps) {
   const { user, openAuthModal } = useAuth();
   const { addresses } = useAddresses();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [taxData, setTaxData] = useState<TaxCalculation | null>(null); // ✅ état local pour afficher le total
+  const [taxData, setTaxData] = useState<TaxCalculation | null>(null);
 
   const onlyDigital = hasOnlyDigital();
   const subtotal = getSubtotal();
 
   const defaultAddr = addresses.find((a) => a.isDefault) || addresses[0];
 
+  // ✅ 1. Schéma corrigé : suppression des .default() pour éviter le conflit de type
   const schema = z
     .object({
       firstName: z.string().min(2, "Minimum 2 caractères"),
       lastName: z.string().min(2, "Minimum 2 caractères"),
       email: z.string().email("Email invalide"),
       phone: z.string().optional(),
+
+      // Livraison
       address: z.string().min(5, "Adresse trop courte").optional(),
       city: z.string().min(2, "Ville requise").optional(),
       province: z.string().min(2, "Province requise").optional(),
       postal: z.string().min(3, "Code postal requis").optional(),
       country: z.string().min(2, "Pays requis"),
-      shippingMethod: z.string(),
+
+      // Facturation
+      sameAsShipping: z.boolean(), // ✅ Plus de .default()
+      billingAddress: z.string().optional(),
+      billingCity: z.string().optional(),
+      billingProvince: z.string().optional(),
+      billingPostal: z.string().optional(),
+      billingCountry: z.string().optional(),
+
+      shippingMethod: z.string(), // ✅ Plus de .default()
+
       card: z.string().min(12, "Numéro de carte invalide"),
       expiry: z.string().regex(/^(0[1-9]|1[0-2])\/\d{2}$/, "Format MM/AA"),
       cvv: z.string().regex(/^\d{3,4}$/, "CVV invalide"),
-      terms: z
-        .boolean()
-        .refine((value) => value === true, {
-          message: "Vous devez accepter les conditions"
-        })
+      terms: z.boolean().refine((value) => value === true, {
+        message: "Vous devez accepter les conditions"
+      })
     })
     .refine(
       (data) => {
@@ -62,13 +73,31 @@ export default function CheckoutForm({ onTaxCalculated }: CheckoutFormProps) {
         );
       },
       {
-        message: "L'adresse est requise pour les produits physiques",
+        message:
+          "L'adresse de livraison est requise pour les produits physiques",
         path: ["address"]
+      }
+    )
+    .refine(
+      (data) => {
+        if (data.sameAsShipping || onlyDigital) return true;
+        return (
+          !!data.billingAddress &&
+          !!data.billingCity &&
+          !!data.billingProvince &&
+          !!data.billingPostal
+        );
+      },
+      {
+        message:
+          t("billingAddressRequired") || "L'adresse de facturation est requise",
+        path: ["billingAddress"]
       }
     );
 
   type FormData = z.infer<typeof schema>;
 
+  // ✅ 2. useForm avec les valeurs par défaut gérées ici (pas dans le schéma)
   const {
     register,
     handleSubmit,
@@ -90,6 +119,15 @@ export default function CheckoutForm({ onTaxCalculated }: CheckoutFormProps) {
       province: defaultAddr?.province || "QC",
       postal: defaultAddr?.postalCode || "",
       country: defaultAddr?.country || "Canada",
+
+      // Valeurs par défaut pour la facturation
+      sameAsShipping: true,
+      billingAddress: defaultAddr?.addressLine1 || "",
+      billingCity: defaultAddr?.city || "",
+      billingProvince: defaultAddr?.province || "QC",
+      billingPostal: defaultAddr?.postalCode || "",
+      billingCountry: defaultAddr?.country || "Canada",
+
       shippingMethod: "standard"
     }
   });
@@ -97,8 +135,9 @@ export default function CheckoutForm({ onTaxCalculated }: CheckoutFormProps) {
   const watchedCountry = watch("country");
   const watchedProvince = watch("province");
   const watchedShipping = watch("shippingMethod");
+  const watchedSameAsShipping = watch("sameAsShipping");
 
-  // ✅ Calcul des taxes et mise à jour de l'état local
+  // Calcul des taxes
   useEffect(() => {
     if (!onlyDigital && watchedCountry && watchedProvince) {
       const shippingCost = watchedShipping === "express" ? 15.0 : 0;
@@ -116,12 +155,10 @@ export default function CheckoutForm({ onTaxCalculated }: CheckoutFormProps) {
         .then(async (res) => {
           if (!res.ok) throw new Error("Erreur API");
           const data = await res.json();
-          setTaxData(data); // ✅ mise à jour locale
-          onTaxCalculated(data); // ✅ propagation au parent
+          setTaxData(data);
+          onTaxCalculated(data);
         })
-        .catch((err) => {
-          console.error("❌ Échec du calcul des taxes :", err);
-        });
+        .catch((err) => console.error("❌ Échec du calcul des taxes :", err));
     }
   }, [
     watchedCountry,
@@ -132,6 +169,7 @@ export default function CheckoutForm({ onTaxCalculated }: CheckoutFormProps) {
     onTaxCalculated
   ]);
 
+  // ✅ 3. onSubmit typé simplement avec FormData
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
     try {
@@ -161,6 +199,23 @@ export default function CheckoutForm({ onTaxCalculated }: CheckoutFormProps) {
         image: item.image
       }));
 
+      // Logique de repli pour l'adresse de facturation
+      const finalBillingAddress = data.sameAsShipping
+        ? data.address
+        : data.billingAddress;
+      const finalBillingCity = data.sameAsShipping
+        ? data.city
+        : data.billingCity;
+      const finalBillingProvince = data.sameAsShipping
+        ? data.province
+        : data.billingProvince;
+      const finalBillingPostal = data.sameAsShipping
+        ? data.postal
+        : data.billingPostal;
+      const finalBillingCountry = data.sameAsShipping
+        ? data.country
+        : data.billingCountry;
+
       const newOrder: Order = {
         id: `DNK-${Math.floor(1000 + Math.random() * 8999)}`,
         userId: user?.id || null,
@@ -171,11 +226,23 @@ export default function CheckoutForm({ onTaxCalculated }: CheckoutFormProps) {
         customerName: `${data.firstName} ${data.lastName}`,
         customerEmail: data.email,
         customerPhone: data.phone || null,
+
+        // Adresse de livraison
         address: onlyDigital ? "Numérique" : data.address || "N/A",
         city: onlyDigital ? "N/A" : data.city || "N/A",
         province: onlyDigital ? "N/A" : data.province || "N/A",
         postalCode: onlyDigital ? "N/A" : data.postal || "N/A",
         country: onlyDigital ? "N/A" : data.country || "N/A",
+
+        // Adresse de facturation
+        billingAddress: onlyDigital
+          ? "Numérique"
+          : finalBillingAddress || "N/A",
+        billingCity: onlyDigital ? "N/A" : finalBillingCity || "N/A",
+        billingProvince: onlyDigital ? "N/A" : finalBillingProvince || "N/A",
+        billingPostalCode: onlyDigital ? "N/A" : finalBillingPostal || "N/A",
+        billingCountry: onlyDigital ? "N/A" : finalBillingCountry || "N/A",
+
         items: orderItems,
         tracking: [
           {
@@ -363,6 +430,92 @@ export default function CheckoutForm({ onTaxCalculated }: CheckoutFormProps) {
                 </label>
               </div>
             </div>
+
+            {/* Case à cocher "Même adresse" */}
+            <div className="mt-4 sm:col-span-2">
+              <label className="flex cursor-pointer items-center gap-3">
+                <input
+                  type="checkbox"
+                  {...register("sameAsShipping")}
+                  className="h-5 w-5 shrink-0 rounded-none accent-brand-600"
+                />
+                <span className="text-sm font-medium text-slate-700">
+                  {t("sameAsShipping") ||
+                    "L'adresse de facturation est la même que l'adresse de livraison"}
+                </span>
+              </label>
+            </div>
+
+            {/* Bloc Adresse de facturation (conditionnel) */}
+            {!watchedSameAsShipping && (
+              <div className="animate-in fade-in slide-in-from-top-2 mt-4 space-y-3 rounded-none border border-slate-200 bg-slate-50 p-4 duration-300 sm:col-span-2">
+                <h3 className="text-sm font-bold text-slate-900">
+                  {t("billingAddress") || "Adresse de facturation"}
+                </h3>
+
+                <div className="sm:col-span-2">
+                  <label className={labelClass}>{t("address")}</label>
+                  <input
+                    {...register("billingAddress")}
+                    className={inputClass}
+                  />
+                  {errors.billingAddress && (
+                    <p className="mt-1 text-xs text-red-600">
+                      {errors.billingAddress.message}
+                    </p>
+                  )}
+                </div>
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4">
+                  <div>
+                    <label className={labelClass}>{t("city")}</label>
+                    <input
+                      {...register("billingCity")}
+                      className={inputClass}
+                    />
+                    {errors.billingCity && (
+                      <p className="mt-1 text-xs text-red-600">
+                        {errors.billingCity.message}
+                      </p>
+                    )}
+                  </div>
+                  <div>
+                    <label className={labelClass}>{t("province")}</label>
+                    <input
+                      {...register("billingProvince")}
+                      className={inputClass}
+                    />
+                    {errors.billingProvince && (
+                      <p className="mt-1 text-xs text-red-600">
+                        {errors.billingProvince.message}
+                      </p>
+                    )}
+                  </div>
+                  <div>
+                    <label className={labelClass}>{t("postal")}</label>
+                    <input
+                      {...register("billingPostal")}
+                      className={inputClass}
+                    />
+                    {errors.billingPostal && (
+                      <p className="mt-1 text-xs text-red-600">
+                        {errors.billingPostal.message}
+                      </p>
+                    )}
+                  </div>
+                  <div>
+                    <label className={labelClass}>{t("country")}</label>
+                    <select
+                      {...register("billingCountry")}
+                      className={inputClass}
+                    >
+                      <option value="Canada">Canada</option>
+                      <option value="États-Unis">États-Unis</option>
+                      <option value="France">France</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       ) : (
@@ -440,7 +593,7 @@ export default function CheckoutForm({ onTaxCalculated }: CheckoutFormProps) {
         </p>
       )}
 
-      {/* Submit Button avec affichage du total TTC */}
+      {/* Submit Button */}
       <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-slate-200 bg-white p-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] lg:static lg:border-0 lg:p-0 lg:shadow-none">
         <button
           type="submit"
@@ -449,7 +602,7 @@ export default function CheckoutForm({ onTaxCalculated }: CheckoutFormProps) {
         >
           {isSubmitting
             ? t("processing")
-            : `${t("confirm")} — ${taxData?.grandTotal?.toFixed(2) ?? "..."} $`}
+            : `${t("confirm")} — ${taxData?.grandTotal?.toFixed(2) ?? subtotal.toFixed(2)} $`}
         </button>
       </div>
     </form>

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
-import { getMessages } from "next-intl/server";
+import { getMessages, getTranslations } from "next-intl/server"; // ✅ Ajout de getTranslations
 import { notFound } from "next/navigation";
 import { Toaster } from "sonner";
 import { routing } from "@/i18n/routing";
@@ -13,11 +13,27 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-export const metadata: Metadata = {
-  title: "DNK Tech — Électronique & Digital",
-  description:
-    "DNK Tech : smartphones, ordinateurs, audio et produits numériques."
-};
+// ✅ Remplacement de l'objet statique par une fonction dynamique
+export async function generateMetadata({
+  params
+}: {
+  params: Promise<{ locale: Locale }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+
+  // Récupère les traductions du namespace "common"
+  const t = await getTranslations({ locale, namespace: "common" });
+
+  return {
+    title: t("siteTitle"),
+    description: t("siteDescription"),
+    // Vous pouvez aussi ajouter des Open Graph tags traduits ici si besoin
+    openGraph: {
+      title: t("siteTitle"),
+      description: t("siteDescription")
+    }
+  };
+}
 
 export default async function LocaleLayout({
   children,
@@ -29,9 +45,9 @@ export default async function LocaleLayout({
   const { locale } = await params;
 
   if (!routing.locales.includes(locale as Locale)) {
-    // ✅ Remplacez 'any'
     notFound();
   }
+
   const messages = await getMessages();
 
   return (
@@ -40,7 +56,7 @@ export default async function LocaleLayout({
         <NextIntlClientProvider locale={locale} messages={messages}>
           <Header locale={locale} />
           <main className="min-h-[60vh]">{children}</main>
-          <Footer locale={locale} />
+          <Footer />
 
           {/* Notifications globales */}
           <Toaster

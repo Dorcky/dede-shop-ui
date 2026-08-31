@@ -1,26 +1,14 @@
-import type { Metadata } from "next";
 import "./globals.css";
 
-export const metadata: Metadata = {
-  title: "DNK Tech — Électronique & Digital",
-  description:
-    "DNK Tech : smartphones, ordinateurs, audio et produits numériques. Technologies fiables, livraison rapide.",
-  keywords: [
-    "DNK",
-    "tech",
-    "électronique",
-    "smartphones",
-    "ordinateurs",
-    "audio"
-  ],
-  authors: [{ name: "DNK Tech" }]
-};
+// ✅ Suppression totale des métadonnées en dur.
+// Elles sont déjà gérées de manière dynamique et traduite dans [locale]/layout.tsx
 
 export default function RootLayout({
   children
 }: {
   children: React.ReactNode;
 }) {
-  // Le vrai layout avec la locale est dans [locale]/layout.tsx
+  // Ce layout sert uniquement de point d'entrée pour le CSS global.
+  // Le vrai rendu HTML (avec <html> et <body>) se fait dans [locale]/layout.tsx
   return children;
 }
