@@ -6,6 +6,7 @@ import { useFavorites } from "@/lib/store/useFavorites";
 import { Heart, ShoppingBag, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { toast } from "sonner";
+import { money } from "@/lib/utils"; // ✅ Import de l'utilitaire de formatage monétaire
 
 export default function FavoritesList() {
   const t = useTranslations("account");
@@ -14,7 +15,8 @@ export default function FavoritesList() {
 
   const handleRemove = (productId: string, productName: string) => {
     removeItem(productId);
-    toast.info(`${productName} retiré des favoris`);
+    // ✅ TRADUIT AVEC INTERPOLATION
+    toast.info(t("removedFromFavorites", { productName }));
   };
 
   if (items.length === 0) {
@@ -45,12 +47,13 @@ export default function FavoritesList() {
         <button
           onClick={() => {
             clearFavorites();
-            toast.success("Tous les favoris ont été supprimés");
+            // ✅ TRADUIT : Plus de texte en dur
+            toast.success(t("allFavoritesRemoved"));
           }}
           className="flex items-center gap-2 rounded-none text-sm font-bold text-red-600 transition hover:text-red-700"
         >
           <Trash2 className="h-4 w-4" />
-          Tout supprimer
+          {t("clearAll")} {/* ✅ TRADUIT */}
         </button>
       </div>
 
@@ -64,7 +67,7 @@ export default function FavoritesList() {
             <button
               onClick={() => handleRemove(item.productId, item.name[locale])}
               className="absolute right-2 top-2 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-red-500 opacity-0 shadow-sm backdrop-blur-sm transition hover:bg-red-50 group-hover:opacity-100"
-              aria-label="Retirer"
+              aria-label={t("remove")} // ✅ TRADUIT
             >
               <Trash2 className="h-4 w-4" />
             </button>
@@ -85,12 +88,13 @@ export default function FavoritesList() {
                   {item.name[locale]}
                 </h3>
                 <div className="mt-2 flex items-center gap-2">
+                  {/* ✅ UTILITAIRE MONEY AU LIEU DE "$" EN DUR */}
                   <span className="text-sm font-black text-slate-900">
-                    {item.price} $
+                    {money(item.price)}
                   </span>
                   {item.oldPrice && (
                     <span className="text-xs text-slate-400 line-through">
-                      {item.oldPrice} $
+                      {money(item.oldPrice)}
                     </span>
                   )}
                 </div>

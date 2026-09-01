@@ -10,7 +10,9 @@ import {
   Trash2,
   CheckCircle,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
+  Phone,
+  FileText
 } from "lucide-react";
 
 export default function AddressManager() {
@@ -92,7 +94,8 @@ export default function AddressManager() {
   };
 
   const handleDelete = (id: string) => {
-    if (confirm("Êtes-vous sûr de vouloir supprimer cette adresse ?")) {
+    // ✅ Message de confirmation traduit
+    if (window.confirm(t("confirmDeleteAddress"))) {
       deleteAddress(id);
       toast.success(t("addressDeleted"));
     }
@@ -143,9 +146,9 @@ export default function AddressManager() {
                 }
                 className={inputClass}
               >
-                <option value="Canada">Canada</option>
-                <option value="France">France</option>
-                <option value="United States">United States</option>
+                <option value="Canada">{t("countryCanada")}</option>
+                <option value="France">{t("countryFrance")}</option>
+                <option value="United States">{t("countryUS")}</option>
               </select>
             </div>
 
@@ -225,10 +228,10 @@ export default function AddressManager() {
                 className={inputClass}
               >
                 <option value="">{t("provinceSelect")}</option>
-                <option value="QC">Québec</option>
-                <option value="ON">Ontario</option>
-                <option value="BC">British Columbia</option>
-                <option value="Other">Other</option>
+                <option value="QC">{t("provinceQC")}</option>
+                <option value="ON">{t("provinceON")}</option>
+                <option value="BC">{t("provinceBC")}</option>
+                <option value="Other">{t("provinceOther")}</option>
               </select>
             </div>
             <div>
@@ -306,6 +309,7 @@ export default function AddressManager() {
                           }
                           className={radioClass}
                         />
+                        {/* La clé générée sera : propHouse, propApartment, etc. */}
                         {t(
                           `prop${type.charAt(0).toUpperCase() + type.slice(1)}`
                         )}
@@ -382,32 +386,36 @@ export default function AddressManager() {
                       "mailroom",
                       "no_preference"
                     ] as const
-                  ).map((loc) => (
-                    <label
-                      key={loc}
-                      className="flex cursor-pointer items-center gap-2 text-sm text-slate-700"
-                    >
-                      <input
-                        type="radio"
-                        name="leavePackage"
-                        value={loc}
-                        checked={formData.leavePackageLocation === loc}
-                        onChange={(e) =>
-                          setFormData({
-                            ...formData,
-                            leavePackageLocation: e.target
-                              .value as Address["leavePackageLocation"]
-                          })
-                        }
-                      />
-                      {t(
-                        `leave${loc
-                          .split("_")
-                          .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-                          .join("")}`
-                      )}
-                    </label>
-                  ))}
+                  ).map((loc) => {
+                    // La clé générée sera : leaveFrontDoor, leaveReception, etc.
+                    const formattedLoc = loc
+                      .split("_")
+                      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+                      .join("");
+
+                    return (
+                      <label
+                        key={loc}
+                        className="flex cursor-pointer items-center gap-2 text-sm text-slate-700"
+                      >
+                        <input
+                          type="radio"
+                          name="leavePackage"
+                          value={loc}
+                          checked={formData.leavePackageLocation === loc}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              leavePackageLocation: e.target
+                                .value as Address["leavePackageLocation"]
+                            })
+                          }
+                          className="mr-2 accent-brand-600"
+                        />
+                        {t(`leave${formattedLoc}`)}
+                      </label>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -477,11 +485,23 @@ export default function AddressManager() {
               <p className="text-sm text-slate-600">
                 {addr.city}, {addr.province} {addr.postalCode}
               </p>
-              <p className="mt-1 text-sm text-slate-600">📞 {addr.phone}</p>
+
+              {/* ✅ Remplacement de l'émoji 📞 par un libellé traduit + icône */}
+              <p className="mt-1 flex items-center gap-1.5 text-sm text-slate-600">
+                <Phone className="h-3.5 w-3.5" />
+                <span>{t("phoneLabel")}</span> {addr.phone}
+              </p>
 
               {addr.deliveryNotes && (
-                <div className="mt-3 rounded-sm bg-slate-100 p-2 text-xs italic text-slate-600">
-                  📝 {addr.deliveryNotes}
+                // ✅ Remplacement de l'émoji 📝 par un libellé traduit + icône
+                <div className="mt-3 flex items-start gap-2 rounded-sm bg-slate-100 p-2 text-xs italic text-slate-600">
+                  <FileText className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+                  <span>
+                    <span className="font-bold not-italic">
+                      {t("notesLabel")}
+                    </span>{" "}
+                    {addr.deliveryNotes}
+                  </span>
                 </div>
               )}
 

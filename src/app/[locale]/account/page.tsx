@@ -242,7 +242,8 @@ export default function AccountPage() {
                                   {item.productName[locale]}
                                 </Link>
                                 <p className="mt-0.5 text-xs text-slate-500">
-                                  {item.variantName} • Qté : {item.quantity}
+                                  {item.variantName[locale]} • Qté :{" "}
+                                  {item.quantity}
                                 </p>
                                 <p className="mt-1 text-[11px] text-slate-400">
                                   {t("returnUntil")}{" "}

@@ -141,7 +141,11 @@
     "brandName": "DNK Tech",
     "ariaDecrease": "Decrease quantity",
     "ariaIncrease": "Increase quantity",
-    "quantityLabel": "Qty"
+    "quantityLabel": "Qty",
+    "viewCart": "View Cart",
+    "close": "Close",
+    "decrease": "Decrease",
+    "increase": "Increase"
   },
 
   "checkout": {
@@ -252,7 +256,11 @@
     "logoutSuccess": "You are now logged out.",
     "accountVerified": "Account verified successfully.",
     "passwordReset": "Password reset.",
-    "wrongPassword": "Wrong password."
+    "wrongPassword": "Wrong password.",
+    "back": "Back",
+    "close": "Close",
+    "otpCode": "OTP Code",
+    "otpSentDemo": "OTP code sent. Use 654321 for the demo."
   },
   "account": {
     "title": "Your account, your orders, your peace of mind.",
@@ -371,13 +379,32 @@
     "noFavoritesDesc": "Explore the shop and click the heart to save your favorite products.",
     "continueShopping": "Continue shopping",
     "addedToFavorites": "Added to favorites",
-    "removedFromFavorites": "Removed from favorites",
     "loggedOut": "You are now logged out.",
     "createAccountDesc": "Create an account to view your orders and manage your addresses.",
     "orderDetails": "Order details →",
     "returnUntil": "Return until",
     "allYears": "All years",
-    "searchPlaceholder": "Search..."
+    "searchPlaceholder": "Search...",
+    "defaultCustomer": "DNK Customer",
+    "confirmDeleteAddress": "Are you sure you want to delete this address?",
+    "countryCanada": "Canada",
+    "countryFrance": "France",
+    "countryUS": "United States",
+    "provinceQC": "Quebec",
+    "provinceON": "Ontario",
+    "provinceBC": "British Columbia",
+    "provinceOther": "Other",
+    "phoneLabel": "Phone:",
+    "notesLabel": "Notes:",
+    "removedFromFavorites": "{productName} removed from favorites",
+    "allFavoritesRemoved": "All favorites have been removed",
+    "clearAll": "Clear all",
+    "remove": "Remove",
+    "passwordMinLength": "Password must contain at least 4 characters.",
+    "smsVerificationSimulated": "SMS verification simulated.",
+    "passkeyComingSoon": "Passkeys will be available soon.",
+    "twoFactorComingSoon": "Two-factor authentication will be available soon.",
+    "securityProcessSimulated": "Security process simulated."
   },
 
   "about": {

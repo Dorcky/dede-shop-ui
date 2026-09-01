@@ -195,8 +195,8 @@ export default function OrderDetailModal({
                         {item.productName[locale]}
                       </p>
                       <p className="mt-0.5 truncate text-xs text-slate-500">
-                        {/* ✅ TRADUCTION DE "Qté" ET NOTE NUMÉRIQUE */}
-                        {item.variantName} · {t("quantity")} {item.quantity}
+                        {item.variantName[locale]}· {t("quantity")}{" "}
+                        {item.quantity}
                         {item.isDigital && t("digitalNote")}
                       </p>
                     </div>

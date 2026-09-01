@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Variant, Locale } from "@/types";
+import { Variant, Locale, Translatable } from "@/types";
 import { ShoppingCart, ShieldCheck, Truck, Star } from "lucide-react";
 import { toast } from "sonner";
 import Image from "next/image";
@@ -13,7 +13,7 @@ interface ProductInfoProps {
   productId: string;
   productSlug: string;
   categoryName: string;
-  productName: string;
+  productName: Translatable;
   brand: string;
   price: number;
   oldPrice?: number;
@@ -74,16 +74,17 @@ export default function ProductInfo({
         productId,
         productSlug,
         variantId: selectedVariant.id,
-        name: productName,
-        variantName: selectedVariant.name[locale],
+        name: productName, // ✅ objet complet, plus productName tout court résolu
+        variantName: selectedVariant.name, // ✅ objet complet, plus [locale]
         price,
         image: selectedVariant.images[0]?.url || "",
         isDigital
       },
       quantity
     );
-    // ✅ TRADUIT AVEC INTERPOLATION
-    toast.success(t("addedToCart", { productName, quantity }));
+    toast.success(
+      t("addedToCart", { productName: productName[locale], quantity })
+    ); // ✅ résolu ici pour le toast
   };
 
   const renderStars = (value: number) => {
@@ -106,7 +107,7 @@ export default function ProductInfo({
         {categoryName}
       </p>
       <h1 className="mt-2 text-3xl font-black text-slate-900 sm:text-4xl">
-        {productName}
+        {productName[locale]}
       </h1>
 
       {/* Note et avis */}

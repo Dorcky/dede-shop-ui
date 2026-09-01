@@ -255,16 +255,14 @@ export default function SecurityManager() {
           warningText={t("mobileSecurityHint")}
           secondAction={{
             label: t("verify"),
-            onClick: () => toast.info("Vérification SMS simulée.")
+            onClick: () => toast.info(t("smsVerificationSimulated"))
           }}
         />
         <Row
           t={t}
           label={t("passkey")}
           value={t("passkeyDesc")}
-          onEdit={() =>
-            toast.info("Les clés d'accès seront disponibles prochainement.")
-          }
+          onEdit={() => toast.info(t("passkeyComingSoon"))}
         />
         <Row
           t={t}
@@ -276,7 +274,7 @@ export default function SecurityManager() {
           t={t}
           label={t("twoStepVerification")}
           value=""
-          onEdit={() => toast.info("La 2FA sera disponible prochainement.")}
+          onEdit={() => toast.info(t("twoFactorComingSoon"))}
           actionLabel={t("turnOn")}
           showWarning={true}
           warningText={t("twoStepDesc")}
@@ -285,7 +283,7 @@ export default function SecurityManager() {
           t={t}
           label={t("compromisedAccount")}
           value={t("compromisedDesc")}
-          onEdit={() => toast.info("Processus de sécurité simulé.")}
+          onEdit={() => toast.info(t("securityProcessSimulated"))}
           actionLabel={t("start")}
         />
       </div>

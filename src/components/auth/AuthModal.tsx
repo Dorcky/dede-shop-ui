@@ -148,7 +148,7 @@ export default function AuthModal() {
     e.preventDefault();
     setForgotEmail(forgotEmailInput);
     setAuthMode("reset");
-    toast.success(`Code OTP envoyé. Utilisez 654321 pour la démo.`);
+    toast.success(t("otpSentDemo"));
   };
 
   const handleReset = (e: React.FormEvent) => {
@@ -220,7 +220,7 @@ export default function AuthModal() {
                 <button
                   onClick={() => setAuthMode("login")}
                   className="mr-1 text-slate-500 hover:text-slate-900"
-                  aria-label="Retour"
+                  aria-label={t("back")}
                 >
                   <ArrowLeft className="h-5 w-5" />
                 </button>
@@ -236,7 +236,7 @@ export default function AuthModal() {
             <button
               onClick={closeAuthModal}
               className="rounded-full p-2 text-slate-500 transition hover:bg-slate-100"
-              aria-label="Fermer"
+              aria-label={t("close")}
             >
               <X className="h-5 w-5" />
             </button>
@@ -452,7 +452,7 @@ export default function AuthModal() {
                     onChange={(e) =>
                       setResetOtp(e.target.value.replace(/\D/g, ""))
                     }
-                    placeholder="Code OTP"
+                    placeholder={t("otpCode")}
                     className={`${inputClass} text-center tracking-[.4em]`}
                   />
                   <div className="relative">

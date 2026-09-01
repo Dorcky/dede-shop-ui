@@ -7,6 +7,7 @@ import Image from "next/image";
 import { Link, useRouter } from "@/i18n/navigation";
 import { useCart } from "@/lib/store/useCart";
 import { useSettings } from "@/lib/store/useSettings";
+import { useLocale } from "next-intl";
 
 interface CartDrawerProps {
   isOpen: boolean;
@@ -33,6 +34,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
   );
   const itemCount = getItemCount();
   const remaining = settings.shipping.freeThreshold - subtotal;
+  const locale = useLocale() as "fr" | "en";
 
   // Verrouille le scroll du body quand le drawer est ouvert
   useEffect(() => {
@@ -85,7 +87,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
           <button
             onClick={onClose}
             className="rounded-full p-2 text-slate-500 transition hover:bg-slate-100 hover:text-slate-900"
-            aria-label="Fermer"
+            aria-label={t("close")}
           >
             <X className="h-5 w-5" />
           </button>
@@ -144,7 +146,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                   <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded bg-slate-100 sm:h-24 sm:w-24">
                     <Image
                       src={item.image}
-                      alt={item.name}
+                      alt={item.name[locale]}
                       fill
                       className="object-cover"
                       sizes="96px"
@@ -161,10 +163,10 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                       onClick={onClose}
                       className="line-clamp-2 text-sm font-bold text-slate-900 hover:text-brand-600"
                     >
-                      {item.name}
+                      {item.name[locale]}
                     </Link>
                     <p className="mt-0.5 text-xs text-slate-500">
-                      {item.variantName}
+                      {item.variantName[locale]}
                       {item.isDigital && (
                         <span className="ml-1 text-brand-600">
                           · 💻 {t("digitalNote")}
@@ -185,7 +187,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                             )
                           }
                           className="p-1.5 text-slate-600 transition hover:bg-slate-100 sm:p-2"
-                          aria-label="Diminuer"
+                          aria-label={t("decrease")}
                         >
                           <Minus className="h-3 w-3" />
                         </button>
@@ -201,7 +203,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                             )
                           }
                           className="p-1.5 text-slate-600 transition hover:bg-slate-100 sm:p-2"
-                          aria-label="Augmenter"
+                          aria-label={t("increase")}
                         >
                           <Plus className="h-3 w-3" />
                         </button>
@@ -255,7 +257,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
               onClick={onClose}
               className="mt-2 block w-full border border-slate-300 py-2.5 text-center text-xs font-bold uppercase tracking-wider text-slate-900 transition hover:border-slate-900 sm:py-3"
             >
-              Voir le panier
+              <span>{t("viewCart")}</span>
             </Link>
           </div>
         )}

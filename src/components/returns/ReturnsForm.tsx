@@ -118,8 +118,8 @@ export default function ReturnsForm({ locale }: ReturnsFormProps) {
                 {targetItem.productName[locale]}
               </p>
               <p className="text-xs text-slate-500">
-                {t("variantLabel")} : {targetItem.variantName} | {t("qtyLabel")}{" "}
-                : {targetItem.quantity}
+                {t("variantLabel")} : {targetItem.variantName[locale]} |{" "}
+                {t("qtyLabel")} : {targetItem.quantity}
               </p>
               <p className="mt-1 text-sm font-black text-slate-900">
                 {targetItem.price} $
@@ -170,7 +170,7 @@ export default function ReturnsForm({ locale }: ReturnsFormProps) {
                 {/* ✅ TRADUIT */}
                 {targetOrder.items.map((item) => (
                   <option key={item.productId} value={item.productId}>
-                    {item.productName[locale]} ({item.variantName}) —{" "}
+                    {item.productName[locale]} ({item.variantName[locale]}) —{" "}
                     {item.price} $
                   </option>
                 ))}

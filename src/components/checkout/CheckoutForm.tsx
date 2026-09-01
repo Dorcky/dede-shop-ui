@@ -180,7 +180,7 @@ export default function CheckoutForm({ onTaxCalculated }: CheckoutFormProps) {
       const orderItems: OrderItem[] = items.map((item) => ({
         productId: item.productId,
         productSlug: item.productSlug,
-        productName: { fr: item.name, en: item.name },
+        productName: item.name,
         variantName: item.variantName,
         quantity: item.quantity,
         price: item.price,

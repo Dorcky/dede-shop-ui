@@ -53,7 +53,7 @@ export default function ProductDetailTop({
         productId={product.id}
         productSlug={product.slug}
         categoryName={categoryName}
-        productName={product.name[locale]}
+        productName={product.name}
         brand={product.brand}
         price={product.price}
         oldPrice={product.oldPrice}

@@ -44,7 +44,7 @@ export default function AccountSidebar({
             {t("hello")}
           </p>
           <h1 className="mt-1 text-2xl font-black text-slate-900 sm:text-3xl">
-            {user.name || "Client DNK"}
+            {user.name || t("defaultCustomer")}
           </h1>
           <p className="mt-1 text-sm text-slate-500">{user.email}</p>
         </div>

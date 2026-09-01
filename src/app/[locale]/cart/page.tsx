@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { ShoppingBag, Trash2, Minus, Plus, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { Link, useRouter } from "@/i18n/navigation";
@@ -9,6 +9,7 @@ import { useSettings } from "@/lib/store/useSettings";
 
 export default function CartPage() {
   const t = useTranslations("cart");
+  const locale = useLocale() as "fr" | "en";
   const router = useRouter();
   const { items, removeItem, updateQuantity, getSubtotal, getShippingCost } =
     useCart();
@@ -97,7 +98,7 @@ export default function CartPage() {
                 >
                   <Image
                     src={item.image}
-                    alt={item.name}
+                    alt={item.name[locale]}
                     fill
                     className="object-cover"
                     sizes="(max-width: 640px) 80px, 112px"
@@ -117,7 +118,7 @@ export default function CartPage() {
                         href={`/product/${item.productSlug}`}
                         className="truncate text-base font-bold text-slate-900 hover:text-brand-600 sm:text-lg"
                       >
-                        {item.name}
+                        {item.name[locale]}
                       </Link>
 
                       <button
@@ -132,7 +133,7 @@ export default function CartPage() {
                     </div>
 
                     <p className="mt-0.5 text-xs text-slate-400 sm:text-sm">
-                      {item.variantName}
+                      {item.variantName[locale]}
                       {item.isDigital && (
                         <span className="ml-1 text-brand-600">
                           {t("digitalNote")}{" "}

@@ -71,8 +71,8 @@ export interface CartItem {
   productId: string;
   productSlug: string;
   variantId: string;
-  name: string;
-  variantName: string;
+  name: Translatable; // ✅ était: string
+  variantName: Translatable;
   price: number;
   image: string;
   quantity: number;
@@ -97,7 +97,7 @@ export interface OrderItem {
   productId: string;
   productSlug: string;
   productName: { fr: string; en: string };
-  variantName: string;
+  variantName: Translatable;
   quantity: number;
   price: number;
   isDigital: boolean;

@@ -141,7 +141,11 @@
     "brandName": "DNK Tech",
     "ariaDecrease": "Diminuer la quantité",
     "ariaIncrease": "Augmenter la quantité",
-    "quantityLabel": "Qté"
+    "quantityLabel": "Qté",
+    "viewCart": "Voir le panier",
+    "close": "Fermer",
+    "decrease": "Diminuer",
+    "increase": "Augmenter"
   },
 
   "checkout": {
@@ -252,7 +256,11 @@
     "logoutSuccess": "Vous êtes maintenant déconnecté.",
     "accountVerified": "Compte vérifié avec succès.",
     "passwordReset": "Mot de passe réinitialisé.",
-    "wrongPassword": "Mot de passe incorrect."
+    "wrongPassword": "Mot de passe incorrect.",
+    "back": "Retour",
+    "close": "Fermer",
+    "otpCode": "Code OTP",
+    "otpSentDemo": "Code OTP envoyé. Utilisez 654321 pour la démo."
   },
   "account": {
     "title": "Votre compte, vos commandes, votre tranquillité.",
@@ -371,13 +379,32 @@
     "noFavoritesDesc": "Explorez la boutique et cliquez sur le cœur pour sauvegarder vos produits préférés.",
     "continueShopping": "Continuer mes achats",
     "addedToFavorites": "Ajouté aux favoris",
-    "removedFromFavorites": "Retiré des favoris",
     "allYears": "Toutes les années",
     "createAccountDesc": "Créez un compte pour consulter vos commandes et gérer vos adresses.",
     "loggedOut": "Vous êtes maintenant déconnecté.",
     "orderDetails": "Détails commande →",
     "returnUntil": "Retour jusqu'au",
-    "searchPlaceholder": "Rechercher..."
+    "searchPlaceholder": "Rechercher...",
+    "defaultCustomer": "Client DNK",
+    "confirmDeleteAddress": "Êtes-vous sûr de vouloir supprimer cette adresse ?",
+    "countryCanada": "Canada",
+    "countryFrance": "France",
+    "countryUS": "États-Unis",
+    "provinceQC": "Québec",
+    "provinceON": "Ontario",
+    "provinceBC": "Colombie-Britannique",
+    "provinceOther": "Autre",
+    "phoneLabel": "Tél. :",
+    "notesLabel": "Notes :",
+    "removedFromFavorites": "{productName} retiré des favoris",
+    "allFavoritesRemoved": "Tous les favoris ont été supprimés",
+    "clearAll": "Tout supprimer",
+    "remove": "Retirer",
+    "passwordMinLength": "Le mot de passe doit contenir au moins 4 caractères.",
+    "smsVerificationSimulated": "La vérification par SMS est simulée.",
+    "passkeyComingSoon": "Les clés d’accès seront bientôt disponibles.",
+    "twoFactorComingSoon": "L’authentification à deux facteurs sera bientôt disponible.",
+    "securityProcessSimulated": "Le processus de sécurité est simulé."
   },
 
   "about": {

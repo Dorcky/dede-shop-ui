@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import Image from "next/image";
 import { useCart } from "@/lib/store/useCart";
 import { money } from "@/lib/utils"; // ✅ Import de l'utilitaire de formatage monétaire
@@ -13,6 +13,7 @@ interface OrderSummaryProps {
 export default function OrderSummary({ taxData }: OrderSummaryProps) {
   const t = useTranslations("checkout");
   const tCart = useTranslations("cart");
+  const locale = useLocale() as "fr" | "en";
   const { items, getSubtotal } = useCart();
   const subtotal = getSubtotal();
 
@@ -48,7 +49,7 @@ export default function OrderSummary({ taxData }: OrderSummaryProps) {
               <div className="relative h-14 w-14 shrink-0 overflow-hidden bg-slate-100 sm:h-16 sm:w-16">
                 <Image
                   src={item.image}
-                  alt={item.name}
+                  alt={item.name[locale]}
                   fill
                   className="object-cover"
                   sizes="64px"
@@ -56,11 +57,11 @@ export default function OrderSummary({ taxData }: OrderSummaryProps) {
               </div>
               <div className="min-w-0 flex-1">
                 <p className="line-clamp-2 text-sm font-bold text-slate-900">
-                  {item.name}
+                  {item.name[locale]}
                 </p>
                 <p className="mt-0.5 text-xs text-slate-500">
-                  {/* ✅ TRADUITS : Quantité et note numérique */}
-                  {item.variantName} {tCart("quantityLabel")} {item.quantity}
+                  {item.variantName[locale]} {tCart("quantityLabel")}{" "}
+                  {item.quantity}
                   {item.isDigital && tCart("digitalNote")}
                 </p>
               </div>
