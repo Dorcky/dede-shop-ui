@@ -12,7 +12,9 @@
     "limitedOffer": "Limited offer",
     "specialTitle": "Special launch offer",
     "specialSubtitle": "Get 15% off X-series smartphones with code TECH15.",
-    "shopOffer": "Take advantage"
+    "shopOffer": "Take advantage",
+    "heroImageAlt": "Bannière DNK Tech",
+    "specialOfferImageAlt": "Special offer"
   },
   "nav": {
     "all": "All",
@@ -21,7 +23,11 @@
     "audio": "Audio",
     "digital": "Digital",
     "about": "About",
-    "contact": "Contact"
+    "contact": "Contact",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "categories": "Categories",
+    "language": "Language:"
   },
   "footer": {
     "brandDesc": "Reliable technologies designed to last and accompany you every day.",
@@ -87,6 +93,7 @@
     "returnsInfo": "Manufacturer warranty included.",
     "details": "Technical specifications",
     "descriptionTitle": "Product description",
+    "imageAlt": "Image",
     "completeStyle": "Complete your setup",
     "boughtTogether": "Often bought together",
     "reviews": "Customer reviews",
@@ -106,7 +113,11 @@
     "quantity": "Quantity",
     "months": "months",
     "uncategorized": "Uncategorized",
-    "viewProduct": "View product"
+    "viewProduct": "View product",
+    "addedToCart": "{productName} added to cart ({quantity})",
+    "warrantyInfo": "{count} months manufacturer warranty",
+    "notApplicableDigital": "Not applicable (digital)",
+    "reviewImageAlt": "Review {number}"
   },
 
   "cart": {
@@ -129,7 +140,8 @@
     "freeShippingReached": "🎉 You qualify for free shipping!",
     "brandName": "DNK Tech",
     "ariaDecrease": "Decrease quantity",
-    "ariaIncrease": "Increase quantity"
+    "ariaIncrease": "Increase quantity",
+    "quantityLabel": "Qty"
   },
 
   "checkout": {
@@ -169,7 +181,43 @@
     "billingAddressRequired": "Billing address is required",
     "emptyCartTitle": "Your cart is empty",
     "exploreShop": "Explore the shop →",
-    "orderSummary": "Order summary"
+    "orderSummary": "Order summary",
+    "taxDetailsTitle": "Applicable tax details",
+    "calculating": "Calculating...",
+    "totalTaxes": "Total taxes",
+    "grandTotalLabel": "Grand Total (incl. tax)",
+    "errors": {
+      "min2": "Minimum 2 characters",
+      "invalidEmail": "Invalid email",
+      "addressTooShort": "Address too short",
+      "cityRequired": "City required",
+      "provinceRequired": "Province required",
+      "postalRequired": "Postal code required",
+      "countryRequired": "Country required",
+      "invalidCard": "Invalid card number",
+      "invalidExpiry": "Invalid MM/YY format",
+      "invalidCvv": "Invalid CVV",
+      "termsRequired": "You must accept the terms",
+      "shippingAddressRequired": "Shipping address is required for physical products",
+      "billingAddressRequired": "Billing address is required"
+    },
+    "placeholders": {
+      "expiry": "MM/YY",
+      "cvv": "123"
+    },
+    "countries": {
+      "canada": "Canada",
+      "us": "United States",
+      "france": "France"
+    },
+    "optional": "optional",
+    "na": "N/A",
+    "tracking": {
+      "confirmedFr": "Commande confirmée",
+      "confirmedEn": "Order confirmed",
+      "pending": "Pending"
+    },
+    "errorOccurred": "An error occurred. Please try again."
   },
 
   "auth": {
@@ -357,9 +405,13 @@
     "hours": "Opening hours",
     "name": "Full name",
     "topic": "Topic",
-    "message": "Your message",
-    "send": "Send message",
-    "sent": "Your message has been sent.",
+    "selectTopic": "Select a topic",
+    "sending": "Sending...",
+    "errorOccurred": "An error occurred. Please try again.",
+    "message": "Message",
+    "send": "Send",
+    "sent": "Message sent successfully",
+    "error": "An error occurred.",
     "topics": {
       "technical": "Technical question",
       "order": "Order",
@@ -443,7 +495,10 @@
     "subject4": "Other issue",
     "message": "Describe your issue",
     "submit": "Submit complaint",
-    "success": "Your complaint has been recorded."
+    "success": "Your complaint has been recorded.",
+    "sending": "Sending...",
+    "errorOccurred": "An error occurred. Please try again.",
+    "close": "Close"
   },
   "order": {
     "detail": "Order details",
@@ -455,7 +510,10 @@
     "inProgress": "In progress",
     "upcoming": "Upcoming",
     "location": "Location",
-    "eta": "Expected delivery"
+    "eta": "Expected delivery",
+    "close": "Close",
+    "quantity": "Qty",
+    "digitalNote": "· 💻 Digital product"
   },
 
   "common": {
@@ -468,7 +526,11 @@
       "decline": "Decline"
     },
     "siteTitle": "DNK Tech — Electronics & Digital",
-    "siteDescription": "DNK Tech: smartphones, computers, audio and digital products."
+    "siteDescription": "DNK Tech: smartphones, computers, audio and digital products.",
+    "search": "Search",
+    "account": "Account",
+    "cart": "Cart",
+    "brandsSectionLabel": "Our partner brands"
   },
   "errors": {
     "title": "Oops, an error occurred.",

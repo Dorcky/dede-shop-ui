@@ -2,20 +2,23 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "@/i18n/navigation";
+import { useTranslations } from "next-intl"; // ✅ Import ajouté
 import { Search, User, ShoppingCart } from "lucide-react";
 import LocaleSwitcher from "./LocaleSwitcher";
 import MobileMenu from "./MobileMenu";
 import CartDrawer from "@/components/cart/CartDrawer";
 import AuthModal from "@/components/auth/AuthModal";
-import SearchModal from "@/components/search/SearchModal"; // 👈 import ajouté
+import SearchModal from "@/components/search/SearchModal";
 import { useCart } from "@/lib/store/useCart";
 import { useAuth } from "@/lib/store/useAuth";
 import type { Locale } from "@/i18n/routing";
 
 export default function HeaderClientActions({}: { locale: Locale }) {
   const router = useRouter();
+  const t = useTranslations("common"); // ✅ Hook de traduction initialisé
+
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [isSearchOpen, setIsSearchOpen] = useState(false); // 👈 nouveau state
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
 
   const itemCount = useCart((state) => state.getItemCount());
@@ -37,26 +40,28 @@ export default function HeaderClientActions({}: { locale: Locale }) {
   return (
     <>
       <div className="flex items-center gap-3 sm:gap-4">
-        {/* Remplacement du <Link> par un bouton ouvrant la modal */}
+        {/* Bouton Recherche (Desktop uniquement) */}
         <button
           onClick={() => setIsSearchOpen(true)}
-          aria-label="Rechercher"
+          aria-label={t("search")} // ✅ TRADUIT
           className="hidden text-slate-700 hover:text-brand-600 sm:block"
         >
           <Search className="h-5 w-5" />
         </button>
 
+        {/* Bouton Compte */}
         <button
           onClick={handleAccountClick}
-          aria-label="Compte"
+          aria-label={t("account")} // ✅ TRADUIT
           className="text-slate-700 hover:text-brand-600"
         >
           <User className="h-5 w-5" />
         </button>
 
+        {/* Bouton Panier */}
         <button
           onClick={() => setIsCartOpen(true)}
-          aria-label="Panier"
+          aria-label={t("cart")} // ✅ TRADUIT
           className="relative text-slate-700 hover:text-brand-600"
         >
           <ShoppingCart className="h-5 w-5" />
@@ -67,17 +72,18 @@ export default function HeaderClientActions({}: { locale: Locale }) {
           )}
         </button>
 
+        {/* Switch de langue (Desktop) */}
         <div className="hidden lg:block">
           <LocaleSwitcher />
         </div>
 
+        {/* Menu hamburger (Mobile) */}
         <MobileMenu />
       </div>
 
       {/* Modales et Drawers */}
       <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
       <AuthModal />
-      {/* 👈 Intégration de la SearchModal */}
       <SearchModal
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}

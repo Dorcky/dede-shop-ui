@@ -32,7 +32,7 @@ export default function SpecialOffer() {
         <div className="relative min-h-[280px] w-full md:min-h-0">
           <Image
             src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=1000"
-            alt="Offre spéciale"
+            alt={t("specialOfferImageAlt")}
             fill
             priority
             className="object-cover"

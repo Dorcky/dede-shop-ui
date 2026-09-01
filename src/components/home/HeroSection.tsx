@@ -9,7 +9,7 @@ export default function HeroSection() {
     <section className="relative flex min-h-[500px] items-end bg-slate-900 sm:min-h-[620px]">
       <Image
         src="https://images.unsplash.com/photo-1498049794561-7780e7231661?q=80&w=1800"
-        alt="Hero DNK Tech"
+        alt={t("heroImageAlt")}
         fill
         className="object-cover opacity-60"
         priority

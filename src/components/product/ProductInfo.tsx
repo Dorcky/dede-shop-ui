@@ -7,10 +7,11 @@ import { ShoppingCart, ShieldCheck, Truck, Star } from "lucide-react";
 import { toast } from "sonner";
 import Image from "next/image";
 import { useCart } from "@/lib/store/useCart";
+import { money } from "@/lib/utils"; // ✅ Ajouté pour la cohérence des prix
 
 interface ProductInfoProps {
   productId: string;
-  productSlug: string; // ✅ AJOUTÉ
+  productSlug: string;
   categoryName: string;
   productName: string;
   brand: string;
@@ -29,7 +30,7 @@ interface ProductInfoProps {
 
 export default function ProductInfo({
   productId,
-  productSlug, // ✅ DÉSTRUCTURÉ ICI
+  productSlug,
   categoryName,
   productName,
   brand,
@@ -71,7 +72,7 @@ export default function ProductInfo({
     addItem(
       {
         productId,
-        productSlug, // ✅ MAINTENANT DÉFINI ET FONCTIONNEL
+        productSlug,
         variantId: selectedVariant.id,
         name: productName,
         variantName: selectedVariant.name[locale],
@@ -81,7 +82,8 @@ export default function ProductInfo({
       },
       quantity
     );
-    toast.success(`${productName} ajouté au panier (${quantity})`);
+    // ✅ TRADUIT AVEC INTERPOLATION
+    toast.success(t("addedToCart", { productName, quantity }));
   };
 
   const renderStars = (value: number) => {
@@ -118,11 +120,11 @@ export default function ProductInfo({
       {/* Prix */}
       <div className="mt-4 flex items-center gap-3 sm:mt-6">
         <span className="text-2xl font-black text-slate-900 sm:text-3xl">
-          {price} $
+          {money(price)} {/* ✅ UTILITAIRE MONEY AU LIEU DE "$" EN DUR */}
         </span>
         {oldPrice && (
           <span className="text-sm text-slate-400 line-through sm:text-base">
-            {oldPrice} $
+            {money(oldPrice)} {/* ✅ UTILITAIRE MONEY */}
           </span>
         )}
         {isDigital && (
@@ -142,7 +144,7 @@ export default function ProductInfo({
         {warranty > 0 && (
           <span className="flex items-center gap-1 text-slate-600">
             <ShieldCheck className="h-4 w-4" />
-            {warranty} mois
+            {warranty} {t("months")} {/* ✅ TRADUIT */}
           </span>
         )}
         {brand && <span className="font-semibold text-slate-700">{brand}</span>}
@@ -187,6 +189,7 @@ export default function ProductInfo({
           <button
             onClick={() => setQuantity(Math.max(1, quantity - 1))}
             className="px-3 py-2 text-lg transition hover:bg-slate-100 sm:px-4 sm:py-3"
+            aria-label="Diminuer la quantité"
           >
             −
           </button>
@@ -196,6 +199,7 @@ export default function ProductInfo({
           <button
             onClick={() => setQuantity(quantity + 1)}
             className="px-3 py-2 text-lg transition hover:bg-slate-100 sm:px-4 sm:py-3"
+            aria-label="Augmenter la quantité"
           >
             +
           </button>
@@ -224,8 +228,8 @@ export default function ProductInfo({
             <span className="font-bold text-slate-900">{t("returns")}</span>
             <p className="mt-1 text-xs">
               {warranty > 0
-                ? `${warranty} mois constructeur`
-                : "Non applicable (numérique)"}
+                ? t("warrantyInfo", { count: warranty })
+                : t("notApplicableDigital")}
             </p>
           </div>
         </div>

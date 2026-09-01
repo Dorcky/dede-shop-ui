@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 interface ProductGalleryProps {
   images: string[];
@@ -15,6 +16,8 @@ export default function ProductGallery({
   onImageSelect,
   productName
 }: ProductGalleryProps) {
+  const t = useTranslations("product");
+
   return (
     <div className="lg:sticky lg:top-24">
       {/* Image principale */}
@@ -44,7 +47,7 @@ export default function ProductGallery({
             >
               <Image
                 src={img}
-                alt={`${productName} - Image ${i + 1}`}
+                alt={`${productName} - ${t("imageAlt")} ${i + 1}`}
                 width={80}
                 height={80}
                 className="h-full w-full object-cover"

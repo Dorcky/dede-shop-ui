@@ -69,7 +69,8 @@ export default function ComplaintModal({
       (e.target as HTMLFormElement).reset();
       onClose();
     } catch {
-      toast.error("Une erreur est survenue.");
+      // ✅ TRADUIT : Plus de texte en dur
+      toast.error(t("errorOccurred"));
     } finally {
       setIsSubmitting(false);
     }
@@ -96,7 +97,7 @@ export default function ComplaintModal({
             <button
               onClick={onClose}
               className="rounded-full p-2 text-slate-500 transition hover:bg-slate-100"
-              aria-label="Fermer"
+              aria-label={t("close")} // ✅ TRADUIT
             >
               <X className="h-5 w-5" />
             </button>
@@ -141,7 +142,8 @@ export default function ComplaintModal({
               disabled={isSubmitting}
               className="bg-brand-600 py-3 text-xs font-bold uppercase tracking-wider text-white transition hover:bg-brand-700 disabled:opacity-50 sm:py-4"
             >
-              {isSubmitting ? "..." : t("submit")}
+              {/* ✅ TRADUIT : État de chargement dynamique */}
+              {isSubmitting ? t("sending") : t("submit")}
             </button>
           </form>
         </div>

@@ -3,6 +3,7 @@
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useCart } from "@/lib/store/useCart";
+import { money } from "@/lib/utils"; // ✅ Import de l'utilitaire de formatage monétaire
 import type { TaxCalculation } from "@/types";
 
 interface OrderSummaryProps {
@@ -58,12 +59,14 @@ export default function OrderSummary({ taxData }: OrderSummaryProps) {
                   {item.name}
                 </p>
                 <p className="mt-0.5 text-xs text-slate-500">
-                  {item.variantName} · Qté {item.quantity}
-                  {item.isDigital && " 💻"}
+                  {/* ✅ TRADUITS : Quantité et note numérique */}
+                  {item.variantName} {tCart("quantityLabel")} {item.quantity}
+                  {item.isDigital && tCart("digitalNote")}
                 </p>
               </div>
               <p className="shrink-0 text-sm font-bold text-slate-900">
-                {(item.price * item.quantity).toFixed(2)} $
+                {/* ✅ UTILITAIRE MONEY AU LIEU DE "$" EN DUR */}
+                {money(item.price * item.quantity)}
               </p>
             </div>
           ))}
@@ -73,7 +76,7 @@ export default function OrderSummary({ taxData }: OrderSummaryProps) {
           <div className="flex justify-between text-slate-600">
             <span>{tCart("subtotal")}</span>
             <span className="font-mono font-semibold">
-              {displayTaxData.subtotal.toFixed(2)} $
+              {money(displayTaxData.subtotal)} {/* ✅ UTILITAIRE MONEY */}
             </span>
           </div>
           <div className="flex justify-between text-slate-600">
@@ -81,7 +84,8 @@ export default function OrderSummary({ taxData }: OrderSummaryProps) {
             <span className="text-xs font-semibold uppercase text-emerald-600">
               {displayTaxData.shipping === 0
                 ? tCart("free")
-                : `${displayTaxData.shipping.toFixed(2)} $`}
+                : money(displayTaxData.shipping)}{" "}
+              {/* ✅ UTILITAIRE MONEY */}
             </span>
           </div>
         </div>
@@ -89,7 +93,7 @@ export default function OrderSummary({ taxData }: OrderSummaryProps) {
         {/* Lignes de taxes dynamiques */}
         <div className="my-3 space-y-1.5 border-b border-t border-dashed border-slate-300 py-3">
           <span className="mb-1 block text-[11px] font-bold uppercase text-slate-500">
-            Détail des Taxes Applicables
+            {t("taxDetailsTitle")} {/* ✅ TRADUIT */}
           </span>
           <div className="space-y-1 font-mono text-xs">
             {displayTaxData.taxes.length > 0 ? (
@@ -102,35 +106,35 @@ export default function OrderSummary({ taxData }: OrderSummaryProps) {
                     {tax.type} (
                     {(tax.rate * 100).toFixed(tax.rate < 0.1 ? 3 : 0)}%)
                   </span>
-                  <span>+{tax.amount.toFixed(2)} $</span>
+                  <span>+{money(tax.amount)}</span> {/* ✅ UTILITAIRE MONEY */}
                 </div>
               ))
             ) : (
-              <span className="italic text-slate-400">Calcul en cours...</span>
+              <span className="italic text-slate-400">
+                {t("calculating")} {/* ✅ TRADUIT */}
+              </span>
             )}
           </div>
         </div>
 
         <div className="flex items-center justify-between text-sm font-bold">
-          <span>Total des taxes</span>
+          <span>{t("totalTaxes")}</span> {/* ✅ TRADUIT */}
           <span className="font-mono text-sky-700">
-            {displayTaxData.taxTotal.toFixed(2)} $
+            {money(displayTaxData.taxTotal)} {/* ✅ UTILITAIRE MONEY */}
           </span>
         </div>
 
         <div className="flex items-end justify-between border-t-2 border-slate-900 pt-3">
           <div>
             <span className="block text-xs font-bold uppercase text-slate-500">
-              Montant Total TTC
+              {t("grandTotalLabel")} {/* ✅ TRADUIT */}
             </span>
             <span className="font-mono text-2xl font-black text-slate-900">
-              {displayTaxData.grandTotal.toFixed(2)} $
+              {money(displayTaxData.grandTotal)} {/* ✅ UTILITAIRE MONEY */}
             </span>
           </div>
         </div>
       </div>
-
-      {/* ✅ Le terminal d'audit "Tax Engine v2.4" a été complètement supprimé */}
     </aside>
   );
 }

@@ -12,7 +12,9 @@
     "limitedOffer": "Offre limitée",
     "specialTitle": "Offre spéciale lancement",
     "specialSubtitle": "Profitez de 15 % de réduction sur les smartphones de la série X avec le code TECH15.",
-    "shopOffer": "Profiter de l’offre"
+    "shopOffer": "Profiter de l’offre",
+    "heroImageAlt": "Bannière DNK Tech",
+    "specialOfferImageAlt": "Offre spéciale"
   },
   "nav": {
     "all": "Tout",
@@ -21,7 +23,11 @@
     "audio": "Audio",
     "digital": "Numérique",
     "about": "À propos",
-    "contact": "Contact"
+    "contact": "Contact",
+    "openMenu": "Ouvrir le menu",
+    "closeMenu": "Fermer le menu",
+    "categories": "Catégories",
+    "language": "Langue :"
   },
   "footer": {
     "brandDesc": "Des technologies fiables, conçues pour durer et vous accompagner au quotidien.",
@@ -87,6 +93,7 @@
     "returnsInfo": "Garantie constructeur incluse.",
     "details": "Spécifications techniques",
     "descriptionTitle": "Description du produit",
+    "imageAlt": "Image",
     "completeStyle": "Complétez votre configuration",
     "boughtTogether": "Souvent achetés ensemble",
     "reviews": "Avis clients",
@@ -106,7 +113,11 @@
     "quantity": "Quantité",
     "months": "mois",
     "uncategorized": "Non catégorisé",
-    "viewProduct": "Voir le produit"
+    "viewProduct": "Voir le produit",
+    "addedToCart": "{productName} ajouté au panier ({quantity})",
+    "warrantyInfo": "{count} mois constructeur",
+    "notApplicableDigital": "Non applicable (numérique)",
+    "reviewImageAlt": "Avis {number}"
   },
 
   "cart": {
@@ -129,7 +140,8 @@
     "freeShippingReached": "🎉 Vous bénéficiez de la livraison gratuite !",
     "brandName": "DNK Tech",
     "ariaDecrease": "Diminuer la quantité",
-    "ariaIncrease": "Augmenter la quantité"
+    "ariaIncrease": "Augmenter la quantité",
+    "quantityLabel": "Qté"
   },
 
   "checkout": {
@@ -169,7 +181,43 @@
     "billingAddressRequired": "L'adresse de facturation est requise",
     "emptyCartTitle": "Votre panier est vide",
     "exploreShop": "Explorer la boutique →",
-    "orderSummary": "Résumé de la commande"
+    "orderSummary": "Résumé de la commande",
+    "taxDetailsTitle": "Détail des taxes applicables",
+    "calculating": "Calcul en cours...",
+    "totalTaxes": "Total des taxes",
+    "grandTotalLabel": "Montant Total TTC",
+    "errors": {
+      "min2": "Minimum 2 caractères",
+      "invalidEmail": "Email invalide",
+      "addressTooShort": "Adresse trop courte",
+      "cityRequired": "Ville requise",
+      "provinceRequired": "Province requise",
+      "postalRequired": "Code postal requis",
+      "countryRequired": "Pays requis",
+      "invalidCard": "Numéro de carte invalide",
+      "invalidExpiry": "Format MM/AA invalide",
+      "invalidCvv": "CVV invalide",
+      "termsRequired": "Vous devez accepter les conditions",
+      "shippingAddressRequired": "L'adresse de livraison est requise pour les produits physiques",
+      "billingAddressRequired": "L'adresse de facturation est requise"
+    },
+    "placeholders": {
+      "expiry": "MM/AA",
+      "cvv": "123"
+    },
+    "countries": {
+      "canada": "Canada",
+      "us": "États-Unis",
+      "france": "France"
+    },
+    "optional": "optionnel",
+    "na": "N/A",
+    "tracking": {
+      "confirmedFr": "Commande confirmée",
+      "confirmedEn": "Order confirmed",
+      "pending": "En attente"
+    },
+    "errorOccurred": "Une erreur est survenue. Veuillez réessayer."
   },
 
   "auth": {
@@ -357,9 +405,13 @@
     "hours": "Heures d'ouverture",
     "name": "Nom complet",
     "topic": "Sujet",
+    "selectTopic": "Sélectionnez un sujet",
     "message": "Votre message",
-    "send": "Envoyer le message",
-    "sent": "Votre message a été envoyé.",
+    "sending": "Envoi en cours...",
+    "errorOccurred": "Une erreur est survenue. Veuillez réessayer.",
+    "send": "Envoyer",
+    "sent": "Message envoyé avec succès",
+    "error": "Une erreur est survenue.",
     "topics": {
       "technical": "Question technique",
       "order": "Commande",
@@ -443,7 +495,10 @@
     "subject4": "Autre problème",
     "message": "Décrivez votre problème",
     "submit": "Envoyer la réclamation",
-    "success": "Votre réclamation a été enregistrée."
+    "success": "Votre réclamation a été enregistrée.",
+    "sending": "Envoi en cours...",
+    "errorOccurred": "Une erreur est survenue. Veuillez réessayer.",
+    "close": "Fermer"
   },
   "order": {
     "detail": "Détail de la commande",
@@ -455,7 +510,10 @@
     "inProgress": "En cours",
     "upcoming": "À venir",
     "location": "Localisation",
-    "eta": "Livraison prévue"
+    "eta": "Livraison prévue",
+    "close": "Fermer",
+    "quantity": "Qté",
+    "digitalNote": "· 💻 Produit numérique"
   },
 
   "common": {
@@ -469,7 +527,11 @@
     },
 
     "siteTitle": "DNK Tech — Électronique & Digital",
-    "siteDescription": "DNK Tech : smartphones, ordinateurs, audio et produits numériques."
+    "siteDescription": "DNK Tech : smartphones, ordinateurs, audio et produits numériques.",
+    "search": "Rechercher",
+    "account": "Compte",
+    "cart": "Panier",
+    "brandsSectionLabel": "Nos marques partenaires"
   },
   "errors": {
     "title": "Oups, une erreur est survenue.",

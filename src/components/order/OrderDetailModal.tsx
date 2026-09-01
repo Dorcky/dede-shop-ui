@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { X, Check, Package, Truck, MapPin, Calendar } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "@/i18n/navigation";
@@ -21,6 +21,7 @@ export default function OrderDetailModal({
 }: OrderDetailModalProps) {
   const t = useTranslations("order");
   const tAccount = useTranslations("account");
+  const locale = useLocale() as "fr" | "en"; // ✅ Récupération dynamique de la locale
   const router = useRouter();
   const settings = useSettings();
 
@@ -64,6 +65,14 @@ export default function OrderDetailModal({
     router.push(`/returns?orderId=${order.id}`);
   };
 
+  // ✅ Formatage de la date selon la locale active
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString(
+      locale === "fr" ? "fr-FR" : "en-US",
+      { year: "numeric", month: "long", day: "numeric" }
+    );
+  };
+
   return (
     <>
       {/* Overlay */}
@@ -83,7 +92,7 @@ export default function OrderDetailModal({
             <button
               onClick={onClose}
               className="rounded-full p-2 text-slate-500 transition hover:bg-slate-100"
-              aria-label="Fermer"
+              aria-label={t("close")} // ✅ TRADUIT
             >
               <X className="h-5 w-5" />
             </button>
@@ -97,8 +106,8 @@ export default function OrderDetailModal({
                 <p className="text-lg font-bold text-slate-900">{order.id}</p>
                 <p className="mt-1 flex items-center gap-1 text-sm text-slate-500">
                   <Calendar className="h-3.5 w-3.5" />
-                  {t("placedOn")}{" "}
-                  {new Date(order.createdAt).toLocaleDateString()}
+                  {t("placedOn")} {formatDate(order.createdAt)}{" "}
+                  {/* ✅ DATE LOCALISÉE */}
                 </p>
               </div>
               <div className="sm:text-right">
@@ -151,7 +160,8 @@ export default function OrderDetailModal({
                     </div>
                     <div className="flex-1 pb-2">
                       <p className="text-sm font-bold text-slate-900">
-                        {step.label.fr}
+                        {/* ✅ UTILISATION DYNAMIQUE DE LA LOCALE AU LIEU DE .fr EN DUR */}
+                        {step.label[locale]}
                       </p>
                       <p className="mt-0.5 text-xs text-slate-500 sm:mt-1">
                         {step.date || t("upcoming")}
@@ -174,7 +184,7 @@ export default function OrderDetailModal({
                     <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded bg-slate-100 sm:h-14 sm:w-14">
                       <Image
                         src={item.image}
-                        alt={item.productName.fr}
+                        alt={item.productName[locale]}
                         fill
                         className="object-cover"
                         sizes="56px"
@@ -182,15 +192,17 @@ export default function OrderDetailModal({
                     </div>
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-sm font-bold text-slate-900">
-                        {item.productName.fr}
+                        {item.productName[locale]}
                       </p>
                       <p className="mt-0.5 truncate text-xs text-slate-500">
-                        {item.variantName} · Qté {item.quantity}
-                        {item.isDigital && " 💻"}
+                        {/* ✅ TRADUCTION DE "Qté" ET NOTE NUMÉRIQUE */}
+                        {item.variantName} · {t("quantity")} {item.quantity}
+                        {item.isDigital && t("digitalNote")}
                       </p>
                     </div>
                     <p className="shrink-0 text-sm font-bold text-slate-900">
-                      {(item.price * item.quantity).toFixed(2)} $
+                      {(item.price * item.quantity).toFixed(2)}{" "}
+                      {settings.currencySymbol || "$"}
                     </p>
                   </div>
                 ))}
@@ -199,7 +211,7 @@ export default function OrderDetailModal({
               <div className="mt-4 flex justify-between border-t border-slate-200 pt-4 text-base font-black text-slate-900 sm:mt-6">
                 <span>{t("total")}</span>
                 <span>
-                  {order.total.toFixed(2)} {settings.currencySymbol}
+                  {order.total.toFixed(2)} {settings.currencySymbol || "$"}
                 </span>
               </div>
             </div>

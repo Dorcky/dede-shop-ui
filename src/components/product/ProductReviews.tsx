@@ -109,7 +109,7 @@ export default function ProductReviews({ product }: ProductReviewsProps) {
                           width={80}
                           height={80}
                           src={img}
-                          alt={`Avis ${i + 1}`}
+                          alt={t("reviewImageAlt", { number: i + 1 })}
                           className="h-16 w-16 rounded border border-slate-200 object-cover sm:h-20 sm:w-20"
                         />
                       ))}

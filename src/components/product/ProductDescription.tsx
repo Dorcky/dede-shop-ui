@@ -29,7 +29,7 @@ export default function ProductDescription({
               <div key={idx} className="overflow-hidden rounded-lg">
                 <Image
                   src={block.url}
-                  alt={`${productName} - Image ${idx + 1}`}
+                  alt={`${productName} - ${t("imageAlt")} ${idx + 1}`}
                   width={900}
                   height={500}
                   className="h-auto w-full object-cover"

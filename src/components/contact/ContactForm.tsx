@@ -41,7 +41,8 @@ export default function ContactForm({ topics, locale }: ContactFormProps) {
       toast.success(t("sent"));
       (e.target as HTMLFormElement).reset();
     } catch {
-      toast.error("Une erreur est survenue.");
+      // ✅ TRADUIT : Plus de texte en dur
+      toast.error(t("errorOccurred"));
     } finally {
       setIsSubmitting(false);
     }
@@ -72,6 +73,10 @@ export default function ContactForm({ topics, locale }: ContactFormProps) {
         required
         className="w-full border border-slate-300 px-4 py-3 text-sm transition focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-600/20"
       >
+        {/* Option par défaut pour l'accessibilité et la clarté */}
+        <option value="" disabled>
+          {t("selectTopic") || "Sélectionner un sujet"}
+        </option>
         {topics.map((topic) => (
           <option key={topic.id} value={topic.id}>
             {topic.name[locale]}
@@ -90,7 +95,8 @@ export default function ContactForm({ topics, locale }: ContactFormProps) {
         disabled={isSubmitting}
         className="bg-slate-900 py-3 text-xs font-bold uppercase tracking-wider text-white transition hover:bg-brand-700 disabled:opacity-50 sm:py-4"
       >
-        {isSubmitting ? "..." : t("send")}
+        {/* ✅ TRADUIT : État de chargement dynamique */}
+        {isSubmitting ? t("sending") : t("send")}
       </button>
     </form>
   );
