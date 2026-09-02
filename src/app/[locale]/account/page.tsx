@@ -7,7 +7,16 @@ import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { useAuth } from "@/lib/store/useAuth";
 import { useOrders } from "@/lib/store/useOrders";
-import { ShoppingBag, Search, Package } from "lucide-react";
+import {
+  ShoppingBag,
+  Search,
+  Package,
+  MapPin,
+  RotateCcw,
+  Heart,
+  Shield,
+  Star
+} from "lucide-react";
 import Image from "next/image";
 import type { Order } from "@/types";
 import OrderDetailModal from "@/components/order/OrderDetailModal";
@@ -19,12 +28,29 @@ import FavoritesList from "@/components/account/FavoritesList";
 
 type TabType = "orders" | "addresses" | "returns" | "security" | "favorites";
 
-const tabs = [
-  { id: "orders", icon: "📦", labelKey: "myOrders" },
-  { id: "addresses", icon: "📍", labelKey: "myAddresses" },
-  { id: "returns", icon: "↩️", labelKey: "returns" },
-  { id: "favorites", icon: "❤️", labelKey: "favorites" },
-  { id: "security", icon: "🔒", labelKey: "loginSecurity" }
+// ✅ 1. Remplacement des émojis par des icônes React (Lucide)
+const tabs: { id: TabType; icon: React.ReactNode; labelKey: string }[] = [
+  { id: "orders", icon: <Package className="h-4 w-4" />, labelKey: "myOrders" },
+  {
+    id: "addresses",
+    icon: <MapPin className="h-4 w-4" />,
+    labelKey: "myAddresses"
+  },
+  {
+    id: "returns",
+    icon: <RotateCcw className="h-4 w-4" />,
+    labelKey: "returns"
+  },
+  {
+    id: "favorites",
+    icon: <Heart className="h-4 w-4" />,
+    labelKey: "favorites"
+  },
+  {
+    id: "security",
+    icon: <Shield className="h-4 w-4" />,
+    labelKey: "loginSecurity"
+  }
 ];
 
 export default function AccountPage() {
@@ -51,7 +77,7 @@ export default function AccountPage() {
 
   const handleLogout = () => {
     logout();
-    toast.success(t("loggedOut")); // ✅ TRADUIT
+    toast.success(t("loggedOut"));
     router.push("/");
   };
 
@@ -93,6 +119,10 @@ export default function AccountPage() {
     return matchesSearch && (yearFilter === "all" || orderYear === yearFilter);
   });
 
+  // ✅ 2. Génération dynamique des 5 dernières années pour le filtre
+  const currentYear = new Date().getFullYear();
+  const availableYears = Array.from({ length: 5 }, (_, i) => currentYear - i);
+
   if (!user) {
     return (
       <section className="mx-auto max-w-5xl px-4 py-12 lg:px-8 lg:py-16">
@@ -105,7 +135,7 @@ export default function AccountPage() {
               {t("title")}
             </h1>
             <p className="mt-4 leading-7 text-slate-600 sm:mt-5">
-              {t("createAccountDesc")} {/* ✅ TRADUIT */}
+              {t("createAccountDesc")}
             </p>
             <div className="mt-6 flex flex-wrap gap-3 sm:mt-8">
               <button
@@ -136,7 +166,7 @@ export default function AccountPage() {
                   : "border-slate-300 bg-white text-slate-700 hover:border-slate-400"
               }`}
             >
-              <span>{tab.icon}</span>
+              {tab.icon} {/* ✅ Rendu direct de l'icône React */}
               {t(tab.labelKey)}
             </button>
           ))}
@@ -170,7 +200,7 @@ export default function AccountPage() {
                     </span>
                     <input
                       type="search"
-                      placeholder={t("searchPlaceholder") || "Rechercher..."}
+                      placeholder={t("searchPlaceholder")}
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       className="w-full rounded-none border border-slate-300 py-2 pl-10 pr-3 text-sm transition focus:border-brand-600 focus:outline-none"
@@ -181,10 +211,13 @@ export default function AccountPage() {
                     onChange={(e) => setYearFilter(e.target.value)}
                     className="w-full rounded-none border border-slate-300 bg-slate-50 px-3 py-2 text-sm focus:border-brand-600 focus:outline-none sm:w-auto"
                   >
-                    <option value="all">{t("allYears")}</option>{" "}
-                    {/* ✅ TRADUIT */}
-                    <option value="2026">2026</option>
-                    <option value="2025">2025</option>
+                    <option value="all">{t("allYears")}</option>
+                    {/* ✅ 3. Rendu dynamique des années (plus de code en dur) */}
+                    {availableYears.map((year) => (
+                      <option key={year} value={year.toString()}>
+                        {year}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -205,7 +238,7 @@ export default function AccountPage() {
                           onClick={() => setSelectedOrder(order)}
                           className="text-xs font-bold text-brand-600 hover:underline"
                         >
-                          {t("orderDetails")} {/* ✅ TRADUIT */}
+                          {t("orderDetails")}
                         </button>
                       </div>
 
@@ -242,13 +275,12 @@ export default function AccountPage() {
                                   {item.productName[locale]}
                                 </Link>
                                 <p className="mt-0.5 text-xs text-slate-500">
-                                  {item.variantName[locale]} • Qté :{" "}
+                                  {item.variantName[locale]} • {t("quantity")} :{" "}
                                   {item.quantity}
                                 </p>
                                 <p className="mt-1 text-[11px] text-slate-400">
                                   {t("returnUntil")}{" "}
-                                  {getReturnDate(order.createdAt)}{" "}
-                                  {/* ✅ TRADUIT */}
+                                  {getReturnDate(order.createdAt)}
                                 </p>
                               </div>
                             </div>
@@ -259,32 +291,30 @@ export default function AccountPage() {
                                 onClick={() => setSelectedOrder(order)}
                                 className="flex-1 bg-slate-900 px-3 py-2 text-center text-xs font-bold text-white transition hover:bg-slate-800"
                               >
-                                {t("tracking")}{" "}
-                                {/* ✅ TRADUIT (plus de fallback) */}
+                                {t("tracking")}
                               </button>
 
                               <Link
                                 href={`/returns?orderId=${order.id}&productId=${item.productId}`}
                                 className="flex-1 border border-slate-200 bg-white px-3 py-2 text-center text-xs font-semibold text-slate-700 transition hover:bg-slate-50"
                               >
-                                {t("returnRequest")}{" "}
-                                {/* ✅ TRADUIT (plus de fallback) */}
+                                {t("returnRequest")}
                               </Link>
 
                               <div className="flex w-full justify-between pt-1 text-[11px]">
                                 <Link
                                   href={`/product/${item.productSlug}#reviews`}
-                                  className="font-medium text-slate-500 hover:text-slate-900 hover:underline"
+                                  className="flex items-center font-medium text-slate-500 hover:text-slate-900 hover:underline"
                                 >
-                                  ★ {tReview("leave")}{" "}
-                                  {/* ✅ TRADUIT (plus de fallback) */}
+                                  {/* ✅ 4. Remplacement de l'étoile ★ par l'icône Star de Lucide */}
+                                  <Star className="mr-1 h-3 w-3 fill-amber-400 text-amber-400" />
+                                  {tReview("leave")}
                                 </Link>
                                 <Link
                                   href="/contact"
                                   className="font-medium text-slate-500 hover:text-slate-900 hover:underline"
                                 >
-                                  {tContact("title")}{" "}
-                                  {/* ✅ TRADUIT (plus de fallback) */}
+                                  {tContact("title")}
                                 </Link>
                               </div>
                             </div>

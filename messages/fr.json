@@ -406,7 +406,8 @@
     "smsVerificationSimulated": "La vérification par SMS est simulée.",
     "passkeyComingSoon": "Les clés d’accès seront bientôt disponibles.",
     "twoFactorComingSoon": "L’authentification à deux facteurs sera bientôt disponible.",
-    "securityProcessSimulated": "Le processus de sécurité est simulé."
+    "securityProcessSimulated": "Le processus de sécurité est simulé.",
+    "quantity": "Qté"
   },
 
   "about": {

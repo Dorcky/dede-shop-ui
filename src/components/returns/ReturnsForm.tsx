@@ -8,6 +8,7 @@ import Image from "next/image";
 import { useAuth } from "@/lib/store/useAuth";
 import { useOrders } from "@/lib/store/useOrders";
 import { Package } from "lucide-react";
+import { money } from "@/lib/utils"; // ✅ Ajout pour formater le prix sans "$" en dur
 
 interface ReturnsFormProps {
   locale: "fr" | "en";
@@ -48,7 +49,7 @@ export default function ReturnsForm({ locale }: ReturnsFormProps) {
     const productId = formData.get("productId") as string;
 
     if (!orderId || !productId) {
-      toast.error(t("selectOrderAndItemError")); // ✅ TRADUIT
+      toast.error(t("selectOrderAndItemError"));
       setIsSubmitting(false);
       return;
     }
@@ -60,9 +61,9 @@ export default function ReturnsForm({ locale }: ReturnsFormProps) {
       orderId,
       productId,
       userId: user?.id || null,
-      name: user?.name || order?.customerName || t("defaultName"), // ✅ TRADUIT
+      name: user?.name || order?.customerName || t("defaultName"),
       email: user?.email || order?.customerEmail || "",
-      subject: t("returnSubject", { orderId }), // ✅ TRADUIT AVEC INTERPOLATION
+      subject: t("returnSubject", { orderId }),
       reason: formData.get("reason") as string,
       message: formData.get("message") as string
     };
@@ -81,7 +82,7 @@ export default function ReturnsForm({ locale }: ReturnsFormProps) {
       setSelectedOrderId("");
       setSelectedProductId("");
     } catch {
-      toast.error(t("errorOccurred")); // ✅ TRADUIT
+      toast.error(t("errorOccurred"));
     } finally {
       setIsSubmitting(false);
     }
@@ -122,7 +123,7 @@ export default function ReturnsForm({ locale }: ReturnsFormProps) {
                 {t("qtyLabel")} : {targetItem.quantity}
               </p>
               <p className="mt-1 text-sm font-black text-slate-900">
-                {targetItem.price} $
+                {money(targetItem.price)} {/* ✅ Plus de "$" en dur */}
               </p>
             </div>
           </div>
@@ -145,8 +146,7 @@ export default function ReturnsForm({ locale }: ReturnsFormProps) {
               required
               className="w-full border border-slate-300 px-4 py-3 text-sm transition focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-600/20"
             >
-              <option value="">{t("selectOrderPlaceholder")}</option>{" "}
-              {/* ✅ TRADUIT */}
+              <option value="">{t("selectOrderPlaceholder")}</option>
               {orders.map((o) => (
                 <option key={o.id} value={o.id}>
                   {o.id} — {new Date(o.createdAt).toLocaleDateString()}
@@ -158,7 +158,7 @@ export default function ReturnsForm({ locale }: ReturnsFormProps) {
           {selectedOrderId && targetOrder && (
             <div className="animate-in fade-in slide-in-from-top-2 duration-300 sm:col-span-2">
               <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-slate-700">
-                {t("concernedItem")} {/* ✅ TRADUIT */}
+                {t("concernedItem")}
               </label>
               <select
                 value={selectedProductId}
@@ -166,12 +166,11 @@ export default function ReturnsForm({ locale }: ReturnsFormProps) {
                 required
                 className="w-full border border-slate-300 px-4 py-3 text-sm transition focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-600/20"
               >
-                <option value="">{t("selectItemPlaceholder")}</option>{" "}
-                {/* ✅ TRADUIT */}
+                <option value="">{t("selectItemPlaceholder")}</option>
                 {targetOrder.items.map((item) => (
                   <option key={item.productId} value={item.productId}>
                     {item.productName[locale]} ({item.variantName[locale]}) —{" "}
-                    {item.price} $
+                    {money(item.price)} {/* ✅ Plus de "$" en dur */}
                   </option>
                 ))}
               </select>
@@ -190,8 +189,7 @@ export default function ReturnsForm({ locale }: ReturnsFormProps) {
           required
           className="w-full border border-slate-300 px-4 py-3 text-sm transition focus:border-brand-600 focus:outline-none focus:ring-2 focus:ring-brand-600/20"
         >
-          <option value="">{t("selectReasonPlaceholder")}</option>{" "}
-          {/* ✅ TRADUIT */}
+          <option value="">{t("selectReasonPlaceholder")}</option>
           {reasons.map((r) => (
             <option key={r.value} value={r.value}>
               {r.label}
@@ -219,7 +217,7 @@ export default function ReturnsForm({ locale }: ReturnsFormProps) {
         disabled={isSubmitting}
         className="bg-brand-600 py-3 text-xs font-bold uppercase tracking-wider text-white transition hover:bg-brand-700 disabled:opacity-50 sm:py-4"
       >
-        {isSubmitting ? t("processing") : t("submit")} {/* ✅ TRADUIT */}
+        {isSubmitting ? t("processing") : t("submit")}
       </button>
     </form>
   );

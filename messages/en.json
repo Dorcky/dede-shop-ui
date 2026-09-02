@@ -406,7 +406,8 @@
     "smsVerificationSimulated": "SMS verification simulated.",
     "passkeyComingSoon": "Passkeys will be available soon.",
     "twoFactorComingSoon": "Two-factor authentication will be available soon.",
-    "securityProcessSimulated": "Security process simulated."
+    "securityProcessSimulated": "Security process simulated.",
+    "quantity": "Qty"
   },
 
   "about": {

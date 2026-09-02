@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "@/i18n/navigation";
-import { useTranslations } from "next-intl"; // ✅ Import ajouté
+import { useTranslations } from "next-intl";
 import { Search, User, ShoppingCart } from "lucide-react";
 import LocaleSwitcher from "./LocaleSwitcher";
 import MobileMenu from "./MobileMenu";
@@ -15,7 +15,7 @@ import type { Locale } from "@/i18n/routing";
 
 export default function HeaderClientActions({}: { locale: Locale }) {
   const router = useRouter();
-  const t = useTranslations("common"); // ✅ Hook de traduction initialisé
+  const t = useTranslations("common");
 
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -37,31 +37,38 @@ export default function HeaderClientActions({}: { locale: Locale }) {
     }
   };
 
+  // ✅ Extraire le prénom pour l'affichage mobile (ex: "Jean" dans "Jean Dupont")
+  const firstName = user?.name?.split(" ")[0];
+
   return (
     <>
       <div className="flex items-center gap-3 sm:gap-4">
         {/* Bouton Recherche (Desktop uniquement) */}
         <button
           onClick={() => setIsSearchOpen(true)}
-          aria-label={t("search")} // ✅ TRADUIT
+          aria-label={t("search")}
           className="hidden text-slate-700 hover:text-brand-600 sm:block"
         >
           <Search className="h-5 w-5" />
         </button>
 
-        {/* Bouton Compte */}
+        {/* ✅ Bouton Compte : Prénom sur mobile, icône seule sur desktop */}
         <button
           onClick={handleAccountClick}
-          aria-label={t("account")} // ✅ TRADUIT
-          className="text-slate-700 hover:text-brand-600"
+          aria-label={t("account")}
+          className="flex items-center gap-2 text-slate-700 hover:text-brand-600"
         >
+          {/* Affiché uniquement sur les petits écrans (mobile) */}
+          <span className="block text-sm font-medium sm:hidden">
+            {firstName || t("account")}
+          </span>
           <User className="h-5 w-5" />
         </button>
 
         {/* Bouton Panier */}
         <button
           onClick={() => setIsCartOpen(true)}
-          aria-label={t("cart")} // ✅ TRADUIT
+          aria-label={t("cart")}
           className="relative text-slate-700 hover:text-brand-600"
         >
           <ShoppingCart className="h-5 w-5" />
