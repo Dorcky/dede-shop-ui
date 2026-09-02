@@ -25,15 +25,16 @@ export default async function Header({ locale }: { locale: Locale }) {
           href="/"
           className="text-2xl font-black tracking-[.25em] text-slate-900"
         >
-          DNK TECH
+          {t("logo")}
         </Link>
 
         {/* Navigation Desktop */}
         <div className="hidden items-center gap-6 text-xs font-bold uppercase tracking-wider lg:flex">
           {/* Menu déroulant Catégories */}
           <div className="group relative">
-            <button className="flex items-center gap-1 text-slate-900 transition-colors hover:text-brand-600">
-              Catégories
+            <button className="flex items-center gap-1 uppercase text-slate-900 transition-colors hover:text-brand-600">
+              {t("categories")}{" "}
+              {/* tant qu'on y est, autant le passer par next-intl comme dans MobileMenu.tsx plutôt que le hardcoder "Catégories" */}
               <svg
                 className="h-4 w-4 transition-transform duration-200 group-hover:rotate-180"
                 fill="none"

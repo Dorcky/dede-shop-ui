@@ -111,7 +111,7 @@ export default function Footer() {
         <div className="lg:hidden">
           <div className="mb-6">
             <Link href="/" className="text-2xl font-black tracking-[.25em]">
-              DNK TECH
+              {t("logo")}
             </Link>
             <p className="mt-3 text-sm leading-6 text-slate-500">
               {t("brandDesc")}
@@ -147,7 +147,7 @@ export default function Footer() {
         <div className="hidden grid-cols-4 gap-10 lg:grid">
           <div className="col-span-1">
             <Link href="/" className="text-2xl font-black tracking-[.25em]">
-              DNK TECH
+              {t("logo")}
             </Link>
             <p className="mt-4 max-w-xs text-sm leading-6 text-slate-500">
               {t("brandDesc")}

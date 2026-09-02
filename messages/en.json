@@ -27,7 +27,8 @@
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
     "categories": "Categories",
-    "language": "Language:"
+    "language": "Language:",
+    "logo": "DNK TECH"
   },
   "footer": {
     "brandDesc": "Reliable technologies designed to last and accompany you every day.",
@@ -42,7 +43,8 @@
     "newsletterDesc": "Receive our news and private offers.",
     "newsletterPlaceholder": "Your email",
     "ok": "OK",
-    "copyright": "© 2026 DNK Tech. All rights reserved. Prices in USD."
+    "copyright": "© 2026 DNK Tech. All rights reserved. Prices in USD.",
+    "logo": "DNK TECH"
   },
   "benefits": {
     "secure": {

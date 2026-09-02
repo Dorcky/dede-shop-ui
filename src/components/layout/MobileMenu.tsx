@@ -96,7 +96,7 @@ export default function MobileMenu() {
           {/* En-tête du menu */}
           <div className="flex shrink-0 items-center justify-between border-b border-slate-200 bg-white px-4 py-4">
             <span className="text-xl font-black tracking-[.25em] text-slate-900">
-              DNK TECH
+              {t("logo")}
             </span>
             <button
               onClick={closeMenu}
